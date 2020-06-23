@@ -44,14 +44,32 @@ public class Player2Script : MonoBehaviour
 
 
     public Transform HandAim;
+    private float DistanceWithP1;
   
     void Walking()
     {
         Vector3 turnspeed = Player2Nav.steeringTarget + transform.forward;
-        float step = turnspeed.z * Time.deltaTime;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Player.transform.rotation, -step);
+
+        DistanceWithP1 = Vector3.Distance(HandAim.position, transform.position);
+   //     float step = 500f* Time.deltaTime;
+
+        if (DistanceWithP1 > 0.4f)
+        {
+
+            Debug.Log("needtomove");
+            //Movement
+            Vector3 Movement = transform.forward * Time.deltaTime * DistanceWithP1 * 2f;
+            Player2Nav.Move(Movement);
+
+            //Direction
+            Vector3 _direction = (HandAim.position - transform.position).normalized;
+            Quaternion _lookRotation = Quaternion.LookRotation(new Vector3(_direction.x, 0f, _direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 20f);
+        }
+        
+    
         //transform.rotation = Player.transform.rotation;
-        Player2Nav.SetDestination(HandAim.position);
+     //   Player2Nav.SetDestination(HandAim.position);
         float speed = Player.GetComponent<Animator>().GetFloat("InputMagnitude");
         anim.SetFloat("InputMagnitude", speed);
         //    transform.position = HandAim.transform.position;

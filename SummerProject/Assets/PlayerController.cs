@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         if (isFollowedByP2)
         {
             rig.weight = 1;
-            stats.freeSpeed.rotationSpeed = 2f;
+            stats.freeSpeed.rotationSpeed = 6f;
         }
         else
         {
