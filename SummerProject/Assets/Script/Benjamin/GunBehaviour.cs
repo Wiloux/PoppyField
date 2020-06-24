@@ -4,11 +4,8 @@ using UnityEngine.UI;
 using System.Collections;
 public class GunBehaviour : MonoBehaviour
 {
-    public float range = 100f;
 
-    public int numberOfGuns;
-
-    public Camera cam;
+    public GameObject cam;
 
     public GunTemplate[] gunArray = new GunTemplate[1];
     GunTemplate currentGun;
@@ -21,6 +18,13 @@ public class GunBehaviour : MonoBehaviour
 
     public Text bulletCounter;
 
+    bool canShoot = true;
+
+    public bool isAiming;
+
+    private Vector3 currentRotation;
+    private Vector3 rotation;
+
     private void Start()
     {
         for (int i = 0; i < gunArray.Length; i++)
@@ -29,6 +33,7 @@ public class GunBehaviour : MonoBehaviour
         }
         SwitchGun(0);
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -36,6 +41,7 @@ public class GunBehaviour : MonoBehaviour
         {
             Shoot(currentGun.gunDamage);
         }
+
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -52,12 +58,16 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
+   
+
     void Shoot(int damage)
     {
+        if (canShoot == true) { 
         if (currentGun.nbAmmo > 0)
         {
+                
             RaycastHit hit;
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, currentGun.range))
             {
                 Debug.Log(hit.transform.name);
 
@@ -67,9 +77,11 @@ public class GunBehaviour : MonoBehaviour
                     target.TakeDamage(damage);
                 }
             }
-            audioManager.PlaySound(currentGun.shootSound, 0.7f);
+            audioManager.PlaySound(currentGun.shootSound, currentGun.shootVolume);
             currentGun.nbAmmo--;
             bulletCounter.text = (currentGun.nbAmmo).ToString();
+            StartCoroutine(Recovery(currentGun.recoveryTime));
+        }
         }
     }
 
@@ -90,12 +102,24 @@ public class GunBehaviour : MonoBehaviour
 
     }
 
+
     private IEnumerator Reload()
     {
-        Debug.Log("Currently reloading");
-        yield return new WaitForSeconds(currentGun.reloadTime);
-        Debug.Log("Done reloading");
-        currentGun.nbAmmo = currentGun.maxAmmo;
-        bulletCounter.text = (currentGun.nbAmmo).ToString();
+        if (currentGun.nbAmmo < currentGun.maxAmmo)
+        {
+            Debug.Log("Currently reloading");
+            audioManager.PlaySound(currentGun.reloadSound, currentGun.reloadVolume);
+            yield return new WaitForSeconds(currentGun.reloadTime);
+            Debug.Log("Done reloading");
+            currentGun.nbAmmo = currentGun.maxAmmo;
+            bulletCounter.text = (currentGun.nbAmmo).ToString();
+        }
+    }
+
+    private IEnumerator Recovery(float waitTime)
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(currentGun.recoveryTime);
+        canShoot = true;
     }
 }
