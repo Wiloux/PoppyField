@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 596627fa472c5be4fa94b530ae6b6a78, type: 3}
+  m_Name: Shotgun
+  m_EditorClassIdentifier: 
+  gunName: Shotgun
+  gunDamage: 100
+  nbAmmo: 3
+  maxAmmo: 3
+  reloadTime: 0.8
+  shootSound: {fileID: 8300000, guid: be15702adc9f0704a8b75b368db93b0f, type: 3}
+  bulletSprite: {fileID: 21300000, guid: 948f1a87440d41143aad5772f41958c0, type: 3}
