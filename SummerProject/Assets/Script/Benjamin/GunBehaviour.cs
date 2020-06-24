@@ -5,7 +5,7 @@ using System.Collections;
 public class GunBehaviour : MonoBehaviour
 {
 
-    public Camera cam;
+    public GameObject cam;
 
     public GunTemplate[] gunArray = new GunTemplate[1];
     GunTemplate currentGun;
@@ -20,14 +20,10 @@ public class GunBehaviour : MonoBehaviour
 
     bool canShoot = true;
 
+    public bool isAiming;
+
     private Vector3 currentRotation;
     private Vector3 rotation;
-
-    public int cameraZoom;
-    public int normalZoom;
-    float smooth = 5;
-
-    private bool isZoomed = false;
 
     private void Start()
     {
@@ -45,19 +41,7 @@ public class GunBehaviour : MonoBehaviour
         {
             Shoot(currentGun.gunDamage);
         }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Aim();
-        }
 
-        if (isZoomed)
-        {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
-        }
-        else
-        {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalZoom, Time.deltaTime * smooth);
-        }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -79,7 +63,7 @@ public class GunBehaviour : MonoBehaviour
     void Shoot(int damage)
     {
         if (canShoot == true) { 
-        if (currentGun.nbAmmo > 0 && isZoomed==true)
+        if (currentGun.nbAmmo > 0)
         {
                 
             RaycastHit hit;
@@ -116,12 +100,6 @@ public class GunBehaviour : MonoBehaviour
         bulletImg.sprite = currentGun.bulletSprite;
         bulletCounter.text = (currentGun.nbAmmo).ToString();
 
-    }
-
-    void Aim()
-    {
-        isZoomed = !isZoomed;
-        
     }
 
 
