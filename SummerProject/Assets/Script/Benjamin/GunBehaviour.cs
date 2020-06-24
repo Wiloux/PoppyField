@@ -1,7 +1,7 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Invector.vCharacterController;
 public class GunBehaviour : MonoBehaviour
 {
 
@@ -28,19 +28,22 @@ public class GunBehaviour : MonoBehaviour
     float smooth = 5;
 
     private bool isZoomed = false;
-
+    vThirdPersonMotor.vMovementSpeed spd;
     private void Start()
     {
         for (int i = 0; i < gunArray.Length; i++)
         {
             gunArray[i].nbAmmo = gunArray[i].maxAmmo;
         }
+    //    spd.walkSpeed = 0f;
         SwitchGun(0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(GetComponent<PlayerController>().stats.freeSpeed.walkSpeed);
+        Debug.Log(GetComponent<PlayerController>().stats.strafeSpeed.walkSpeed);
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot(currentGun.gunDamage);
@@ -52,10 +55,18 @@ public class GunBehaviour : MonoBehaviour
 
         if (isZoomed)
         {
+         
+             GetComponent<PlayerController>().stats.isStrafing = true;
+            GetComponent<PlayerController>().stats.Sprint(false); 
+            GetComponent<PlayerController>().stats.freeSpeed.rotateWithCamera = true;
+            GetComponent<PlayerController>().stats.strafeSpeed.rotateWithCamera = true;
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
         }
         else
         {
+            GetComponent<PlayerController>().stats.isStrafing = false;
+            GetComponent<PlayerController>().stats.freeSpeed.rotateWithCamera = false;
+            GetComponent<PlayerController>().stats.strafeSpeed.rotateWithCamera = false;
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalZoom, Time.deltaTime * smooth);
         }
 
