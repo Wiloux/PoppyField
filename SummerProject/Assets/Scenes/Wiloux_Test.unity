@@ -6282,9 +6282,9 @@ Transform:
   m_Father: {fileID: 1355666212}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1129897668 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8759900839138926790, guid: ccd7c0b5086d37f48845c832653c4333,
+--- !u!20 &1129897672 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8759900839138926787, guid: ccd7c0b5086d37f48845c832653c4333,
     type: 3}
   m_PrefabInstance: {fileID: 2008196818}
   m_PrefabAsset: {fileID: 0}
@@ -9704,7 +9704,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779515348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -346.4, y: -11.704707, z: -93.4}
+  m_LocalPosition: {x: -346.4, y: -12.4, z: -93.4}
   m_LocalScale: {x: 492.9218, y: 1.3041589, z: 424.0464}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11017,6 +11017,31 @@ PrefabInstance:
       propertyPath: cullingLayer.m_Bits
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8759900839138926789, guid: ccd7c0b5086d37f48845c832653c4333,
+        type: 3}
+      propertyPath: rightOffset
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8759900839138926789, guid: ccd7c0b5086d37f48845c832653c4333,
+        type: 3}
+      propertyPath: defaultDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8759900839138926789, guid: ccd7c0b5086d37f48845c832653c4333,
+        type: 3}
+      propertyPath: height
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8759900839138926789, guid: ccd7c0b5086d37f48845c832653c4333,
+        type: 3}
+      propertyPath: movementSpeed.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8759900839138926789, guid: ccd7c0b5086d37f48845c832653c4333,
+        type: 3}
+      propertyPath: currentTarget
+      value: 
+      objectReference: {fileID: 3134500242504873340}
     - target: {fileID: 8759900839138926790, guid: ccd7c0b5086d37f48845c832653c4333,
         type: 3}
       propertyPath: m_Name
@@ -16237,7 +16262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fbf3aa05f6be24780438449f505aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRootMotion: 0
+  useRootMotion: 1
   rotateByWorld: 0
   useContinuousSprint: 1
   sprintOnlyFree: 1
@@ -16254,12 +16279,12 @@ MonoBehaviour:
   strafeSpeed:
     movementSmooth: 6
     animationSmooth: 0.2
-    rotationSpeed: 16
-    walkByDefault: 0
+    rotationSpeed: 12
+    walkByDefault: 1
     rotateWithCamera: 0
-    walkSpeed: 2
-    runningSpeed: 4
-    sprintSpeed: 6
+    walkSpeed: 0.02
+    runningSpeed: 0.02
+    sprintSpeed: 0.02
   jumpWithRigidbodyForce: 0
   jumpAndRotate: 1
   jumpTimer: 0.3
@@ -16289,7 +16314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalInput: Horizontal
   verticallInput: Vertical
-  jumpInput: 32
+  jumpInput: 0
   strafeInput: 0
   sprintInput: 304
   rotateCameraXInput: Mouse X
@@ -16341,7 +16366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08de549781de0b64b8a17685730cdb57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1129897668}
+  cam: {fileID: 1129897672}
   gunArray:
   - {fileID: 11400000, guid: 76c6947a85e6a61478fb191279e10f27, type: 2}
   - {fileID: 11400000, guid: f38257c57d1a93c4a8d5cb612dc3fd04, type: 2}
@@ -16351,7 +16376,8 @@ MonoBehaviour:
   audioManager: {fileID: 1307538712}
   bulletImg: {fileID: 1965654663}
   bulletCounter: {fileID: 1219835001}
-  isAiming: 0
+  cameraZoom: 50
+  normalZoom: 70
 --- !u!4 &3159529597110435320
 Transform:
   m_ObjectHideFlags: 0

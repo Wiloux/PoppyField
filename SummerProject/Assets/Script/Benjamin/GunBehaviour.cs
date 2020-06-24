@@ -55,19 +55,20 @@ public class GunBehaviour : MonoBehaviour
 
         if (isZoomed)
         {
-         
-             GetComponent<PlayerController>().stats.isStrafing = true;
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
+            GetComponent<PlayerController>().stats.isStrafing = true;
             GetComponent<PlayerController>().stats.Sprint(false); 
             GetComponent<PlayerController>().stats.freeSpeed.rotateWithCamera = true;
             GetComponent<PlayerController>().stats.strafeSpeed.rotateWithCamera = true;
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
+         
         }
         else
         {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalZoom, Time.deltaTime * smooth);
             GetComponent<PlayerController>().stats.isStrafing = false;
             GetComponent<PlayerController>().stats.freeSpeed.rotateWithCamera = false;
             GetComponent<PlayerController>().stats.strafeSpeed.rotateWithCamera = false;
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalZoom, Time.deltaTime * smooth);
+           
         }
 
         if (Input.GetKeyDown(KeyCode.R))
