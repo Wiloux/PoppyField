@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: HandGun
   gunDamage: 25
-  nbAmmo: 0
+  nbAmmo: 2
   maxAmmo: 6
   reloadTime: 0.2
+  range: 30
+  recoveryTime: 0.25
   shootSound: {fileID: 8300000, guid: a38b5be9a31537a40b67029c0b0e212e, type: 3}
+  shootVolume: 0.2
+  reloadSound: {fileID: 8300000, guid: 40d9f11c361d6a34b8b65666bcf2e5a1, type: 3}
+  reloadVolume: 0.5
   bulletSprite: {fileID: 21300000, guid: 018758c4a23e1284888cfa82735f63b3, type: 3}
