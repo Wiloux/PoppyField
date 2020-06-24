@@ -28,12 +28,12 @@ public class PlayerController : MonoBehaviour
 
         if (isFollowedByP2)
         {
-            rig.weight = 1;
+            Outils.SmoothRigWeight(true, rig);
             stats.freeSpeed.rotationSpeed = 6f;
         }
         else
         {
-            rig.weight = 0;
+            Outils.SmoothRigWeight(false, rig);
             stats.freeSpeed.rotationSpeed = 12f;
         }
 

@@ -28,20 +28,18 @@ public class Player2Script : MonoBehaviour
         switch (CurrentState)
         {
             case Player2State.Idle:
-               rig.weight = 0;
+               Outils.SmoothRigWeight(false, rig);
                 anim.SetFloat("InputMagnitude", 0);
                 break;
             case Player2State.Follow:
                 Walking();
-               rig.weight = 1;
+                Outils.SmoothRigWeight(true, rig);
                 break;
             case Player2State.Abducted:
 
                 break;
         }
-
     }
-
 
     public Transform HandAim;
     private float DistanceWithP1;
