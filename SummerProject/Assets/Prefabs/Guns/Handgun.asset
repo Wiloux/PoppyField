@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: HandGun
   gunDamage: 25
-  nbAmmo: 2
+  nbAmmo: 6
   maxAmmo: 6
   reloadTime: 0.2
   range: 30
@@ -24,3 +24,4 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: 40d9f11c361d6a34b8b65666bcf2e5a1, type: 3}
   reloadVolume: 0.5
   bulletSprite: {fileID: 21300000, guid: 018758c4a23e1284888cfa82735f63b3, type: 3}
+  crossHairSprite: {fileID: 21300000, guid: 40472847a8aa9c94badb79d67b74646b, type: 3}
