@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 using Invector.vCharacterController;
+using UnityEngine.Animations.Rigging;
+
 public class GunBehaviour : MonoBehaviour
 {
 
@@ -152,15 +154,18 @@ public class GunBehaviour : MonoBehaviour
 
     }
 
+    public Rig rig;
     void Aim()
     {
         isAiming = !isAiming;
         if (isAiming == true)
         {
+            rig.weight = 1;
             gunObjects[gunID].SetActive(true);
         }
         else
         {
+            rig.weight = 0;
             gunObjects[gunID].SetActive(false);
         }
         //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
