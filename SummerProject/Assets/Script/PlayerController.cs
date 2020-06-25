@@ -14,11 +14,21 @@ public class PlayerController : MonoBehaviour
     public bool isFollowedByP2;
     public TwoBoneIKConstraint rig;
     public vThirdPersonController stats;
+
+    private AudioManager AM;
+    public List<AudioClip> footstep;
     // Start is called before the first frame update
     void Start()
     {
+        AM = FindObjectOfType<AudioManager>();
         Player2 = GameObject.FindGameObjectWithTag("Player2");
         stats = GetComponent<vThirdPersonController>();
+    }
+
+    public void foostepsfx()
+    {
+        int rdm = Random.Range(0, footstep.Count);
+        AM.PlaySoundRDMPitch(footstep[rdm], 0.4f, 0.8f, 1.2f);
     }
 
     // Update is called once per frame

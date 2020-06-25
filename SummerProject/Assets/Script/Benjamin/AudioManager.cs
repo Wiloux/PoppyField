@@ -20,6 +20,15 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(AudioClip myClip, float volume)
     {
+        if (myAudioSource.pitch != 1)
+        {
+            myAudioSource.pitch = 1;
+        }
+        myAudioSource.PlayOneShot(myClip, volume);
+    }
+    public void PlaySoundRDMPitch(AudioClip myClip, float volume, float minPitch, float maxPitch)
+    {
+        myAudioSource.pitch = Random.Range(minPitch, maxPitch);
         myAudioSource.PlayOneShot(myClip, volume);
     }
 }
