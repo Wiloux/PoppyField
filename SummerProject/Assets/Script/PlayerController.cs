@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float DistanceWithP2;
     public float minDistance = 5f;
 
-    private bool isFollowedByP2;
+    public bool isFollowedByP2;
     public TwoBoneIKConstraint rig;
     public vThirdPersonController stats;
     // Start is called before the first frame update

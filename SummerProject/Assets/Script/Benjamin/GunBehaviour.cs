@@ -42,13 +42,12 @@ public class GunBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(GetComponent<PlayerController>().stats.freeSpeed.walkSpeed);
-        Debug.Log(GetComponent<PlayerController>().stats.strafeSpeed.walkSpeed);
+        
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot(currentGun.gunDamage);
         }
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && !GetComponent<PlayerController>().isFollowedByP2)
         {
             Aim();
         }
@@ -57,18 +56,19 @@ public class GunBehaviour : MonoBehaviour
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
             GetComponent<PlayerController>().stats.isStrafing = true;
-            GetComponent<PlayerController>().stats.Sprint(false); 
-            GetComponent<PlayerController>().stats.freeSpeed.rotateWithCamera = true;
-            GetComponent<PlayerController>().stats.strafeSpeed.rotateWithCamera = true;
-         
+            GetComponent<PlayerController>().stats.Sprint(false);
+            GetComponent<Animator>().SetBool("isAiming", true);
+            GetComponent<Animator>().SetLayerWeight(2, 0);
+
+
         }
         else
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalZoom, Time.deltaTime * smooth);
             GetComponent<PlayerController>().stats.isStrafing = false;
-            GetComponent<PlayerController>().stats.freeSpeed.rotateWithCamera = false;
-            GetComponent<PlayerController>().stats.strafeSpeed.rotateWithCamera = false;
-           
+            GetComponent<Animator>().SetBool("isAiming", false);
+            GetComponent<Animator>().SetLayerWeight(2, 1);
+
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -133,7 +133,7 @@ public class GunBehaviour : MonoBehaviour
     void Aim()
     {
         isZoomed = !isZoomed;
-        
+    //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
     }
 
 
