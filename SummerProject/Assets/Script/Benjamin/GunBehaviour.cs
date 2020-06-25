@@ -11,6 +11,7 @@ public class GunBehaviour : MonoBehaviour
     GunTemplate currentGun;
 
     public GameObject[] gunObjects = new GameObject[1];
+    public Transform gunTarget;
 
     public AudioManager audioManager;
 
@@ -37,14 +38,13 @@ public class GunBehaviour : MonoBehaviour
         {
             gunArray[i].nbAmmo = gunArray[i].maxAmmo;
         }
-    //    spd.walkSpeed = 0f;
+        //    spd.walkSpeed = 0f;
         SwitchGun(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot(currentGun.gunDamage);
@@ -70,7 +70,6 @@ public class GunBehaviour : MonoBehaviour
             GetComponent<PlayerController>().stats.isStrafing = false;
             GetComponent<Animator>().SetBool("isAiming", false);
             GetComponent<Animator>().SetLayerWeight(2, 1);
-
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -88,32 +87,47 @@ public class GunBehaviour : MonoBehaviour
             SwitchGun(1);
             gunID = 1;
         }
+
+        Vector3 direction = gunTarget.position - gunObjects[gunID].transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        if (isAiming) { 
+        gunObjects[gunID].transform.rotation = rotation;
+        }
     }
 
-   
+
 
     void Shoot(int damage)
     {
-        if (canShoot == true) { 
-        if (currentGun.nbAmmo > 0 && isAiming==true)
+        if (canShoot == true)
         {
-                
-            RaycastHit hit;
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, currentGun.range))
+            if (currentGun.nbAmmo > 0 && isAiming == true)
             {
-                Debug.Log(hit.transform.name);
+                Vector3 shootDirection = cam.transform.forward;
+                
+                RaycastHit hit;
+                for(int i =0; i < currentGun.numberOfBullets; i++) { 
+                    if (Physics.Raycast(cam.transform.position, shootDirection, out hit, currentGun.range))
+                    {
+                        if (currentGun.useSpread == true)
+                        {
+                            shootDirection.x += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
+                        }
+                        Debug.Log(hit.transform.name);
 
-                EnnemyBehaviour target = hit.transform.GetComponent<EnnemyBehaviour>();
-                if (target != null)
-                {
-                    target.TakeDamage(damage);
+                        EnnemyBehaviour target = hit.transform.GetComponent<EnnemyBehaviour>();
+                        if (target != null)
+                        {
+                            target.TakeDamage(damage);
+                        }
+                    }
                 }
+
+                audioManager.PlaySound(currentGun.shootSound, currentGun.shootVolume);
+                currentGun.nbAmmo--;
+                bulletCounter.text = (currentGun.nbAmmo).ToString();
+                StartCoroutine(Recovery(currentGun.recoveryTime));
             }
-            audioManager.PlaySound(currentGun.shootSound, currentGun.shootVolume);
-            currentGun.nbAmmo--;
-            bulletCounter.text = (currentGun.nbAmmo).ToString();
-            StartCoroutine(Recovery(currentGun.recoveryTime));
-        }
         }
     }
 
@@ -127,7 +141,8 @@ public class GunBehaviour : MonoBehaviour
                 gunObjects[i].SetActive(false);
             }
         }
-        if (isAiming) {
+        if (isAiming)
+        {
             isAiming = false;
         }
         currentGun = gunArray[id];
@@ -148,7 +163,7 @@ public class GunBehaviour : MonoBehaviour
         {
             gunObjects[gunID].SetActive(false);
         }
-    //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
+        //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
     }
 
 
