@@ -23,5 +23,6 @@ public class GunTemplate : ScriptableObject
     public float reloadVolume = 0.5f;
 
     public Sprite bulletSprite;
+    public Sprite crossHairSprite;
 
 }

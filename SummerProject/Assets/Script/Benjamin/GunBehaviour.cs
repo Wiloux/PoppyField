@@ -15,6 +15,7 @@ public class GunBehaviour : MonoBehaviour
     public AudioManager audioManager;
 
     public Image bulletImg;
+    public Image crossHairImg;
 
     public Text bulletCounter;
 
@@ -25,9 +26,10 @@ public class GunBehaviour : MonoBehaviour
 
     public int cameraZoom;
     public int normalZoom;
+    int gunID;
     float smooth = 5;
 
-    private bool isZoomed = false;
+    private bool isAiming = false;
     vThirdPersonMotor.vMovementSpeed spd;
     private void Start()
     {
@@ -52,7 +54,7 @@ public class GunBehaviour : MonoBehaviour
             Aim();
         }
 
-        if (isZoomed)
+        if (isAiming)
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
             GetComponent<PlayerController>().stats.isStrafing = true;
@@ -79,10 +81,12 @@ public class GunBehaviour : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SwitchGun(0);
+            gunID = 0;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SwitchGun(1);
+            gunID = 1;
         }
     }
 
@@ -91,7 +95,7 @@ public class GunBehaviour : MonoBehaviour
     void Shoot(int damage)
     {
         if (canShoot == true) { 
-        if (currentGun.nbAmmo > 0 && isZoomed==true)
+        if (currentGun.nbAmmo > 0 && isAiming==true)
         {
                 
             RaycastHit hit;
@@ -123,23 +127,34 @@ public class GunBehaviour : MonoBehaviour
                 gunObjects[i].SetActive(false);
             }
         }
-        gunObjects[id].SetActive(true);
+        if (isAiming) {
+            isAiming = false;
+        }
         currentGun = gunArray[id];
         bulletImg.sprite = currentGun.bulletSprite;
+        crossHairImg.sprite = currentGun.crossHairSprite;
         bulletCounter.text = (currentGun.nbAmmo).ToString();
 
     }
 
     void Aim()
     {
-        isZoomed = !isZoomed;
+        isAiming = !isAiming;
+        if (isAiming == true)
+        {
+            gunObjects[gunID].SetActive(true);
+        }
+        else
+        {
+            gunObjects[gunID].SetActive(false);
+        }
     //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
     }
 
 
     private IEnumerator Reload()
     {
-        if (currentGun.nbAmmo < currentGun.maxAmmo)
+        if (currentGun.nbAmmo < currentGun.maxAmmo && canShoot == true)
         {
             Debug.Log("Currently reloading");
             audioManager.PlaySound(currentGun.reloadSound, currentGun.reloadVolume);
