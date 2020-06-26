@@ -17080,6 +17080,7 @@ MonoBehaviour:
   bulletCounter: {fileID: 1219835001}
   cameraZoom: 50
   normalZoom: 70
+  rig: {fileID: 0}
 --- !u!4 &3159529597110435320
 Transform:
   m_ObjectHideFlags: 0
