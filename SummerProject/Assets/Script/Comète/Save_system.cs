@@ -21,6 +21,10 @@ public class Save_system : MonoBehaviour
 
     public void LoadGame()
     {
+<<<<<<< Updated upstream
 
+=======
+        sceneToLoad = PlayerPrefs.GetInt("SavedScene");
+>>>>>>> Stashed changes
     }
 }
