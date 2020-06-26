@@ -59,6 +59,10 @@ public class PlayerController : MonoBehaviour
                 isFollowedByP2 = true;
                 Player2.GetComponent<Player2Script>().CurrentState = Player2Script.Player2State.Follow;
             }
+        } else if(DistanceWithP2 >= minDistance * 2f)
+        {
+            isFollowedByP2 = false;
+            Player2.GetComponent<Player2Script>().CurrentState = Player2Script.Player2State.Idle;
         }
     }
 }
