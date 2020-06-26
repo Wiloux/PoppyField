@@ -11,7 +11,7 @@ public class Test_saveSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("e"))
+        if (Input.GetKeyDown("tab"))
         {
             panelSave.SetActive(!panelSave.activeSelf);
             if (panelSave.activeSelf)

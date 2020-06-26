@@ -9,6 +9,7 @@ public class Save_system : MonoBehaviour
     private int sceneToLoad;
     private string numSave;
     private Vector3 playerLocation;
+    public GameObject player;
 
     public void SaveGame()
     {
@@ -20,6 +21,8 @@ public class Save_system : MonoBehaviour
         PlayerPrefs.SetFloat("Xlocation" + numSave, playerLocation.x);
         PlayerPrefs.SetFloat("Ylocation" + numSave, playerLocation.y);
         PlayerPrefs.SetFloat("Zlocation" + numSave, playerLocation.z);
+        Debug.Log(sceneIndex);
+        Debug.Log(playerLocation);
     }
 
     public void StartGame()
@@ -31,10 +34,12 @@ public class Save_system : MonoBehaviour
     {
         Debug.Log("LOAD");
         numSave = this.gameObject.name;
-        Debug.Log("numSave" + numSave);
+        Debug.Log("numSave : " + numSave);
         sceneToLoad = PlayerPrefs.GetInt("SavedScene" + numSave);
         SceneManager.LoadScene(sceneToLoad);
         playerLocation = new Vector3(PlayerPrefs.GetFloat("Xlocation"+numSave), PlayerPrefs.GetFloat("Ylocation"+numSave), PlayerPrefs.GetFloat("Zlocation" + numSave));
-        GameObject.FindGameObjectWithTag("Player").transform.position = playerLocation;
+        Debug.Log(playerLocation);
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = playerLocation;
     }
 }
