@@ -61,12 +61,14 @@ public class vThirdPersonCamera : MonoBehaviour
     void Start()
     {
         Init();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnEnable()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Debug.Log("sexodakara");
+
     }
     public void Init()
     {

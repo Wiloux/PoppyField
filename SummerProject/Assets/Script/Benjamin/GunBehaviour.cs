@@ -134,7 +134,7 @@ public class GunBehaviour : MonoBehaviour
     }
 
     void SwitchGun(int id)
-    {
+    {  rig.weight = 0;
         Debug.Log("switched to " + gunArray[id].gunName);
         for (int i = 0; i < gunArray.Length; i++)
         {
