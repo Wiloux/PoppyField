@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Invector.vCharacterController;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,17 +12,19 @@ public class Test_saveSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("e"))
+        if (Input.GetKeyDown("tab"))
         {
             panelSave.SetActive(!panelSave.activeSelf);
             if (panelSave.activeSelf)
             {
                 Time.timeScale = 0;
                 Cursor.visible = true;
+                this.GetComponent<vThirdPersonInput>().enabled = false;
             }
             else
             {
                 Time.timeScale = 1;
+                this.GetComponent<vThirdPersonInput>().enabled = true;
                 //Cursor.visible = false;
             }
         }
@@ -32,10 +35,12 @@ public class Test_saveSystem : MonoBehaviour
             {
                 Time.timeScale = 0;
                 Cursor.visible = true;
+                this.GetComponent<vThirdPersonInput>().enabled = false;
             }
             else
             {
                 Time.timeScale = 1;
+                this.GetComponent<vThirdPersonInput>().enabled = true;
                 //Cursor.visible = false;
             }
         }
