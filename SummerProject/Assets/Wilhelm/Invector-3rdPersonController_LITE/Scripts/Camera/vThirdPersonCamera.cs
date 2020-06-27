@@ -67,8 +67,6 @@ public class vThirdPersonCamera : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("sexodakara");
-
     }
     public void Init()
     {
