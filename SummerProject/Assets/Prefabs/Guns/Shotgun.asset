@@ -26,5 +26,5 @@ MonoBehaviour:
   bulletSprite: {fileID: 21300000, guid: 948f1a87440d41143aad5772f41958c0, type: 3}
   crossHairSprite: {fileID: 21300000, guid: 147b60f9b69119d4e83674164a760d96, type: 3}
   useSpread: 1
-  spreadFactor: 0.6
+  spreadFactor: 0.07
   numberOfBullets: 4
