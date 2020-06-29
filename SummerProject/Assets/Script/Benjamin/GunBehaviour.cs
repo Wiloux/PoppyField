@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Invector.vCharacterController;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Rendering.HighDefinition;
 
 public class GunBehaviour : MonoBehaviour
 {
@@ -33,7 +34,9 @@ public class GunBehaviour : MonoBehaviour
     float smooth = 5;
 
     private bool isAiming = false;
-    vThirdPersonMotor.vMovementSpeed spd;
+
+    private Transform GunTip;
+    public GameObject Muzzle;
     private void Start()
     {
         for (int i = 0; i < gunArray.Length; i++)
@@ -98,6 +101,7 @@ public class GunBehaviour : MonoBehaviour
     }
 
 
+    public GameObject Impact;
 
     void Shoot(int damage)
     {
@@ -108,20 +112,31 @@ public class GunBehaviour : MonoBehaviour
                 Vector3 shootDirection = cam.transform.forward;
                 
                 RaycastHit hit;
-                for(int i =0; i < currentGun.numberOfBullets; i++) { 
-                    if (Physics.Raycast(cam.transform.position, shootDirection, out hit, currentGun.range))
+                GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, Quaternion.LookRotation(GunTip.forward), GunTip);
+                Destroy(_Muzzle, 0.1f);
+                for (int i =0; i < currentGun.numberOfBullets; i++) { 
+                    if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
                     {
                         if (currentGun.useSpread == true)
                         {
                             shootDirection.x += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
+                            shootDirection.y += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
                         }
+                   
                         Debug.Log(hit.transform.name);
 
-                        EnnemyBehaviour target = hit.transform.GetComponent<EnnemyBehaviour>();
-                        if (target != null)
+                        GameObject target = hit.transform.gameObject;
+                        if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
-                            target.TakeDamage(damage);
+                            target.GetComponent<EnnemyBehaviour>().TakeDamage(damage);
+                        } else if (target.GetComponent<ImpactOnProps>() != null)
+                        {
+                        GameObject NewImpact =  Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
+                            NewImpact.GetComponent<DecalProjector>().size += new Vector3(0,0,0.1f);
+                        //    NewImpact.GetComponent<SpriteRenderer>().sprite = target.GetComponent<ImpactOnProps>().ImpactSprite;
+                        Destroy(NewImpact, 4f);
                         }
+
                     }
                 }
 
@@ -133,8 +148,10 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
+    
     void SwitchGun(int id)
-    {  rig.weight = 0;
+    {
+        rig.weight = 0;
         Debug.Log("switched to " + gunArray[id].gunName);
         for (int i = 0; i < gunArray.Length; i++)
         {
@@ -142,7 +159,12 @@ public class GunBehaviour : MonoBehaviour
             {
                 gunObjects[i].SetActive(false);
             }
+            else
+            {
+                gunObjects[i].SetActive(true);
+            }
         }
+      
         if (isAiming)
         {
             isAiming = false;
@@ -151,7 +173,8 @@ public class GunBehaviour : MonoBehaviour
         bulletImg.sprite = currentGun.bulletSprite;
         crossHairImg.sprite = currentGun.crossHairSprite;
         bulletCounter.text = (currentGun.nbAmmo).ToString();
-
+        Debug.Log(gunObjects[id].name);
+        GunTip = GameObject.Find(gunObjects[id].name + "/GunTip").transform;
     }
 
     public Rig rig;
@@ -161,12 +184,12 @@ public class GunBehaviour : MonoBehaviour
         if (isAiming == true)
         {
             rig.weight = 1;
-            gunObjects[gunID].SetActive(true);
+          //  gunObjects[gunID].SetActive(true);
         }
         else
         {
             rig.weight = 0;
-            gunObjects[gunID].SetActive(false);
+         //   gunObjects[gunID].SetActive(false);
         }
         //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
     }
