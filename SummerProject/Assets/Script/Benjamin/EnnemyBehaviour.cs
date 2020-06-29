@@ -28,6 +28,7 @@ public class EnnemyBehaviour : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        Debug.Log("L'ennemi prend un dégat");
         if (canMove)
         {
             StartCoroutine(Stun(stunTime));
