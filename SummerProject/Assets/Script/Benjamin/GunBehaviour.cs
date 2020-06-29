@@ -112,7 +112,7 @@ public class GunBehaviour : MonoBehaviour
                 Vector3 shootDirection = cam.transform.forward;
                 
                 RaycastHit hit;
-                GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, Quaternion.LookRotation(GunTip.forward), GunTip);
+                GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
                 Destroy(_Muzzle, 0.1f);
                 for (int i =0; i < currentGun.numberOfBullets; i++) { 
                     if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
