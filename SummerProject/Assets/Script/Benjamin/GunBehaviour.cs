@@ -47,6 +47,10 @@ public class GunBehaviour : MonoBehaviour
         SwitchGun(0);
     }
 
+    private RaycastHit hit;
+
+    Vector3 shootDirection;
+
     // Update is called once per frame
     void Update()
     {
@@ -61,6 +65,29 @@ public class GunBehaviour : MonoBehaviour
 
         if (isAiming)
         {
+            shootDirection = cam.transform.forward;
+            if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
+            {
+                crossHairImg.rectTransform.position = Camera.main.WorldToScreenPoint(hit.point);
+
+                if (hit.transform.GetComponent<EnnemyBehaviour>() != null)
+                {
+                    crossHairImg.color = new Color(255, 0, 0, 255);
+                }
+                else if (hit.transform.GetComponent<Player2Script>())
+                {
+                    crossHairImg.color = new Color(0, 255, 0, 255);
+                }
+                else
+                {
+                    crossHairImg.color = new Color(0, 0, 0, 255);
+                }
+            }
+            else
+            {
+                crossHairImg.color = new Color(155, 155, 155, 255);
+            }
+
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
             GetComponent<PlayerController>().stats.isStrafing = true;
             GetComponent<PlayerController>().stats.Sprint(false);
@@ -108,15 +135,13 @@ public class GunBehaviour : MonoBehaviour
         if (canShoot == true)
         {
             if (currentGun.nbAmmo > 0 && isAiming == true)
-            {
-                Vector3 shootDirection = cam.transform.forward;
-                
-                RaycastHit hit;
+            {    
                 GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
                 Destroy(_Muzzle, 0.1f);
                 for (int i =0; i < currentGun.numberOfBullets; i++) { 
                     if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
                     {
+                        crossHairImg.rectTransform.position = Camera.main.WorldToScreenPoint(hit.point);
                         if (currentGun.useSpread == true)
                         {
                             shootDirection.x += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
@@ -128,14 +153,16 @@ public class GunBehaviour : MonoBehaviour
                         GameObject target = hit.transform.gameObject;
                         if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
+                    
                             target.GetComponent<EnnemyBehaviour>().TakeDamage(damage);
                         } else if (target.GetComponent<ImpactOnProps>() != null)
                         {
-                        GameObject NewImpact =  Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
+                         
+                            GameObject NewImpact =  Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
                             NewImpact.GetComponent<DecalProjector>().size += new Vector3(0,0,0.1f);
                         //    NewImpact.GetComponent<SpriteRenderer>().sprite = target.GetComponent<ImpactOnProps>().ImpactSprite;
                         Destroy(NewImpact, 4f);
-                        }
+                        } 
 
                     }
                 }
@@ -151,6 +178,7 @@ public class GunBehaviour : MonoBehaviour
     
     void SwitchGun(int id)
     {
+        crossHairImg.gameObject.SetActive(false);
         rig.weight = 0;
         Debug.Log("switched to " + gunArray[id].gunName);
         for (int i = 0; i < gunArray.Length; i++)
@@ -183,13 +211,16 @@ public class GunBehaviour : MonoBehaviour
         isAiming = !isAiming;
         if (isAiming == true)
         {
+            crossHairImg.gameObject.SetActive(true);
             rig.weight = 1;
           //  gunObjects[gunID].SetActive(true);
         }
         else
         {
+            crossHairImg.gameObject.SetActive(false);
             rig.weight = 0;
-         //   gunObjects[gunID].SetActive(false);
+
+            //   gunObjects[gunID].SetActive(false);
         }
         //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
     }

@@ -23,6 +23,8 @@ public class EnnemyBehaviour : MonoBehaviour
     public float stunTime;
     public Animator anim;
     bool isMoving = true;
+
+    public bool isChasing = true;
     private void Start()
     {
         agent.speed = speed;
@@ -33,11 +35,21 @@ public class EnnemyBehaviour : MonoBehaviour
     {
         Maintarget = CheckNearestTarget();
 
-        if (canMove && isMoving == true) {
+        if (isChasing)
+        {
+            agent.speed = speed;
+            if (canMove && isMoving == true)
+            {
 
-        agent.SetDestination(Maintarget.position);
+                agent.SetDestination(Maintarget.position);
+            }
         }
-        
+        else
+        {
+            agent.speed = 0;
+            isMoving = false;
+            anim.SetBool("isFalling", true);
+        }
         
     }
 
