@@ -9,6 +9,7 @@ public class GunBehaviour : MonoBehaviour
 {
 
     public Camera cam;
+    public int life;
 
     public GunTemplate[] gunArray = new GunTemplate[1];
     GunTemplate currentGun;
@@ -61,6 +62,13 @@ public class GunBehaviour : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && !GetComponent<PlayerController>().isFollowedByP2)
         {
             Aim();
+        }
+
+        if (life <= 0)
+        {
+            gameObject.SetActive(false);
+            Debug.Log("You are dead");
+            //lancer le GameOver;
         }
 
         if (isAiming)
@@ -130,6 +138,10 @@ public class GunBehaviour : MonoBehaviour
 
     public GameObject Impact;
 
+    public void TakeDamage(int damage)
+    {
+        life -= damage;
+    }
     void Shoot(int damage)
     {
         if (canShoot == true)
