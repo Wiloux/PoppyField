@@ -64,9 +64,6 @@ public class Save_system : MonoBehaviour
         sceneToLoad = PlayerPrefs.GetInt("SavedScene" + numSave);
         SceneManager.LoadScene(sceneToLoad);
         playerLocation = new Vector3(PlayerPrefs.GetFloat("Xlocation"+numSave), PlayerPrefs.GetFloat("Ylocation"+numSave), PlayerPrefs.GetFloat("Zlocation" + numSave));
-        Debug.Log(playerLocation);
-        //player.transform.position = playerLocation;
-        Debug.Log(player.transform.position);
         hasSaved = true;
     }
     public void loadNewStats()
