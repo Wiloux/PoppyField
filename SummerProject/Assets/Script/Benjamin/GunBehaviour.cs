@@ -31,6 +31,8 @@ public class GunBehaviour : MonoBehaviour
 
     public int cameraZoom;
     public int normalZoom;
+
+    private MeleeSystem MeleeSys;
     int gunID;
     float smooth = 5;
 
@@ -57,9 +59,16 @@ public class GunBehaviour : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoot(currentGun.gunDamage);
+            if (!currentGun.isMelee)
+            {
+                Shoot(currentGun.gunDamage);
+            }
+            else
+            {
+                MeleeHit();
+            }
         }
-        if (Input.GetButtonDown("Fire2") && !GetComponent<PlayerController>().isFollowedByP2)
+        if (Input.GetButtonDown("Fire2") && !GetComponent<PlayerController>().isFollowedByP2 && !currentGun.isMelee)
         {
             Aim();
         }
@@ -74,27 +83,7 @@ public class GunBehaviour : MonoBehaviour
         if (isAiming)
         {
             shootDirection = cam.transform.forward;
-            if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
-            {
-                crossHairImg.rectTransform.position = Camera.main.WorldToScreenPoint(hit.point);
-
-                if (hit.transform.GetComponent<EnnemyBehaviour>() != null)
-                {
-                    crossHairImg.color = new Color(255, 0, 0, 255);
-                }
-                else if (hit.transform.GetComponent<Player2Script>())
-                {
-                    crossHairImg.color = new Color(0, 255, 0, 255);
-                }
-                else
-                {
-                    crossHairImg.color = new Color(0, 0, 0, 255);
-                }
-            }
-            else
-            {
-                crossHairImg.color = new Color(155, 155, 155, 255);
-            }
+            SmartCrosshair();
 
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, cameraZoom, Time.deltaTime * smooth);
             GetComponent<PlayerController>().stats.isStrafing = true;
@@ -127,6 +116,31 @@ public class GunBehaviour : MonoBehaviour
             SwitchGun(1);
             gunID = 1;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SwitchGun(2);
+            gunID = 2;
+        }
+
+        if (currentGun.isMelee)
+        {
+            if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
+            {
+               MeleeSys.isAttacking = true;
+               GetComponent<PlayerController>().stats.Sprint(false);
+               GetComponent<PlayerController>().stats.canWalk = false;
+                GetComponent<Animator>().SetFloat("InputMagnitude", 0);
+               // GetComponent<PlayerController>().stats.isStrafing = true;
+               GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+            else
+            {
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                MeleeSys.isAttacking = false;
+                GetComponent<PlayerController>().stats.canWalk = true;
+               // GetComponent<PlayerController>().stats.isStrafing = false;
+            }
+        }
 
         Vector3 direction = gunTarget.position - gunObjects[gunID].transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
@@ -142,6 +156,41 @@ public class GunBehaviour : MonoBehaviour
     {
         life -= damage;
     }
+
+    void MeleeHit()
+    {
+        GetComponent<Animator>().SetTrigger("isMelee");
+
+    }
+
+    void SmartCrosshair()
+    {
+        if (!currentGun.isMelee)
+        {
+            if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
+            {
+                crossHairImg.rectTransform.position = Camera.main.WorldToScreenPoint(hit.point);
+
+                if (hit.transform.GetComponent<EnnemyBehaviour>() != null)
+                {
+                    crossHairImg.color = new Color(255, 0, 0, 255);
+                }
+                else if (hit.transform.GetComponent<Player2Script>())
+                {
+                    crossHairImg.color = new Color(0, 255, 0, 255);
+                }
+                else
+                {
+                    crossHairImg.color = new Color(0, 0, 0, 255);
+                }
+            }
+            else
+            {
+                crossHairImg.color = new Color(155, 155, 155, 255);
+            }
+        }
+    }
+
     void Shoot(int damage)
     {
         if (canShoot == true)
@@ -165,7 +214,6 @@ public class GunBehaviour : MonoBehaviour
                         GameObject target = hit.transform.gameObject;
                         if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
-                    
                             target.GetComponent<EnnemyBehaviour>().TakeDamage(damage);
                         } else if (target.GetComponent<ImpactOnProps>() != null)
                         {
@@ -212,9 +260,19 @@ public class GunBehaviour : MonoBehaviour
         currentGun = gunArray[id];
         bulletImg.sprite = currentGun.bulletSprite;
         crossHairImg.sprite = currentGun.crossHairSprite;
-        bulletCounter.text = (currentGun.nbAmmo).ToString();
         Debug.Log(gunObjects[id].name);
-        GunTip = GameObject.Find(gunObjects[id].name + "/GunTip").transform;
+        if (!currentGun.isMelee)
+        {
+            bulletCounter.text = (currentGun.nbAmmo).ToString();
+            GunTip = GameObject.Find(gunObjects[id].name + "/GunTip").transform;
+        }
+        else
+        {
+            MeleeSys = gunObjects[id].GetComponent<MeleeSystem>();
+            MeleeSys.Dmg = currentGun.gunDamage;
+            MeleeSys.Behaviour = this;
+            bulletCounter.text = null;
+        }
     }
 
     public Rig rig;
