@@ -65,7 +65,10 @@ public class GunBehaviour : MonoBehaviour
             }
             else
             {
-                MeleeHit();
+                if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
+                {
+                    MeleeHit();
+                }
             }
         }
         if (Input.GetButtonDown("Fire2") && !GetComponent<PlayerController>().isFollowedByP2 && !currentGun.isMelee)
@@ -101,44 +104,53 @@ public class GunBehaviour : MonoBehaviour
             GetComponent<Animator>().SetLayerWeight(2, 1);
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
         {
-            StartCoroutine(Reload());
-        }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                StartCoroutine(Reload());
+            }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SwitchGun(0);
-            gunID = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SwitchGun(1);
-            gunID = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SwitchGun(2);
-            gunID = 2;
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SwitchGun(0);
+                gunID = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SwitchGun(1);
+                gunID = 1;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                SwitchGun(2);
+                gunID = 2;
+            }
         }
 
         if (currentGun.isMelee)
         {
             if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
             {
-               MeleeSys.isAttacking = true;
+                GetComponent<Animator>().SetLayerWeight(2, 0);
+                MeleeSys.isAttacking = true;
                GetComponent<PlayerController>().stats.Sprint(false);
                GetComponent<PlayerController>().stats.canWalk = false;
-                GetComponent<Animator>().SetFloat("InputMagnitude", 0);
+               GetComponent<PlayerController>().stats.FreezeRotation = true;
+                GetComponent<PlayerController>().stats.stopMove = true;
                // GetComponent<PlayerController>().stats.isStrafing = true;
                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
             else
             {
+                GetComponent<PlayerController>().stats.stopMove = false;
+
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 MeleeSys.isAttacking = false;
                 GetComponent<PlayerController>().stats.canWalk = true;
-               // GetComponent<PlayerController>().stats.isStrafing = false;
+                GetComponent<PlayerController>().stats.FreezeRotation = false;
+                GetComponent<Animator>().SetLayerWeight(2, 1);
+                // GetComponent<PlayerController>().stats.isStrafing = false;
             }
         }
 

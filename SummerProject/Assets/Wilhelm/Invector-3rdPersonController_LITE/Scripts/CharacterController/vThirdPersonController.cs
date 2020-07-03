@@ -52,13 +52,14 @@ namespace Invector.vCharacterController
                 MoveCharacter(moveDirection);
         }
 
+        public bool FreezeRotation;
         public virtual void ControlRotationType()
         {
             if (lockRotation) return;
 
             bool validInput = input != Vector3.zero || (isStrafing ? strafeSpeed.rotateWithCamera : freeSpeed.rotateWithCamera);
 
-            if (validInput)
+            if (validInput && !FreezeRotation)
             {
                 // calculate input smooth
                 inputSmooth = Vector3.Lerp(inputSmooth, input, (isStrafing ? strafeSpeed.movementSmooth : freeSpeed.movementSmooth) * Time.deltaTime);
