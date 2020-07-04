@@ -133,7 +133,7 @@ public class EnnemyBehaviour : MonoBehaviour
         yield return new WaitForSeconds(attackSpeed);
         if(mainTarget.gameObject.GetComponent<GunBehaviour>() != null){
             anim.SetBool("isAttacking", true);
-        mainTarget.gameObject.GetComponent<GunBehaviour>().TakeDamage(damage);
+            mainTarget.gameObject.GetComponent<GunBehaviour>().TakeDamage(damage);
             Debug.Log("This ennemy is attacking");
             isAttacking = true;
         }
