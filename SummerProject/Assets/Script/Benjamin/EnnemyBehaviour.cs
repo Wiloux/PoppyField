@@ -59,7 +59,9 @@ public class EnnemyBehaviour : MonoBehaviour
 
         else
         {
-            agent.isStopped = false;
+            anim.SetBool("isAttacking", false);
+            anim.SetBool("isCarrying", false);
+            anim.SetBool("isGrabbing", false);
             Debug.Log("Finally some time to breathe");
         }
         if (isChasing)
@@ -97,10 +99,9 @@ public class EnnemyBehaviour : MonoBehaviour
     public void TakeDamage(float amount)
     {
         Debug.Log("L'ennemi prend un dégat");
-        if (canMove && isGrabbing==false)
-        {
+        
             StartCoroutine(Stun(stunTime));
-        }
+        
         health -= amount;
         if (health <= 0f)
         {
@@ -116,10 +117,11 @@ public class EnnemyBehaviour : MonoBehaviour
     {
         agent.isStopped = true;
         isMoving = false;
-        //anim.SetBool("isFalling", true);
+        anim.SetBool("isFalling", true);
+        StopCoroutine(Attack(attackSpeed));
         yield return new WaitForSeconds(stunTime);
         isMoving = true;
-        //anim.SetBool("isFalling", false);
+        anim.SetBool("isFalling", false);
         agent.isStopped = false;
     }
 
@@ -127,8 +129,10 @@ public class EnnemyBehaviour : MonoBehaviour
     {
         //changer l'animation
         isAttacking = false;
+
         yield return new WaitForSeconds(attackSpeed);
-        if(mainTarget.gameObject.GetComponent<GunBehaviour>() != null){ 
+        if(mainTarget.gameObject.GetComponent<GunBehaviour>() != null){
+            anim.SetBool("isAttacking", true);
         mainTarget.gameObject.GetComponent<GunBehaviour>().TakeDamage(damage);
             Debug.Log("This ennemy is attacking");
             isAttacking = true;
