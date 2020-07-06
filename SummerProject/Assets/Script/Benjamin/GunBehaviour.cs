@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using Invector.vCharacterController;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Rendering.HighDefinition;
@@ -38,6 +39,8 @@ public class GunBehaviour : MonoBehaviour
 
     private bool isAiming = false;
 
+    public List<handPlacement> HandPlacements;
+
     private Transform GunTip;
     public GameObject Muzzle;
     private void Start()
@@ -67,6 +70,7 @@ public class GunBehaviour : MonoBehaviour
             {
                 if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
                 {
+                    Debug.Log("meleeee");
                     MeleeHit();
                 }
             }
@@ -75,7 +79,7 @@ public class GunBehaviour : MonoBehaviour
         {
             Aim();
         }
-
+     
         if (life <= 0)
         {
             gameObject.SetActive(false);
@@ -104,7 +108,7 @@ public class GunBehaviour : MonoBehaviour
             GetComponent<Animator>().SetLayerWeight(2, 1);
         }
 
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
+        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -159,6 +163,8 @@ public class GunBehaviour : MonoBehaviour
         if (isAiming) { 
         gunObjects[gunID].transform.rotation = rotation;
         }
+
+
     }
 
 
@@ -210,6 +216,7 @@ public class GunBehaviour : MonoBehaviour
             if (currentGun.nbAmmo > 0 && isAiming == true)
             {    
                 GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
+                Debug.Log(crossHairImg.gameObject);
                 Destroy(_Muzzle, 0.1f);
                 for (int i =0; i < currentGun.numberOfBullets; i++) { 
                     if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
@@ -272,7 +279,14 @@ public class GunBehaviour : MonoBehaviour
         currentGun = gunArray[id];
         bulletImg.sprite = currentGun.bulletSprite;
         crossHairImg.sprite = currentGun.crossHairSprite;
+
+        //Find HandPlacements 
+        HandPlacements[0].HandAim = GameObject.Find(gunObjects[id].name + "/LeftHandPlacement").transform;
+        HandPlacements[1].HandAim = GameObject.Find(gunObjects[id].name + "/RightHandPlacement").transform;
+        Debug.Log(gunObjects[id].name + "/LeftHandPlacement");
+     
         Debug.Log(gunObjects[id].name);
+
         if (!currentGun.isMelee)
         {
             bulletCounter.text = (currentGun.nbAmmo).ToString();
