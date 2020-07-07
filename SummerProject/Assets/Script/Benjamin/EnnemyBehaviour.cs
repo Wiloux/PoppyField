@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnnemyBehaviour : MonoBehaviour
 {
@@ -25,11 +26,15 @@ public class EnnemyBehaviour : MonoBehaviour
     bool isMoving = true;
 
     public bool isChasing = true;
+
+    List<Rigidbody> ragdollRigid;
     private void Start()
     {
         agent.speed = speed;
         P1Target = FindObjectOfType<GunBehaviour>().transform;
         P2Target = FindObjectOfType<Player2Script>().transform;
+        ragdollRigid = new List<Rigidbody>(transform.GetComponentsInChildren<Rigidbody>());
+        ragdollRigid.Remove(GetComponent<Rigidbody>());
     }
     private void Update()
     {
@@ -81,7 +86,9 @@ public class EnnemyBehaviour : MonoBehaviour
     }
     void Die()
     {
-        Destroy(gameObject);
+        ActivateRadoll();
+        agent.enabled = false;
+        GetComponent<BoxCollider>().enabled = false;
     }
 
     private IEnumerator Stun(float stunTime)
@@ -93,5 +100,17 @@ public class EnnemyBehaviour : MonoBehaviour
         isMoving = true;
         anim.SetBool("isFalling", false);
         agent.speed = speed;
+    }
+
+    void ActivateRadoll()
+    {
+        anim.enabled = false;
+
+        for (int i = 0; i < ragdollRigid.Count; i++)
+        {
+
+            ragdollRigid[i].useGravity = true;
+            ragdollRigid[i].isKinematic = false;
+        }
     }
 }
