@@ -7,8 +7,10 @@ using UnityEngine.Animations.Rigging;
 public class Player2Script : MonoBehaviour
 {
     public GameObject Player;
-    private NavMeshAgent Player2Nav;
+    public NavMeshAgent Player2Nav;
     public TwoBoneIKConstraint rig;
+
+
 
     private Animator anim;
     public enum Player2State { Idle, Follow, Abducted }
@@ -39,11 +41,13 @@ public class Player2Script : MonoBehaviour
 
                 break;
         }
+        
     }
 
     public Transform HandAim;
     private float DistanceWithP1;
   
+    
     void Walking()
     {
         Vector3 turnspeed = Player2Nav.steeringTarget + transform.forward;

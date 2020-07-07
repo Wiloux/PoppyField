@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 7815880366234802862}
   m_Layer: 0
   m_Name: lCollar
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 2842085642188607471}
   m_Layer: 0
   m_Name: lForearmTwist
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 6864979518722626733}
   m_Layer: 0
   m_Name: hip
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 3232700064193558533}
   m_Layer: 0
   m_Name: rHand
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 3460180594159584818}
   m_Layer: 0
   m_Name: rCollar
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 9089951193615184649}
   m_Layer: 0
   m_Name: rThighBend
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 2109932113302315519}
   m_Layer: 0
   m_Name: abdomenLower
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 4828952743826204882}
   m_Layer: 0
   m_Name: lShldrBend
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -690,7 +690,7 @@ GameObject:
   - component: {fileID: 2424018257617773051}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -727,7 +727,7 @@ GameObject:
   - component: {fileID: 4605345474460662084}
   m_Layer: 0
   m_Name: Missing Prefab (Dummy)
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -811,9 +811,14 @@ MonoBehaviour:
   canMove: 1
   speed: 2.5
   agent: {fileID: 2424018258782869160}
-  Maintarget: {fileID: 0}
+  mainTarget: {fileID: 0}
+  retreatTarget: {fileID: 0}
   P1Target: {fileID: 0}
+  maxDistance: 0
   P2Target: {fileID: 0}
+  attackSpeed: 0
+  damage: 0
+  grabDestination: {fileID: 0}
   stunTime: 1
   anim: {fileID: 2424018258782869161}
   isChasing: 1
@@ -935,7 +940,7 @@ GameObject:
   - component: {fileID: 7201617769733362806}
   m_Layer: 0
   m_Name: pelvis
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1120,7 +1125,7 @@ GameObject:
   - component: {fileID: 2283578515172879744}
   m_Layer: 0
   m_Name: prop01_Bone
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1181,7 +1186,7 @@ GameObject:
   - component: {fileID: 6377367483302354348}
   m_Layer: 0
   m_Name: chestUpper
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1244,7 +1249,7 @@ GameObject:
   - component: {fileID: 1100328998542037116}
   m_Layer: 0
   m_Name: neckLower
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1368,7 +1373,7 @@ GameObject:
   - component: {fileID: 4404414386458220633}
   m_Layer: 0
   m_Name: rShldrTwist
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1399,7 +1404,7 @@ GameObject:
   - component: {fileID: 1921177567203230014}
   m_Layer: 0
   m_Name: Genesis3Female
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1555,7 +1560,7 @@ GameObject:
   - component: {fileID: 2202949792849690657}
   m_Layer: 0
   m_Name: rForearmTwist
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1677,7 +1682,7 @@ GameObject:
   - component: {fileID: 8181612558503598022}
   m_Layer: 0
   m_Name: rForearmBend
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1840,7 +1845,7 @@ GameObject:
   - component: {fileID: 2937003508242793570}
   m_Layer: 0
   m_Name: abdomenUpper
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1871,7 +1876,7 @@ GameObject:
   - component: {fileID: 5292626627893554228}
   m_Layer: 0
   m_Name: chestLower
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1967,7 +1972,7 @@ GameObject:
   - component: {fileID: 5798977202050376378}
   m_Layer: 0
   m_Name: cryExporterSettingsNode
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1997,7 +2002,7 @@ GameObject:
   - component: {fileID: 1145130760704836447}
   m_Layer: 0
   m_Name: prop02_Bone
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2272,7 +2277,7 @@ GameObject:
   - component: {fileID: 7266948384354225453}
   m_Layer: 0
   m_Name: uploads_files_1906123_female+model
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2367,7 +2372,7 @@ GameObject:
   - component: {fileID: 3595893925325485315}
   m_Layer: 0
   m_Name: lShldrTwist
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2399,7 +2404,7 @@ GameObject:
   - component: {fileID: 403702312533849929}
   m_Layer: 0
   m_Name: lHand
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2450,7 +2455,7 @@ GameObject:
   - component: {fileID: 930936172968540529}
   m_Layer: 0
   m_Name: lPectoral
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2481,7 +2486,7 @@ GameObject:
   - component: {fileID: 6727048459640954229}
   m_Layer: 0
   m_Name: cryAnimationExportNode
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2574,7 +2579,7 @@ GameObject:
   - component: {fileID: 4029769621009958050}
   m_Layer: 0
   m_Name: lForearmBend
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2789,7 +2794,7 @@ GameObject:
   - component: {fileID: 8219277934578137969}
   m_Layer: 0
   m_Name: KT5
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2966,7 +2971,7 @@ GameObject:
   - component: {fileID: 9056096676881356045}
   m_Layer: 0
   m_Name: rShldrBend
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2997,7 +3002,7 @@ GameObject:
   - component: {fileID: 1073115664917037843}
   m_Layer: 0
   m_Name: rPectoral
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3242,7 +3247,7 @@ GameObject:
   - component: {fileID: 367758076258538502}
   m_Layer: 0
   m_Name: lThighBend
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
