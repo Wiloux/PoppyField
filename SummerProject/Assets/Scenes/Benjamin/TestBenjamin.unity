@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.509642, g: 0.32574797, b: 0.7911859, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -364,7 +364,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d4017546b3fccda4a832c1189bd59621,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -297.88
+      value: -309.82
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d4017546b3fccda4a832c1189bd59621,
         type: 3}
@@ -374,7 +374,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d4017546b3fccda4a832c1189bd59621,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -263.73
+      value: -255.96
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d4017546b3fccda4a832c1189bd59621,
         type: 3}
@@ -9694,7 +9694,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509720214}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.0000001872535}
-  m_LocalPosition: {x: -299.8, y: -11.434, z: -245.14653}
+  m_LocalPosition: {x: -309.83, y: -11.434, z: -247.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1044354024}
@@ -13869,6 +13869,36 @@ Transform:
   m_Father: {fileID: 21360905}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1012582933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1012582934}
+  m_Layer: 0
+  m_Name: GrabDestination
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1012582934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012582933}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 1.277, z: 0.545}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1235327271}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1014241938
 GameObject:
   m_ObjectHideFlags: 0
@@ -17265,13 +17295,15 @@ MonoBehaviour:
   agent: {fileID: 1235327267}
   mainTarget: {fileID: 0}
   retreatOptions:
-  - {fileID: 0}
+  - {fileID: 1240363590}
+  - {fileID: 1552373477}
+  - {fileID: 797328262}
   P1Target: {fileID: 0}
   maxDistance: 1.5
   P2Target: {fileID: 0}
   attackSpeed: 2
   damage: 2
-  grabDestination: {fileID: 0}
+  grabDestination: {fileID: 1012582933}
   stunTime: 1
   anim: {fileID: 1235327270}
   isChasing: 1
@@ -17345,6 +17377,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!4 &1235327271 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d4017546b3fccda4a832c1189bd59621,
+    type: 3}
+  m_PrefabInstance: {fileID: 20804269}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1240363589
 GameObject:
   m_ObjectHideFlags: 0
@@ -40358,7 +40396,9 @@ MonoBehaviour:
   bulletCounter: {fileID: 184796454}
   cameraZoom: 50
   normalZoom: 70
+  HandPlacements: []
   Muzzle: {fileID: 1782395880954752, guid: e802c9c5b472d2345a808aca4bc81014, type: 3}
+  bulletTrail: {fileID: 0}
   Impact: {fileID: 2227493339125445323, guid: 22a5a20e839cbc14192365251a4d0d5b, type: 3}
   rig: {fileID: 1870339513}
 --- !u!114 &3134500242504873347
