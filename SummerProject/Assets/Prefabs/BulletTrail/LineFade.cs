@@ -18,11 +18,10 @@ namespace Bolt.AdvancedTutorial
 
 		void Update ()
 		{
-			// move towards zero
-			color.a = Mathf.Lerp (color.a, 0, Time.deltaTime * speed);
+			
+			color.a = Mathf.Lerp (color.a, 100, Time.deltaTime * speed);
 
-			// update color
-			//lr.SetColors (color, color);
+			
 			lr.startColor = color;
 			lr.endColor = color;
 		}

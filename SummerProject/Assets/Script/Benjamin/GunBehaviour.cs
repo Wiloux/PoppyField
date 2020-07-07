@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using Invector.vCharacterController;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Rendering.HighDefinition;
@@ -38,8 +39,11 @@ public class GunBehaviour : MonoBehaviour
 
     private bool isAiming = false;
 
+    public List<handPlacement> HandPlacements;
+
     private Transform GunTip;
     public GameObject Muzzle;
+    public LineRenderer bulletTrail;
     private void Start()
     {
         for (int i = 0; i < gunArray.Length; i++)
@@ -67,6 +71,7 @@ public class GunBehaviour : MonoBehaviour
             {
                 if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
                 {
+                    Debug.Log("meleeee");
                     MeleeHit();
                 }
             }
@@ -75,7 +80,7 @@ public class GunBehaviour : MonoBehaviour
         {
             Aim();
         }
-
+     
         if (life <= 0)
         {
             gameObject.SetActive(false);
@@ -104,7 +109,7 @@ public class GunBehaviour : MonoBehaviour
             GetComponent<Animator>().SetLayerWeight(2, 1);
         }
 
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
+        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -159,6 +164,8 @@ public class GunBehaviour : MonoBehaviour
         if (isAiming) { 
         gunObjects[gunID].transform.rotation = rotation;
         }
+
+
     }
 
 
@@ -210,6 +217,8 @@ public class GunBehaviour : MonoBehaviour
             if (currentGun.nbAmmo > 0 && isAiming == true)
             {    
                 GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
+                Debug.Log(crossHairImg.gameObject);
+                
                 Destroy(_Muzzle, 0.1f);
                 for (int i =0; i < currentGun.numberOfBullets; i++) { 
                     if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
@@ -222,18 +231,20 @@ public class GunBehaviour : MonoBehaviour
                         }
                    
                         Debug.Log(hit.transform.name);
-
+                        SpawnBulletTrail(hit.point, GunTip.position);
                         GameObject target = hit.transform.gameObject;
                         if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
                             target.GetComponent<EnnemyBehaviour>().TakeDamage(damage);
+                        } else if (target.GetComponent<TeleportEnnemy>() != null) { 
+                            target.GetComponent<TeleportEnnemy>().TakeDamage();
                         } else if (target.GetComponent<ImpactOnProps>() != null)
                         {
-                         
-                            GameObject NewImpact =  Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
-                            NewImpact.GetComponent<DecalProjector>().size += new Vector3(0,0,0.1f);
-                        //    NewImpact.GetComponent<SpriteRenderer>().sprite = target.GetComponent<ImpactOnProps>().ImpactSprite;
-                        Destroy(NewImpact, 4f);
+
+                            GameObject NewImpact = Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
+                            NewImpact.GetComponent<DecalProjector>().size += new Vector3(0, 0, 0.1f);
+                            //    NewImpact.GetComponent<SpriteRenderer>().sprite = target.GetComponent<ImpactOnProps>().ImpactSprite;
+                            Destroy(NewImpact, 4f);
                         } 
 
                     }
@@ -272,7 +283,14 @@ public class GunBehaviour : MonoBehaviour
         currentGun = gunArray[id];
         bulletImg.sprite = currentGun.bulletSprite;
         crossHairImg.sprite = currentGun.crossHairSprite;
+
+        //Find HandPlacements 
+        HandPlacements[0].HandAim = GameObject.Find(gunObjects[id].name + "/LeftHandPlacement").transform;
+        HandPlacements[1].HandAim = GameObject.Find(gunObjects[id].name + "/RightHandPlacement").transform;
+        Debug.Log(gunObjects[id].name + "/LeftHandPlacement");
+     
         Debug.Log(gunObjects[id].name);
+
         if (!currentGun.isMelee)
         {
             bulletCounter.text = (currentGun.nbAmmo).ToString();
@@ -326,5 +344,15 @@ public class GunBehaviour : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(currentGun.recoveryTime);
         canShoot = true;
+    }
+    private void SpawnBulletTrail(Vector3 hitPoint, Vector3 startposition)
+    {
+        GameObject bulletTrailEffect = Instantiate(bulletTrail.gameObject, startposition, Quaternion.identity);
+
+        LineRenderer lineR = bulletTrailEffect.GetComponent<LineRenderer>();
+        lineR.SetPosition(0, startposition);
+        lineR.SetPosition(1, hitPoint);
+
+        Destroy(bulletTrailEffect, 0.1f);
     }
 }

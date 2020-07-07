@@ -58,6 +58,6 @@ public class Weapon : MonoBehaviour
         lineR.SetPosition(0, shootPoint.position);
         lineR.SetPosition(1, hitPoint);
 
-        //Destroy(bulletTrailEffect, 1f);
+        Destroy(bulletTrailEffect, 0.01f);
     }
 }
