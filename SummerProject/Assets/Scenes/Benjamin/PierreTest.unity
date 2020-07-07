@@ -9145,6 +9145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  Player2Nav: {fileID: 0}
   rig: {fileID: 385727912}
   CurrentState: 0
   HandAim: {fileID: 1412269830}
@@ -18900,7 +18901,7 @@ PrefabInstance:
     - target: {fileID: 2424018257617773051, guid: 016d815b08b471a48b635569b7a74ef7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -293.75
+      value: -293.079
       objectReference: {fileID: 0}
     - target: {fileID: 2424018257617773051, guid: 016d815b08b471a48b635569b7a74ef7,
         type: 3}
@@ -33843,6 +33844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  Player2Nav: {fileID: 0}
   rig: {fileID: 0}
   CurrentState: 0
   HandAim: {fileID: 0}
@@ -39261,7 +39263,9 @@ MonoBehaviour:
   groundMinDistance: 0.25
   groundMaxDistance: 0.5
   slopeLimit: 45
+  stopMove: 0
   canWalk: 1
+  FreezeRotation: 0
 --- !u!114 &3134500242504873343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39331,6 +39335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1129897672}
+  life: 0
   gunArray:
   - {fileID: 11400000, guid: 76c6947a85e6a61478fb191279e10f27, type: 2}
   - {fileID: 11400000, guid: f38257c57d1a93c4a8d5cb612dc3fd04, type: 2}
@@ -39344,6 +39349,7 @@ MonoBehaviour:
   bulletCounter: {fileID: 184796454}
   cameraZoom: 50
   normalZoom: 70
+  HandPlacements: []
   Muzzle: {fileID: 1782395880954752, guid: e802c9c5b472d2345a808aca4bc81014, type: 3}
   Impact: {fileID: 2227493339125445323, guid: 22a5a20e839cbc14192365251a4d0d5b, type: 3}
   rig: {fileID: 1870339513}
