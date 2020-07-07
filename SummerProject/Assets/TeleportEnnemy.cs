@@ -8,6 +8,7 @@ public class TeleportEnnemy : MonoBehaviour
     public LayerMask m_LayerMask;
     public GameObject Player;
     private Vector3 NearPlayer;
+    private Vector3 LastNearPlayer;
 
     public bool isChasing;
 
@@ -29,6 +30,7 @@ public class TeleportEnnemy : MonoBehaviour
     {
         if (isChasing)
         {
+     
             if (timer >= 0 && !NeedNewPlaceToSpawn)
             {
                 timer -= Time.deltaTime;
@@ -38,6 +40,7 @@ public class TeleportEnnemy : MonoBehaviour
                 NeedNewPlaceToSpawn = true;
                 if (NeedNewPlaceToSpawn)
                 {
+                   
                     if (CanSpawn())
                     {
                         //OnDrawGizmos(Color.green);
@@ -53,7 +56,22 @@ public class TeleportEnnemy : MonoBehaviour
             }
         }
     }
-        public void TakeDamage()
+
+    
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject == Player)
+        {
+            if (CanSpawn())
+            {
+                //OnDrawGizmos(Color.green);
+                Teleport();
+                NeedNewPlaceToSpawn = false;
+                timer = CoolDown;
+            }
+        }
+    }
+    public void TakeDamage()
         {
             if (CanSpawn())
             {
@@ -78,19 +96,13 @@ public class TeleportEnnemy : MonoBehaviour
             //Check when there is a new collider coming into contact with the box
             while (i < hitColliders.Length)
             {
-                //Increase the number of Colliders in the array
-                if(hitColliders[i].gameObject != this)
-                {
-
-                    i++;
-                }
-                else { 
-                    Debug.Log("fuck you");
-                }
+            Debug.Log(hitColliders[i].gameObject.name + i);
+                i++;
             }
 
-            if (i == 0)
+            if (i == 0 && !Physics.Linecast(NearPlayer, new Vector3(NearPlayer.x, Player.transform.position.y, NearPlayer.z), m_LayerMask) && NearPlayer != LastNearPlayer)
             {
+            LastNearPlayer = NearPlayer;
                 return true;
             }
             else
