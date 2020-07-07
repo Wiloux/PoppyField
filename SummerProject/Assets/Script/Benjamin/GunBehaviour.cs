@@ -43,6 +43,7 @@ public class GunBehaviour : MonoBehaviour
 
     private Transform GunTip;
     public GameObject Muzzle;
+    public LineRenderer bulletTrail;
     private void Start()
     {
         for (int i = 0; i < gunArray.Length; i++)
@@ -217,6 +218,7 @@ public class GunBehaviour : MonoBehaviour
             {    
                 GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
                 Debug.Log(crossHairImg.gameObject);
+                
                 Destroy(_Muzzle, 0.1f);
                 for (int i =0; i < currentGun.numberOfBullets; i++) { 
                     if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
@@ -229,7 +231,7 @@ public class GunBehaviour : MonoBehaviour
                         }
                    
                         Debug.Log(hit.transform.name);
-
+                        SpawnBulletTrail(hit.point, GunTip.position);
                         GameObject target = hit.transform.gameObject;
                         if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
@@ -342,5 +344,15 @@ public class GunBehaviour : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(currentGun.recoveryTime);
         canShoot = true;
+    }
+    private void SpawnBulletTrail(Vector3 hitPoint, Vector3 startposition)
+    {
+        GameObject bulletTrailEffect = Instantiate(bulletTrail.gameObject, startposition, Quaternion.identity);
+
+        LineRenderer lineR = bulletTrailEffect.GetComponent<LineRenderer>();
+        lineR.SetPosition(0, startposition);
+        lineR.SetPosition(1, hitPoint);
+
+        Destroy(bulletTrailEffect, 0.1f);
     }
 }
