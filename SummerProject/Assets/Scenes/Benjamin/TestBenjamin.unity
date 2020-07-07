@@ -12190,6 +12190,36 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &797328261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 797328262}
+  m_Layer: 0
+  m_Name: KidnapCorner (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &797328262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797328261}
+  m_LocalRotation: {x: -0, y: -0.16483724, z: -0, w: 0.98632085}
+  m_LocalPosition: {x: -299.9, y: -10.736, z: -228.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &797675504
 GameObject:
   m_ObjectHideFlags: 0
@@ -17234,15 +17264,16 @@ MonoBehaviour:
   speed: 2.5
   agent: {fileID: 1235327267}
   mainTarget: {fileID: 0}
-  retreatTarget: {fileID: 1240363590}
+  retreatOptions:
+  - {fileID: 0}
   P1Target: {fileID: 0}
   maxDistance: 1.5
   P2Target: {fileID: 0}
   attackSpeed: 2
   damage: 2
-  grabDestination: {fileID: 1097239242}
+  grabDestination: {fileID: 0}
   stunTime: 1
-  anim: {fileID: 0}
+  anim: {fileID: 1235327270}
   isChasing: 1
 --- !u!195 &1235327267
 NavMeshAgent:
@@ -19782,6 +19813,36 @@ Transform:
   - {fileID: 202928130}
   m_Father: {fileID: 402011717}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1552373476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552373477}
+  m_Layer: 0
+  m_Name: KidnapCorner (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1552373477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552373476}
+  m_LocalRotation: {x: -0, y: -0.16483724, z: -0, w: 0.98632085}
+  m_LocalPosition: {x: -321.5, y: -10.736, z: -229.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1563864894
 GameObject:
@@ -36329,13 +36390,14 @@ MonoBehaviour:
   speed: 2.5
   agent: {fileID: 2424018257747277419}
   mainTarget: {fileID: 0}
-  retreatTarget: {fileID: 1240363590}
+  retreatOptions:
+  - {fileID: 0}
   P1Target: {fileID: 0}
   maxDistance: 1.5
   P2Target: {fileID: 0}
   attackSpeed: 2
   damage: 2
-  grabDestination: {fileID: 1097239242}
+  grabDestination: {fileID: 0}
   stunTime: 1
   anim: {fileID: 2424018257747277418}
   isChasing: 1

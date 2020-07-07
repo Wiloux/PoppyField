@@ -12,7 +12,7 @@ public class EnnemyBehaviour : MonoBehaviour
     
 
     public Transform mainTarget;
-    public Transform retreatTarget; 
+    public Transform[] retreatOptions = new Transform[1];
 
     public GameObject P1Target;
     private float D1;
@@ -113,6 +113,23 @@ public class EnnemyBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void Retreat()
+    {
+        float distance = 0;
+        Transform target;
+        for(int i =0; i<retreatOptions.Length; i++)
+        {
+            D1 = Vector3.Distance(retreatOptions[i].transform.position, P1Target.transform.position);
+            if(D1 > distance)
+            {
+                distance = D1;
+                target = retreatOptions[i];
+                agent.SetDestination(target.position);
+            } 
+        }
+        
+    }
+
     private IEnumerator Stun(float stunTime)
     {
         agent.isStopped = true;
@@ -144,8 +161,7 @@ public class EnnemyBehaviour : MonoBehaviour
             P2Target.transform.parent = grabDestination.transform;
             P2Target.GetComponent<Player2Script>().Player2Nav.isStopped = true;
             Debug.Log("This ennemy is grabbing lil' sis");
-            mainTarget = retreatTarget;
-            agent.SetDestination(retreatTarget.position);
+            Retreat();
         }
         
         
