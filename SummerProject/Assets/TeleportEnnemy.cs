@@ -41,10 +41,10 @@ public class TeleportEnnemy : MonoBehaviour
                 if (NeedNewPlaceToSpawn)
                 {
                    
-                    if (CanSpawn())
+                    if (CanSpawn(Player.transform))
                     {
                         //OnDrawGizmos(Color.green);
-                        Teleport();
+                        Teleport(Player.transform);
                         NeedNewPlaceToSpawn = false;
                         timer = CoolDown;
                     }
@@ -62,10 +62,10 @@ public class TeleportEnnemy : MonoBehaviour
     {
         if(collision.gameObject == Player)
         {
-            if (CanSpawn())
+            if (CanSpawn(Player.transform))
             {
                 //OnDrawGizmos(Color.green);
-                Teleport();
+                Teleport(Player.transform);
                 NeedNewPlaceToSpawn = false;
                 timer = CoolDown;
             }
@@ -73,24 +73,24 @@ public class TeleportEnnemy : MonoBehaviour
     }
     public void TakeDamage()
         {
-            if (CanSpawn())
+            if (CanSpawn(Player.transform))
             {
                 //OnDrawGizmos(Color.green);
-                Teleport();
+                Teleport(Player.transform);
                 NeedNewPlaceToSpawn = false;
                 timer = CoolDown;
             }
         }
 
-        void Teleport()
+        void Teleport(Transform target)
         {
-            transform.position = new Vector3 (NearPlayer.x, Player.transform.position.y, NearPlayer.z);
-        Vector3 relativePos = Player.transform.position - transform.position;
+            transform.position = new Vector3 (NearPlayer.x, target.transform.position.y, NearPlayer.z);
+        Vector3 relativePos = target.transform.position - transform.position;
         GetComponentInParent<Transform>().rotation = Quaternion.LookRotation(relativePos, Vector3.up);
         }
-        bool CanSpawn()
+        bool CanSpawn(Transform target)
         {
-            NearPlayer = new Vector3(Player.transform.position.x + Random.Range(OffSetX * -1, OffSetX), Player.transform.position.y +1, Player.transform.position.z + Random.Range(OffSetZ * -1, OffSetZ));
+            NearPlayer = new Vector3(target.transform.position.x + Random.Range(OffSetX * -1, OffSetX), target.transform.position.y +1, target.transform.position.z + Random.Range(OffSetZ * -1, OffSetZ));
             Collider[] hitColliders = Physics.OverlapBox(NearPlayer, transform.localScale /2, Quaternion.identity, m_LayerMask);
             int i = 0;
             //Check when there is a new collider coming into contact with the box
@@ -100,7 +100,7 @@ public class TeleportEnnemy : MonoBehaviour
                 i++;
             }
 
-            if (i == 0 && !Physics.Linecast(NearPlayer, new Vector3(NearPlayer.x, Player.transform.position.y, NearPlayer.z), m_LayerMask) && NearPlayer != LastNearPlayer)
+            if (i == 0 && !Physics.Linecast(NearPlayer, new Vector3(NearPlayer.x, target.transform.position.y, NearPlayer.z), m_LayerMask) && NearPlayer != LastNearPlayer)
             {
             LastNearPlayer = NearPlayer;
                 return true;
