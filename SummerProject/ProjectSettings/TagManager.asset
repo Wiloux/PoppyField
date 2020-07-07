@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Player2
   - Ennemi
+  - Ground
   layers:
   - Default
   - TransparentFX

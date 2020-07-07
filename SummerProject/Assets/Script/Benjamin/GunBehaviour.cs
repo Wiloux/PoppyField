@@ -234,13 +234,15 @@ public class GunBehaviour : MonoBehaviour
                         if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
                             target.GetComponent<EnnemyBehaviour>().TakeDamage(damage);
+                        } else if (target.GetComponent<TeleportEnnemy>() != null) { 
+                            target.GetComponent<TeleportEnnemy>().TakeDamage();
                         } else if (target.GetComponent<ImpactOnProps>() != null)
                         {
-                         
-                            GameObject NewImpact =  Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
-                            NewImpact.GetComponent<DecalProjector>().size += new Vector3(0,0,0.1f);
-                        //    NewImpact.GetComponent<SpriteRenderer>().sprite = target.GetComponent<ImpactOnProps>().ImpactSprite;
-                        Destroy(NewImpact, 4f);
+
+                            GameObject NewImpact = Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
+                            NewImpact.GetComponent<DecalProjector>().size += new Vector3(0, 0, 0.1f);
+                            //    NewImpact.GetComponent<SpriteRenderer>().sprite = target.GetComponent<ImpactOnProps>().ImpactSprite;
+                            Destroy(NewImpact, 4f);
                         } 
 
                     }
