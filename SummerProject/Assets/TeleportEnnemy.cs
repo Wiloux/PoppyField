@@ -7,10 +7,17 @@ public class TeleportEnnemy : MonoBehaviour
     bool m_Started;
     public LayerMask m_LayerMask;
     public GameObject Player;
+
     private Vector3 NearPlayer;
     private Vector3 LastNearPlayer;
+    public float MaxSpawnDistance;
+    public Transform TeleportationStep;
+    private float DistanceWithPlayer;
 
     public bool isChasing;
+    public bool HasP2;
+
+    public Transform[] retreatOptions = new Transform[1];
 
     private bool NeedNewPlaceToSpawn;
 
@@ -40,11 +47,11 @@ public class TeleportEnnemy : MonoBehaviour
                 NeedNewPlaceToSpawn = true;
                 if (NeedNewPlaceToSpawn)
                 {
-                   
-                    if (CanSpawn(Player.transform))
+                    TeleportationStep.position = CheckIfTooFar(Player.transform);
+                    if (CanSpawn(TeleportationStep.transform))
                     {
                         //OnDrawGizmos(Color.green);
-                        Teleport(Player.transform);
+                        Teleport(TeleportationStep, Player.transform);
                         NeedNewPlaceToSpawn = false;
                         timer = CoolDown;
                     }
@@ -54,38 +61,103 @@ public class TeleportEnnemy : MonoBehaviour
                     }
                 }
             }
+        } else if (HasP2)
+        {
+
+            if (timer >= 0 && !NeedNewPlaceToSpawn)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                Retreat();
+            }
         }
     }
 
-    
+   private Transform targetReatreat;
+    void Retreat()
+    {
+        float MaxDistance = 0;
+
+        //OffSetX = 0;
+        //OffSetZ = 0;
+
+        for (int i = 0; i < retreatOptions.Length; i++)
+        {
+            DistanceWithPlayer = Vector3.Distance(retreatOptions[i].transform.position, Player.transform.position);
+            if (DistanceWithPlayer > MaxDistance)
+            {
+                MaxDistance = DistanceWithPlayer;
+                targetReatreat = retreatOptions[i];
+                Debug.Log(retreatOptions[i].name);
+
+            }
+        }
+
+        TeleportationStep.position = CheckIfTooFar(targetReatreat);
+        if (CanSpawn(TeleportationStep))
+        {
+            Teleport(TeleportationStep, targetReatreat);
+            NeedNewPlaceToSpawn = false;
+            timer = CoolDown;
+        }
+    }
+
+
+    Vector3 CheckIfTooFar(Transform target)
+    {
+        Vector3 DifPos = target.transform.position - transform.position;
+        float distance = DifPos.magnitude;
+
+        if (distance <= MaxSpawnDistance)
+        {
+            return target.position;
+        }
+        else
+        {
+         Vector3 Dir = DifPos.normalized;
+            DifPos = transform.position + (Dir * MaxSpawnDistance);
+            return DifPos;
+        }
+    }
     private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject == Player)
         {
-            if (CanSpawn(Player.transform))
+            TeleportationStep.position = CheckIfTooFar(Player.transform);
+            if (CanSpawn(TeleportationStep))
             {
-                //OnDrawGizmos(Color.green);
-                Teleport(Player.transform);
+                Teleport(TeleportationStep, Player.transform);
                 NeedNewPlaceToSpawn = false;
                 timer = CoolDown;
+            }
+            else
+            {
+                timer = 0;
+                NeedNewPlaceToSpawn = true;
             }
         }
     }
     public void TakeDamage()
         {
-            if (CanSpawn(Player.transform))
+        TeleportationStep.position = CheckIfTooFar(Player.transform);
+            if (CanSpawn(TeleportationStep))
             {
-                //OnDrawGizmos(Color.green);
-                Teleport(Player.transform);
+                Teleport(TeleportationStep, Player.transform);
                 NeedNewPlaceToSpawn = false;
                 timer = CoolDown;
-            }
+            } else
+        {
+            timer = 0;
+            NeedNewPlaceToSpawn = true;
         }
+    }
 
-        void Teleport(Transform target)
+        void Teleport(Transform target, Transform ActualAim)
         {
             transform.position = new Vector3 (NearPlayer.x, target.transform.position.y, NearPlayer.z);
-        Vector3 relativePos = target.transform.position - transform.position;
+        Vector3 relativePos = ActualAim.transform.position - transform.position;
         GetComponentInParent<Transform>().rotation = Quaternion.LookRotation(relativePos, Vector3.up);
         }
         bool CanSpawn(Transform target)
@@ -96,7 +168,6 @@ public class TeleportEnnemy : MonoBehaviour
             //Check when there is a new collider coming into contact with the box
             while (i < hitColliders.Length)
             {
-            Debug.Log(hitColliders[i].gameObject.name + i);
                 i++;
             }
 

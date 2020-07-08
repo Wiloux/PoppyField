@@ -51,7 +51,7 @@ public class EnnemyBehaviour : MonoBehaviour
         {
             agent.isStopped = true;
             //agent.speed = 0;
-            Debug.Log("Too close dude");
+  //          Debug.Log("Too close dude");
             if(isAttacking == false && isGrabbing == false) { 
             StartCoroutine(Attack(attackSpeed));
             }
@@ -62,7 +62,7 @@ public class EnnemyBehaviour : MonoBehaviour
             anim.SetBool("isAttacking", false);
             anim.SetBool("isCarrying", false);
             anim.SetBool("isGrabbing", false);
-            Debug.Log("Finally some time to breathe");
+//            Debug.Log("Finally some time to breathe");
         }
         if (isChasing)
         {

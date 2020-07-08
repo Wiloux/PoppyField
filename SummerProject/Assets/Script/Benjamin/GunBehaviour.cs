@@ -190,7 +190,7 @@ public class GunBehaviour : MonoBehaviour
             {
                 crossHairImg.rectTransform.position = Camera.main.WorldToScreenPoint(hit.point);
 
-                if (hit.transform.GetComponent<EnnemyBehaviour>() != null)
+                if (hit.transform.GetComponent<EnnemyBehaviour>() != null || hit.transform.GetComponent<TeleportEnnemy>() != null)
                 {
                     crossHairImg.color = new Color(255, 0, 0, 255);
                 }
@@ -216,22 +216,29 @@ public class GunBehaviour : MonoBehaviour
         {
             if (currentGun.nbAmmo > 0 && isAiming == true)
             {    
-                GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
-                Debug.Log(crossHairImg.gameObject);
-                
+                //Muzzle Flash
+
+                GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);            
                 Destroy(_Muzzle, 0.1f);
+
                 for (int i =0; i < currentGun.numberOfBullets; i++) { 
                     if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
                     {
+                        //Change Crosshair pos
                         crossHairImg.rectTransform.position = Camera.main.WorldToScreenPoint(hit.point);
+
+                        //Gun Spread
                         if (currentGun.useSpread == true)
                         {
                             shootDirection.x += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
                             shootDirection.y += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
                         }
-                   
-                        Debug.Log(hit.transform.name);
+
+                        //Trail Effect
                         SpawnBulletTrail(hit.point, GunTip.position);
+
+                        //Dmg Calculation/ OnHitEffect
+
                         GameObject target = hit.transform.gameObject;
                         if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
@@ -240,10 +247,8 @@ public class GunBehaviour : MonoBehaviour
                             target.GetComponent<TeleportEnnemy>().TakeDamage();
                         } else if (target.GetComponent<ImpactOnProps>() != null)
                         {
-
                             GameObject NewImpact = Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
                             NewImpact.GetComponent<DecalProjector>().size += new Vector3(0, 0, 0.1f);
-                            //    NewImpact.GetComponent<SpriteRenderer>().sprite = target.GetComponent<ImpactOnProps>().ImpactSprite;
                             Destroy(NewImpact, 4f);
                         } 
 
