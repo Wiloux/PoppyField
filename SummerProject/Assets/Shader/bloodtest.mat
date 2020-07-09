@@ -91,7 +91,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_F47E71D5_Texture_1:
-        m_Texture: {fileID: 2800000, guid: de22e93685d026a43ad9379a046e6c9d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6623fb0fba3cfeb4c85799eafad770ce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularColorMap:
@@ -244,7 +244,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_E0B335C9: {r: 1, g: 0.86463225, b: 0, a: 1}
-    - Vector3_3828B19D: {r: -299.8, g: -10.168, b: -245.14653, a: 0}
+    - Vector3_3828B19D: {r: -299.8, g: -10.944, b: -245.14653, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
