@@ -134,6 +134,9 @@ public class EnnemyBehaviour : MonoBehaviour
     {
         agent.isStopped = true;
         isMoving = false;
+        anim.SetBool("isAttacking", false);
+        anim.SetBool("isGrabbing", false);
+        anim.SetBool("isCarrying", false);
         anim.SetBool("isFalling", true);
         StopCoroutine(Attack(attackSpeed));
         yield return new WaitForSeconds(stunTime);
@@ -157,6 +160,9 @@ public class EnnemyBehaviour : MonoBehaviour
         else if (mainTarget.gameObject.GetComponent<Player2Script>() != null)
         {
             isGrabbing = true;
+            anim.SetBool("isGrabbing", true);
+            yield return new WaitForSeconds(attackSpeed);
+            anim.SetBool("isCarrying", false);
             //mainTarget.position = grabDestination.transform.position;
             P2Target.transform.parent = grabDestination.transform;
             P2Target.GetComponent<Player2Script>().Player2Nav.isStopped = true;
