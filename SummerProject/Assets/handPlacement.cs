@@ -8,12 +8,12 @@ public class handPlacement : MonoBehaviour
     // Start is called before the first frame update
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (HandAim != null)
         {
             transform.position = new Vector3(HandAim.transform.position.x, HandAim.transform.position.y, HandAim.transform.position.z);
-            transform.rotation = Quaternion.Euler(HandAim.transform.rotation.x, HandAim.transform.rotation.y, HandAim.transform.rotation.z);
+            transform.rotation = HandAim.rotation;
         }
     }
 }

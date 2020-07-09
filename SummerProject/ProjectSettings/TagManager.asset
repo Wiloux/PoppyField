@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Player2
+  - Ennemi
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - 
   - Ground
   - PostProcess
-  - 
+  - Player
   - 
   - 
   - 

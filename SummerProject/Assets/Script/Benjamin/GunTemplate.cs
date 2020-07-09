@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Gun", menuName = "Gun")]
 public class GunTemplate : ScriptableObject
 {
+    [Header("For Melee")]
+    public bool isMelee;
+
     [Header ("For all guns")]
     public string gunName;
     public int gunDamage;

@@ -8,4 +8,194 @@ AvatarMask:
   m_PrefabAsset: {fileID: 0}
   m_Name: UpperBody
   m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000100000001000000
-  m_Elements: []
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: cryAnimationExportNode
+    m_Weight: 1
+  - m_Path: cryExporterSettingsNode
+    m_Weight: 1
+  - m_Path: Genesis3Female
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal1/lIndex1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal1/lIndex1/lIndex2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal1/lIndex1/lIndex2/lIndex3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal2/lMid1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal2/lMid1/lMid2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal2/lMid1/lMid2/lMid3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal3/lRing1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal3/lRing1/lRing2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal3/lRing1/lRing2/lRing3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal4
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal4/lPinky1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal4/lPinky1/lPinky2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lCarpal4/lPinky1/lPinky2/lPinky3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lThumb1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lThumb1/lThumb2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/lCollar/lShldrBend/lShldrTwist/lForearmBend/lForearmTwist/lHand/lThumb1/lThumb2/lThumb3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/earB005
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/earB005/earB007
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/earB008
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/earB008/earB009
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/Hair_Bone001
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/Hair_Bone005
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/Hair_Bone009
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/Hair_Bone013
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/Hair_Bone017
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/Hair_Bone018
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/Hair_Bone019
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/lEye
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/neckLower/neckUpper/head/rEye
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal1/rIndex1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal1/rIndex1/rIndex2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal1/rIndex1/rIndex2/rIndex3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal2/rMid1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal2/rMid1/rMid2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal2/rMid1/rMid2/rMid3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal3/rRing1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal3/rRing1/rRing2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal3/rRing1/rRing2/rRing3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal4
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal4/rPinky1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal4/rPinky1/rPinky2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rCarpal4/rPinky1/rPinky2/rPinky3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rThumb1
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rThumb1/rThumb2
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/chestUpper/rCollar/rShldrBend/rShldrTwist/rForearmBend/rForearmTwist/rHand/rThumb1/rThumb2/rThumb3
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/lPectoral
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/lPectoral/lPectoralSpring
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/rPectoral
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/abdomenLower/abdomenUpper/chestLower/rPectoral/rPectoralSpring
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/lThighBend
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/lThighBend/lThighTwist
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/lThighBend/lThighTwist/lShin
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/lThighBend/lThighTwist/lShin/lFoot
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/lThighBend/lThighTwist/lShin/lFoot/lHeel
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/lThighBend/lThighTwist/lShin/lFoot/lToe
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/rThighBend
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/rThighBend/rThighTwist
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/rThighBend/rThighTwist/rShin
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/rThighBend/rThighTwist/rShin/rFoot
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/rThighBend/rThighTwist/rShin/rFoot/rHeel
+    m_Weight: 1
+  - m_Path: Genesis3Female/hip/pelvis/rThighBend/rThighTwist/rShin/rFoot/rToe
+    m_Weight: 1
+  - m_Path: Genesis3Female/prop01_Bone
+    m_Weight: 1
+  - m_Path: Genesis3Female/prop02_Bone
+    m_Weight: 1
+  - m_Path: KT5
+    m_Weight: 1
