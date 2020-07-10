@@ -1,8 +1,10 @@
 ﻿using Invector.vCharacterController;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Save_system : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class Save_system : MonoBehaviour
     public static bool hasSaved;
     private float timerPersonInput = 0.2f;
     private float timer;
+    public static string currentSave = "1";
 
     private void Start()
     {
@@ -39,15 +42,21 @@ public class Save_system : MonoBehaviour
     public void SaveGame()
     {
         Debug.Log("SAVE");
-        numSave = this.gameObject.name;
+        numSave = transform.parent.name;
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        PlayerPrefs.SetInt("SavedScene"+numSave, sceneIndex);
+        PlayerPrefs.SetInt("SavedScene"+numSave, sceneIndex+1);
         playerLocation = GameObject.FindGameObjectWithTag("Player").transform.position;
         PlayerPrefs.SetFloat("Xlocation" + numSave, playerLocation.x);
         PlayerPrefs.SetFloat("Ylocation" + numSave, playerLocation.y);
         PlayerPrefs.SetFloat("Zlocation" + numSave, playerLocation.z);
+        DateTime date = DateTime.Now;
+        PlayerPrefs.SetString("DateLastSave" + numSave, date.ToString());
+        PlayerPrefs.SetInt("NbSave" + numSave, PlayerPrefs.GetInt("NbSave" + numSave)+1);
+        PlayerPrefs.SetFloat("TotalPlaytime" + numSave, PlayerPrefs.GetFloat("TotalPlaytime" + numSave) + Time.timeSinceLevelLoad);
         Debug.Log(sceneIndex);
         Debug.Log(playerLocation);
+        transform.root.Find("PanelSaveLoad").gameObject.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void StartGame()
@@ -59,13 +68,52 @@ public class Save_system : MonoBehaviour
     {
         Time.timeScale = 1;
         Debug.Log("LOAD");
-        numSave = this.gameObject.name;
+        numSave = gameObject.name;
         Debug.Log("numSave : " + numSave);
-        sceneToLoad = PlayerPrefs.GetInt("SavedScene" + numSave);
+        sceneToLoad = PlayerPrefs.GetInt("SavedScene" + numSave)-1;
+        Debug.Log(sceneToLoad);
         SceneManager.LoadScene(sceneToLoad);
         playerLocation = new Vector3(PlayerPrefs.GetFloat("Xlocation"+numSave), PlayerPrefs.GetFloat("Ylocation"+numSave), PlayerPrefs.GetFloat("Zlocation" + numSave));
         hasSaved = true;
+        currentSave = numSave;
     }
+
+    public void SaveLoadGame()
+    {
+        numSave = gameObject.name;
+        if (PlayerPrefs.GetInt("SavedScene" + numSave) == 0)
+        {
+            SaveGame();
+        }
+        else
+        {
+            LoadGame();
+        }
+    }
+
+    //public void AutoSaveGame()
+    //{
+    //    Debug.Log("AUTOSAVE");
+    //    sceneIndex = SceneManager.GetActiveScene().buildIndex;
+    //    PlayerPrefs.SetInt("SavedScene" + currentSave, sceneIndex + 1);
+    //    playerLocation = GameObject.FindGameObjectWithTag("Player").transform.position;
+    //    PlayerPrefs.SetFloat("Xlocation" + currentSave, playerLocation.x);
+    //    PlayerPrefs.SetFloat("Ylocation" + currentSave, playerLocation.y);
+    //    PlayerPrefs.SetFloat("Zlocation" + currentSave, playerLocation.z);
+    //    Debug.Log(sceneIndex);
+    //    Debug.Log(playerLocation);
+    //}
+
+    //public void DeleteSave()
+    //{
+    //    Debug.Log("DELETE");
+    //    numSave = transform.parent.name;
+    //    PlayerPrefs.DeleteKey("SavedScene" + numSave);
+    //    PlayerPrefs.DeleteKey("Xlocation" + numSave);
+    //    PlayerPrefs.DeleteKey("Ylocation" + numSave);
+    //    PlayerPrefs.DeleteKey("Zlocation" + numSave);
+    //}
+
     public void loadNewStats()
     {
         player.transform.position = playerLocation;
