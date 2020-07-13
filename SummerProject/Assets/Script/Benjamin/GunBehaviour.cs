@@ -80,7 +80,7 @@ public class GunBehaviour : MonoBehaviour
         {
             Aim();
         }
-     
+
         if (life <= 0)
         {
             gameObject.SetActive(false);
@@ -139,12 +139,12 @@ public class GunBehaviour : MonoBehaviour
             {
                 GetComponent<Animator>().SetLayerWeight(2, 0);
                 MeleeSys.isAttacking = true;
-               GetComponent<PlayerController>().stats.Sprint(false);
-               GetComponent<PlayerController>().stats.canWalk = false;
-               GetComponent<PlayerController>().stats.FreezeRotation = true;
+                GetComponent<PlayerController>().stats.Sprint(false);
+                GetComponent<PlayerController>().stats.canWalk = false;
+                GetComponent<PlayerController>().stats.FreezeRotation = true;
                 GetComponent<PlayerController>().stats.stopMove = true;
-               // GetComponent<PlayerController>().stats.isStrafing = true;
-               GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                // GetComponent<PlayerController>().stats.isStrafing = true;
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
             else
             {
@@ -161,8 +161,9 @@ public class GunBehaviour : MonoBehaviour
 
         Vector3 direction = gunTarget.position - gunObjects[gunID].transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
-        if (isAiming) { 
-        gunObjects[gunID].transform.rotation = rotation;
+        if (isAiming)
+        {
+            gunObjects[gunID].transform.rotation = rotation;
         }
 
 
@@ -215,13 +216,14 @@ public class GunBehaviour : MonoBehaviour
         if (canShoot == true)
         {
             if (currentGun.nbAmmo > 0 && isAiming == true)
-            {    
+            {
                 //Muzzle Flash
 
-                GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);            
+                GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
                 Destroy(_Muzzle, 0.1f);
 
-                for (int i =0; i < currentGun.numberOfBullets; i++) { 
+                for (int i = 0; i < currentGun.numberOfBullets; i++)
+                {
                     if (Physics.Raycast(GunTip.transform.position, shootDirection, out hit, currentGun.range))
                     {
                         //Change Crosshair pos
@@ -234,6 +236,7 @@ public class GunBehaviour : MonoBehaviour
                             shootDirection.y += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
                         }
 
+
                         //Trail Effect
                         SpawnBulletTrail(hit.point, GunTip.position);
 
@@ -243,16 +246,33 @@ public class GunBehaviour : MonoBehaviour
                         if (target.GetComponent<EnnemyBehaviour>() != null)
                         {
                             target.GetComponent<EnnemyBehaviour>().TakeDamage(damage);
-                        } else if (target.GetComponent<TeleportEnnemy>() != null) { 
+                        }
+                        else if (target.GetComponent<TeleportEnnemy>() != null)
+                        {
                             target.GetComponent<TeleportEnnemy>().TakeDamage();
-                        } else if (target.GetComponent<ImpactOnProps>() != null)
+                        }
+                        else if (target.GetComponent<ImpactOnProps>() != null)
                         {
                             GameObject NewImpact = Instantiate(Impact, hit.point, Quaternion.LookRotation(hit.normal));
                             NewImpact.GetComponent<DecalProjector>().size += new Vector3(0, 0, 0.1f);
                             Destroy(NewImpact, 4f);
-                        } 
+
+                        }
 
                     }
+                    else
+                    {
+
+                        if (currentGun.useSpread == true)
+                        {
+                            shootDirection.x += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
+                            shootDirection.y += Random.Range(-currentGun.spreadFactor, currentGun.spreadFactor);
+                        }
+
+                        Vector3 end = GunTip.position + shootDirection * currentGun.range;
+                        SpawnBulletTrail(end, GunTip.position);
+                    }
+
                 }
 
                 audioManager.PlaySound(currentGun.shootSound, currentGun.shootVolume);
@@ -263,7 +283,7 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
-    
+
     void SwitchGun(int id)
     {
         crossHairImg.gameObject.SetActive(false);
@@ -280,7 +300,7 @@ public class GunBehaviour : MonoBehaviour
                 gunObjects[i].SetActive(true);
             }
         }
-      
+
         if (isAiming)
         {
             isAiming = false;
@@ -293,7 +313,7 @@ public class GunBehaviour : MonoBehaviour
         HandPlacements[0].HandAim = GameObject.Find(gunObjects[id].name + "/LeftHandPlacement").transform;
         HandPlacements[1].HandAim = GameObject.Find(gunObjects[id].name + "/RightHandPlacement").transform;
         Debug.Log(gunObjects[id].name + "/LeftHandPlacement");
-     
+
         Debug.Log(gunObjects[id].name);
 
         if (!currentGun.isMelee)
@@ -318,7 +338,7 @@ public class GunBehaviour : MonoBehaviour
         {
             crossHairImg.gameObject.SetActive(true);
             rig.weight = 1;
-          //  gunObjects[gunID].SetActive(true);
+            //  gunObjects[gunID].SetActive(true);
         }
         else
         {

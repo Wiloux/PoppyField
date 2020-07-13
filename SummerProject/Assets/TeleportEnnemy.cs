@@ -28,16 +28,18 @@ public class TeleportEnnemy : MonoBehaviour
     public float OffSetZ;
     public float CoolDown;
     float timer;
+    private Camera Cam;
 
     private Animator anim;
     void Start()
     {
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
+        Cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         m_Started = true;
         anim = GetComponent<Animator>();
         Player = GameObject.FindGameObjectWithTag("Player");
         Player2 = FindObjectOfType<Player2Script>().gameObject;
-        MainTarget = Player;
+        //    MainTarget = Player;
         timer = CoolDown;
     }
 
@@ -45,6 +47,17 @@ public class TeleportEnnemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (I_Can_See() && !HasP2)
+        {
+            MainTarget = Player;
+            Player2.transform.parent = null;
+        }
+        else
+        {
+            MainTarget = Player2;
+        }
+
+
         if (Vector3.Distance(MainTarget.transform.position, transform.position) < AttackRange)
         {
             isChasing = false;
@@ -59,7 +72,7 @@ public class TeleportEnnemy : MonoBehaviour
         if (isChasing)
         {
 
-         
+
             if (timer >= 0 && !NeedNewPlaceToSpawn)
             {
                 timer -= Time.deltaTime;
@@ -114,7 +127,6 @@ public class TeleportEnnemy : MonoBehaviour
                 MaxDistance = DistanceWithPlayer;
                 targetReatreat = retreatOptions[i];
                 Debug.Log(retreatOptions[i].name);
-
             }
         }
 
@@ -139,10 +151,10 @@ public class TeleportEnnemy : MonoBehaviour
             isGrabbing = true;
             //anim.SetBool("isGrabbing", true);
             yield return new WaitForSeconds(attackSpeed);
-           // anim.SetBool("isCarrying", false);
+            //anim.SetBool("isCarrying", false);
             //mainTarget.position = grabDestination.transform.position;
-            MainTarget.transform.parent = grabDestination.transform;
-            MainTarget.GetComponent<Player2Script>().Player2Nav.isStopped = true;
+            Player2.transform.parent = grabDestination.transform;
+            Player2.GetComponent<Player2Script>().Player2Nav.isStopped = true;
             HasP2 = true;
             isGrabbing = false;
         }
@@ -191,12 +203,12 @@ public class TeleportEnnemy : MonoBehaviour
         {
             HasP2 = false;
             isChasing = true;
-            MainTarget.transform.parent = null;
+            Player2.transform.parent = null;
         }
-
+        MainTarget = Player;
 
         TeleportationStep.position = CheckIfTooFar(Player.transform);
-        MainTarget = Player;
+
         if (CanSpawn(TeleportationStep))
         {
             Teleport(TeleportationStep, Player.transform);
@@ -239,6 +251,21 @@ public class TeleportEnnemy : MonoBehaviour
 
     }
 
+    public LayerMask CamMask;
+    bool I_Can_See()
+    {
+
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Cam);
+        if (GeometryUtility.TestPlanesAABB(planes, gameObject.GetComponent<Collider>().bounds) && !Physics.Linecast(transform.position, Cam.transform.position, CamMask))
+        {
+            //!Physics.Linecast(gameObject.transform.position, Player.transform.position))
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
     //void OnDrawGizmos( Color color)
     //{

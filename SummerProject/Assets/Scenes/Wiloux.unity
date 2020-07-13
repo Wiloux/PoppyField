@@ -14743,8 +14743,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InGameUI: {fileID: 1640328191}
-  panelSave: {fileID: 283693971}
-  panelLoad: {fileID: 1889175252}
+  panelSaveLoad: {fileID: 0}
+  saveLocations: []
 --- !u!114 &935488096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16447,6 +16447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Zombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424018257617773050, guid: 901f2f627800e6f45a05feef4bdf9043,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2424018257617773051, guid: 901f2f627800e6f45a05feef4bdf9043,
         type: 3}
@@ -21615,7 +21620,7 @@ GameObject:
   - component: {fileID: 1427359965}
   - component: {fileID: 1427359967}
   - component: {fileID: 1427359966}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SpawnTry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38664,7 +38669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3667189105350583650}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair_Bone013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38777,7 +38782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3729030314889092578}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: prop01_Bone
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -38809,7 +38814,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8426303279132732878}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: chestUpper
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -38825,7 +38830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7769441010275130158}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: earB005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38841,7 +38846,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2537194253400907806}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: neckLower
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -38857,7 +38862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2493074943515736335}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rPectoralSpring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38904,7 +38909,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1909487625628879008}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39010,7 +39015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9030538282084282799}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lToe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39026,7 +39031,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2140486552867936486}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39165,7 +39170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1483336597380063257}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rMid2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39211,7 +39216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5729004147948020756}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: pelvis
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -39356,7 +39361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6569970473573239313}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39482,7 +39487,7 @@ GameObject:
   - component: {fileID: 996170851410192072}
   - component: {fileID: 996170851410192075}
   - component: {fileID: 996170851410192069}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Missing Prefab (Dummy)
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -39518,6 +39523,9 @@ MonoBehaviour:
   CoolDown: 5
   AttackRange: 4
   grabDestination: {fileID: 996170851410192078}
+  CamMask:
+    serializedVersion: 2
+    m_Bits: 3072
 --- !u!65 &996170851410192072
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39575,7 +39583,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 996170852526002585}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Zombie Teleport
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -39650,7 +39658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2663443498636783261}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39666,7 +39674,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5825453582428802192}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair_Bone009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39696,7 +39704,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2719607363763688848}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lShin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39712,7 +39720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7556565069915785659}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: earB009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39728,7 +39736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3666696412711940163}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rForearmTwist
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -40135,7 +40143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3109176247036999167}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rCarpal4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40165,7 +40173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8999734882151899082}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rThighTwist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40197,7 +40205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3902618724717846741}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lHeel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40300,7 +40308,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8959376298808491114}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40407,7 +40415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256315538301331515}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rShldrTwist
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -40483,7 +40491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3952382624364654940}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Genesis3Female
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -40592,7 +40600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5652808101502238658}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lCarpal4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40714,7 +40722,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8051206029616888914}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair_Bone019
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40796,7 +40804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 48431611403094119}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rHand
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -40812,7 +40820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8301688135188489423}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: hip
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -40828,7 +40836,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5732589371675238691}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rMid1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44712,7 +44720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5783944539822431960}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lMid3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44728,7 +44736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 793150350211465101}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lForearmTwist
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -44762,7 +44770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4613759798462606028}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lCollar
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -44778,7 +44786,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1888843415053089476}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44842,7 +44850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4638612375977929693}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lCarpal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44917,7 +44925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8030807848459950256}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lShldrBend
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -45154,7 +45162,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3546364580616049053}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: abdomenLower
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -45170,7 +45178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7488932330609402605}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lMid1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45233,7 +45241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 451254442750614329}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rHeel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45304,7 +45312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8600917050583929225}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45334,7 +45342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6104777668499923784}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair_Bone018
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45455,7 +45463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5932707100724904811}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rThighBend
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -45652,7 +45660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2057259326701517475}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rCarpal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45683,7 +45691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7516888347556619453}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45715,7 +45723,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2050769733537658448}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rCollar
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -45760,7 +45768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7930352248964536027}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45804,7 +45812,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7896824261955972406}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45820,7 +45828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 448036975211825363}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rToe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88781,7 +88789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6447679087663319984}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rCarpal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88831,7 +88839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8328952946505203686}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88903,7 +88911,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1989559424095810752}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lForearmBend
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -88966,7 +88974,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890001415314652782}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: neckUpper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88996,7 +89004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7968637414806776703}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lThighTwist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89247,7 +89255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1378653491177073411}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89375,7 +89383,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7151183571977839256}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lMid2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89468,7 +89476,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3439958562115649411}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rCarpal1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89514,7 +89522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1152626946656478079}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair_Bone017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89545,7 +89553,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2984270109601473636}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lThighBend
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -89623,7 +89631,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2829470932746009418}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89685,7 +89693,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6616066565697330012}
   - component: {fileID: 6800565609442249491}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: KT5
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -89730,7 +89738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5899007622512420207}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rShldrBend
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -89762,7 +89770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7006836386304098100}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89778,7 +89786,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2491813156444107633}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rPectoral
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -89808,7 +89816,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7398737635739032006}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89824,7 +89832,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8728868647462310925}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89840,7 +89848,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 712234171587817780}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89856,7 +89864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6525340265226496274}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89931,7 +89939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 645815088807818511}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90085,7 +90093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3614995076995311988}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair_Bone005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90297,7 +90305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5889289992599175532}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: earB008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90313,7 +90321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2563842880013087549}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: prop02_Bone
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -90455,7 +90463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 302552724955007543}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rShin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90487,7 +90495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5425737109034393451}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rMid3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90546,7 +90554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3381072930008945650}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90608,7 +90616,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7278912384317070422}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: chestLower
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -90647,7 +90655,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 334562393009825655}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90729,7 +90737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3419015947433899402}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90775,7 +90783,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8938186026182660824}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cryExporterSettingsNode
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -90883,7 +90891,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9207229482994673212}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90913,7 +90921,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 338507739302212608}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: abdomenUpper
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -91005,7 +91013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 79399650291057720}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lCarpal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91029,7 +91037,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6771767432325113764}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rForearmBend
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -91045,7 +91053,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1003619038495324751}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91075,7 +91083,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3137846994021836202}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair_Bone001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91135,7 +91143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2758835876249959654}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91197,7 +91205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3937684655855613460}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lPectoralSpring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91287,7 +91295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2349632553170667795}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lPectoral
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -91303,7 +91311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5140361516184021358}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lHand
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -91335,7 +91343,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8154766793245437207}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cryAnimationExportNode
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -91493,7 +91501,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2132425453119849825}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lShldrTwist
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
@@ -91659,7 +91667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2206210380396780843}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91683,7 +91691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 52434285510001119}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91744,7 +91752,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1306805151870196347}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91789,7 +91797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2922590604188494136}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: earB007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91805,7 +91813,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8871752896071596019}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lCarpal1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91837,7 +91845,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 383614360041527341}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91868,7 +91876,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5235901663113329999}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: uploads_files_1906123_female+model
   m_TagString: Ennemi
   m_Icon: {fileID: 0}
