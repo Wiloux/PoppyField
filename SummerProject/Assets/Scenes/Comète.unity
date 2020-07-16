@@ -2206,7 +2206,7 @@ RectTransform:
   - {fileID: 232949231}
   - {fileID: 1977825948}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4943,6 +4943,110 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &458377467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458377465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 7
+  m_ObsoleteRenderingPath: 0
+  m_ObsoleteFrameSettings:
+    overrides: 0
+    enableShadow: 0
+    enableContactShadows: 0
+    enableShadowMask: 0
+    enableSSR: 0
+    enableSSAO: 0
+    enableSubsurfaceScattering: 0
+    enableTransmission: 0
+    enableAtmosphericScattering: 0
+    enableVolumetrics: 0
+    enableReprojectionForVolumetrics: 0
+    enableLightLayers: 0
+    enableExposureControl: 1
+    diffuseGlobalDimmer: 0
+    specularGlobalDimmer: 0
+    shaderLitMode: 0
+    enableDepthPrepassWithDeferredRendering: 0
+    enableTransparentPrepass: 0
+    enableMotionVectors: 0
+    enableObjectMotionVectors: 0
+    enableDecals: 0
+    enableRoughRefraction: 0
+    enableTransparentPostpass: 0
+    enableDistortion: 0
+    enablePostprocess: 0
+    enableOpaqueObjects: 0
+    enableTransparentObjects: 0
+    enableRealtimePlanarReflection: 0
+    enableMSAA: 0
+    enableAsyncCompute: 0
+    runLightListAsync: 0
+    runSSRAsync: 0
+    runSSAOAsync: 0
+    runContactShadowsAsync: 0
+    runVolumeVoxelizationAsync: 0
+    lightLoopSettings:
+      overrides: 0
+      enableDeferredTileAndCluster: 0
+      enableComputeLightEvaluation: 0
+      enableComputeLightVariants: 0
+      enableComputeMaterialVariants: 0
+      enableFptlForForwardOpaque: 0
+      enableBigTilePrepass: 0
+      isFptlEnabled: 0
+  clearColorMode: 0
+  backgroundColorHDR: {r: 0.025, g: 0.07, b: 0.19, a: 0}
+  clearDepth: 1
+  volumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  volumeAnchorOverride: {fileID: 0}
+  antialiasing: 0
+  SMAAQuality: 2
+  dithering: 0
+  stopNaNs: 0
+  taaSharpenStrength: 0.6
+  physicalParameters:
+    m_Iso: 200
+    m_ShutterSpeed: 0.005
+    m_Aperture: 16
+    m_BladeCount: 5
+    m_Curvature: {x: 2, y: 11}
+    m_BarrelClipping: 0.25
+    m_Anamorphism: 0
+  flipYMode: 0
+  fullscreenPassthrough: 0
+  allowDynamicResolution: 0
+  customRenderingSettings: 0
+  invertFaceCulling: 0
+  probeLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  hasPersistentHistory: 0
+  m_RenderingPathCustomFrameSettings:
+    bitDatas:
+      data1: 70297877217101
+      data2: 4539628425463136256
+    lodBias: 1
+    lodBiasMode: 0
+    lodBiasQualityLevel: 0
+    maximumLODLevel: 0
+    maximumLODLevelMode: 0
+    maximumLODLevelQualityLevel: 0
+    materialQuality: 0
+  renderingPathCustomFrameSettingsOverrideMask:
+    mask:
+      data1: 0
+      data2: 0
+  defaultFrameSettings: 0
 --- !u!4 &458377471 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8759900839138926791, guid: ccd7c0b5086d37f48845c832653c4333,
@@ -5625,7 +5729,7 @@ Transform:
   - {fileID: 617888892}
   - {fileID: 1355666212}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
 --- !u!1 &510423771
 GameObject:
@@ -7749,7 +7853,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &594857994
 GameObject:
@@ -8756,7 +8860,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &705507996
 MonoBehaviour:
@@ -9537,7 +9641,7 @@ Transform:
   m_LocalScale: {x: 0.40615, y: 0.40615, z: 0.40615}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &762848411
 MonoBehaviour:
@@ -9552,6 +9656,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tailleEmplacement: 100
+  sizeX: 1
+  sizeY: 1
+  inInventory: 0
 --- !u!1 &770067742
 GameObject:
   m_ObjectHideFlags: 0
@@ -14617,14 +14724,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134591294}
-  m_LocalRotation: {x: -0.00000010358854, y: 0.8330489, z: -0.55319947, w: -0.00000015599132}
-  m_LocalPosition: {x: 2.3374326, y: -1.1640358, z: -0.8397531}
-  m_LocalScale: {x: 0.19962347, y: 0.19962353, z: 0.19962353}
+  m_LocalRotation: {x: 0.55319947, y: -0, z: -0, w: 0.8330489}
+  m_LocalPosition: {x: -303.73358, y: -9.449036, z: -244.17024}
+  m_LocalScale: {x: 0.19962351, y: 0.19962355, z: 0.19962355}
   m_Children:
   - {fileID: 1336374042}
   - {fileID: 1702405304}
-  m_Father: {fileID: 3134500242504873340}
-  m_RootOrder: 5
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 67.174, y: 0, z: 0}
 --- !u!1 &1139004169
 GameObject:
@@ -15847,7 +15954,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1234725495
 GameObject:
@@ -16948,7 +17055,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1336374041
 GameObject:
@@ -23678,7 +23785,7 @@ Transform:
   m_LocalScale: {x: 492.9218, y: 1.3041589, z: 424.0464}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1791003507
 GameObject:
@@ -27058,7 +27165,7 @@ Transform:
   - {fileID: 1766931658}
   - {fileID: 49676917}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
 --- !u!114 &2031534568
 MonoBehaviour:
@@ -27186,6 +27293,16 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: cbd1db45c75e5b948a5befe9ecb80421, type: 2}
+    - target: {fileID: 8759900839138926787, guid: ccd7c0b5086d37f48845c832653c4333,
+        type: 3}
+      propertyPath: m_HDR
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8759900839138926787, guid: ccd7c0b5086d37f48845c832653c4333,
+        type: 3}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8759900839138926789, guid: ccd7c0b5086d37f48845c832653c4333,
         type: 3}
       propertyPath: target
@@ -27269,7 +27386,7 @@ PrefabInstance:
     - target: {fileID: 8759900839138926791, guid: ccd7c0b5086d37f48845c832653c4333,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8759900839138926791, guid: ccd7c0b5086d37f48845c832653c4333,
         type: 3}
@@ -28137,7 +28254,7 @@ Transform:
   m_LocalScale: {x: 0.17008, y: 0.17008, z: 0.17008}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2108263844
 MonoBehaviour:
@@ -28152,6 +28269,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tailleEmplacement: 100
+  sizeX: 1
+  sizeY: 1
+  inInventory: 0
 --- !u!1 &2108899894
 GameObject:
   m_ObjectHideFlags: 0
@@ -32855,9 +32975,8 @@ Transform:
   - {fileID: 3134500241478262968}
   - {fileID: 3134500242341794793}
   - {fileID: 3243577698640674677}
-  - {fileID: 1134591295}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
 --- !u!95 &3134500242504873341
 Animator:
@@ -33016,6 +33135,7 @@ MonoBehaviour:
   slots:
   - {fileID: 0}
   objects: []
+  isActive: 0
 --- !u!4 &3159529597110435320
 Transform:
   m_ObjectHideFlags: 0

@@ -7,6 +7,11 @@ public class PickUp : MonoBehaviour
 {
     private Inventaire inventaire;
     public int tailleEmplacement = 1;
+    public int sizeX = 1;
+    public int sizeY = 1;
+    private Vector3 mOffset;
+    private float mZCoord;
+    public bool inInventory;
 
     private void Start()
     {
@@ -15,16 +20,33 @@ public class PickUp : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetMouseButtonDown(1))
-        //{
-        //    RaycastHit hit;
-        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        //    if(Physics.Raycast(ray, out hit, 100.0f))
-        //    {
-        //        inventaire.addObject(tailleEmplacement, transform.gameObject);
-        //    }
-        //}
+    }
+
+    private void OnMouseDown()
+    {
+        if (inventaire.isActive && inInventory)
+        {
+            mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+            mOffset = gameObject.transform.position - GetMouseWorldPos();
+        }
+    }
+
+    private void OnMouseDrag()
+    {
+        if (inventaire.isActive && inInventory)
+        {
+            transform.position = GetMouseWorldPos() + mOffset;
+        } 
+    }
+
+    private Vector3 GetMouseWorldPos()
+    {
+        Vector3 mousePoint = Input.mousePosition;
+
+        mousePoint.z = mZCoord;
+
+        return Camera.main.ScreenToWorldPoint(mousePoint);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,6 +54,7 @@ public class PickUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             inventaire.addObject(tailleEmplacement, gameObject);
+            inInventory = true;
             //Destroy(gameObject);
         }
     }
