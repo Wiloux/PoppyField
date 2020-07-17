@@ -39264,11 +39264,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 567
   Player: {fileID: 0}
-  hitColliders: []
   isChasing: 1
-  NeedNewPlaceToSpawn: 0
+  OffSetX: 0
+  OffSetZ: 0
   CoolDown: 5
-  timer: 0
 --- !u!65 &996170851410192072
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44402,6 +44401,8 @@ MonoBehaviour:
   - {fileID: 264050249}
   - {fileID: 261904410}
   Muzzle: {fileID: 1782395880954752, guid: e802c9c5b472d2345a808aca4bc81014, type: 3}
+  bulletTrail: {fileID: 120648884187509030, guid: d2ec70c814159504cb3e12e99b00b151,
+    type: 3}
   Impact: {fileID: 2227493339125445323, guid: 22a5a20e839cbc14192365251a4d0d5b, type: 3}
   rig: {fileID: 1870339513}
 --- !u!114 &3134500242504873347
