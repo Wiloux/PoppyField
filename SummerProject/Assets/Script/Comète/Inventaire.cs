@@ -8,7 +8,6 @@ public class Inventaire : MonoBehaviour
 {
     public GameObject inventory;
     public int nbPlace = 154;
-    private int nbPlacesOccupees = 0;
     public GameObject[] slots;
     public List<GameObject> objects = new List<GameObject> { };
     public bool isActive;
@@ -22,7 +21,13 @@ public class Inventaire : MonoBehaviour
     public Camera camPlayer;
     public LayerMask mask;
     public (int,int) currentCoord = (0, 0);
+    public GameObject currentSlot;
     public GameObject[,] matriceSlot;
+    public bool pickingObject;
+    public GameObject objectPicked;
+    private float mZCoord;
+    private Vector3 mOffset;
+    public GameObject lastOriginSlot;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +44,7 @@ public class Inventaire : MonoBehaviour
                 newSlot.GetComponent<Slot>().x = i;
                 newSlot.GetComponent<Slot>().y = j;
                 matriceSlot[i, j] = newSlot;
+                newSlot.name = "Emplacement " + i + j;
             }
             offsetY = 0;
         }
@@ -47,13 +53,35 @@ public class Inventaire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
-        Ray ray = camInventory.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitObject;
+        Ray rayObject = camInventory.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, mask) && Input.GetMouseButtonDown(0))
+        if (Physics.Raycast(rayObject, out hitObject, mask) && Input.GetMouseButtonDown(0))
         {
-            currentCoord = (hit.transform.gameObject.GetComponent<Slot>().x, hit.transform.gameObject.GetComponent<Slot>().y);
+            currentSlot = hitObject.transform.gameObject;
+            objectPicked = currentSlot.GetComponent<Slot>().containedObject;
+            if (objectPicked != null)
+            {
+                selectObject(objectPicked.GetComponent<PickUp>().size, objectPicked);
+                mZCoord = camInventory.WorldToScreenPoint(objectPicked.transform.position).z;
+                mOffset = objectPicked.transform.position - lastOriginSlot.transform.position;
+                pickingObject = true;
+            }
+        }
+
+        if (pickingObject && Physics.Raycast(rayObject, out hitObject, mask))
+        {
+            currentCoord = (hitObject.transform.gameObject.GetComponent<Slot>().x, hitObject.transform.gameObject.GetComponent<Slot>().y);
+            objectPicked.transform.position = GetMouseWorldPos() + mOffset;
             Debug.Log(currentCoord);
+        }
+
+        if(pickingObject && Input.GetMouseButtonDown(1))
+        {
+            mOffset = objectPicked.transform.position - lastOriginSlot.transform.position;
+            putObjectDown();
+            pickingObject = false;
+            objectPicked = null;
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -82,13 +110,15 @@ public class Inventaire : MonoBehaviour
 
     public void addObject(Vector2 size, GameObject objet)
     {
+        Vector2 originCoord;
         for (int i=0; i < nbPlaceX; i++) 
         {
             for(int j=0; j < nbPlaceY; j++)
             {
                 if (matriceSlot[i, j].GetComponent<Slot>().isEmpty)
                 {
-                    for(int k = i; k < size.y + i; k++)
+                    originCoord = new Vector2(i, j);
+                    for (int k = i; k < size.y + i; k++)
                     {
                         if (!matriceSlot[k, j].GetComponent<Slot>().isEmpty)
                         {
@@ -98,16 +128,19 @@ public class Inventaire : MonoBehaviour
                         {
                             if (!matriceSlot[k, l].GetComponent<Slot>().isEmpty)
                             {
-                                break;
+                                break; //break tout ?
                             }
                         }
                         for(int x=i; x < size.x + i; x++)
                         {
                             for(int y=j; y < size.y + j; y++)
                             {
+                                matriceSlot[x, y].GetComponent<Slot>().originalCoord = originCoord;
                                 matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
+                                matriceSlot[x, y].GetComponent<Slot>().containedObject = objet;
                             }
                         }
+                        lastOriginSlot = matriceSlot[(int)originCoord.x, (int)originCoord.y].gameObject;
                         objet.transform.position = (matriceSlot[i + (int)size.x-1, j + (int)size.y-1].transform.position + matriceSlot[i,j].transform.position) / 2;
                         Debug.Log(objet.transform.position);
                         objects.Add(objet);
@@ -115,9 +148,79 @@ public class Inventaire : MonoBehaviour
                     }
                 }
             }
-            
-            
-            //Instantiate(objet, inventory.transform, true);
         }
+    }
+
+    public void selectObject(Vector2 size, GameObject objet)
+    {
+        if (currentSlot.GetComponent<Slot>().containedObject != null)
+        {
+            for(int i= (int)currentSlot.GetComponent<Slot>().originalCoord.x; i<size.x+ currentSlot.GetComponent<Slot>().originalCoord.x; i++)
+            {
+                for(int j= (int)currentSlot.GetComponent<Slot>().originalCoord.y; j < size.y + currentSlot.GetComponent<Slot>().originalCoord.y; j++)
+                {
+                    matriceSlot[i, j].GetComponent<Slot>().isEmpty = true;
+                    matriceSlot[i, j].GetComponent<Slot>().containedObject = null;
+                }
+            }
+        }
+    }
+
+    public void putObjectDown()
+    {
+        for(int i = currentCoord.Item1; i < currentCoord.Item1 + objectPicked.GetComponent<PickUp>().size.x; i++)
+        {
+            for(int j = currentCoord.Item2; j < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; j++)
+            {
+                if(i>=nbPlaceX || j >= nbPlaceY)
+                {
+                    for (int x = (int)currentSlot.GetComponent<Slot>().originalCoord.x; x < currentSlot.GetComponent<Slot>().originalCoord.x + objectPicked.GetComponent<PickUp>().size.x; x++)
+                    {
+                        for (int y = (int)currentSlot.GetComponent<Slot>().originalCoord.y; y < currentSlot.GetComponent<Slot>().originalCoord.y + objectPicked.GetComponent<PickUp>().size.y; y++)
+                        {
+                            matriceSlot[x, y].GetComponent<Slot>().originalCoord = currentSlot.GetComponent<Slot>().originalCoord;
+                            matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
+                            matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
+                        }
+                    }
+                    objectPicked.transform.position = (matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x + (int)objectPicked.GetComponent<PickUp>().size.x - 1, (int)currentSlot.GetComponent<Slot>().originalCoord.y + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].transform.position) / 2;
+                    return;
+                }
+                if (!matriceSlot[i, j].GetComponent<Slot>().isEmpty)
+                {
+                    for (int x = (int)currentSlot.GetComponent<Slot>().originalCoord.x; x < currentSlot.GetComponent<Slot>().originalCoord.x + objectPicked.GetComponent<PickUp>().size.x; x++)
+                    {
+                        for (int y = (int)currentSlot.GetComponent<Slot>().originalCoord.y; y < currentSlot.GetComponent<Slot>().originalCoord.y + objectPicked.GetComponent<PickUp>().size.y; y++)
+                        {
+                            matriceSlot[x, y].GetComponent<Slot>().originalCoord = currentSlot.GetComponent<Slot>().originalCoord;
+                            matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
+                            matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
+                        }
+                    }
+                    objectPicked.transform.position = (matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x + (int)objectPicked.GetComponent<PickUp>().size.x - 1, (int)currentSlot.GetComponent<Slot>().originalCoord.y + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].transform.position) / 2;
+                    return;
+                }
+            }
+        }
+        for (int x = currentCoord.Item1; x < currentCoord.Item1 + objectPicked.GetComponent<PickUp>().size.x; x++)
+        {
+            for (int y = currentCoord.Item2; y < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; y++)
+            {
+                matriceSlot[x, y].GetComponent<Slot>().originalCoord = new Vector2 (currentCoord.Item1, currentCoord.Item2);
+                matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
+                matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
+            }
+        }
+        objectPicked.transform.position = (matriceSlot[currentCoord.Item1 + (int)objectPicked.GetComponent<PickUp>().size.x - 1, currentCoord.Item2 + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[currentCoord.Item1, currentCoord.Item2].transform.position) / 2;
+        lastOriginSlot = matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].gameObject;
+    }
+
+    private Vector3 GetMouseWorldPos()
+    {
+        Vector3 mousePoint = Input.mousePosition;
+
+        mousePoint.z = mZCoord;
+
+        return camInventory.ScreenToWorldPoint(mousePoint);
     }
 }

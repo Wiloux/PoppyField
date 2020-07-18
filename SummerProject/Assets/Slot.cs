@@ -8,6 +8,7 @@ public class Slot : MonoBehaviour
     public int x;
     public int y;
     public GameObject containedObject;
+    public Vector2 originalCoord;
 
     // Start is called before the first frame update
     void Start()
