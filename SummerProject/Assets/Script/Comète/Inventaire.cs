@@ -28,6 +28,8 @@ public class Inventaire : MonoBehaviour
     private float mZCoord;
     private Vector3 mOffset;
     public GameObject lastOriginSlot;
+    private int nbRotation;
+    public bool rotateNow;
 
     // Start is called before the first frame update
     void Start()
@@ -58,30 +60,72 @@ public class Inventaire : MonoBehaviour
 
         if (Physics.Raycast(rayObject, out hitObject, mask) && Input.GetMouseButtonDown(0))
         {
-            currentSlot = hitObject.transform.gameObject;
-            objectPicked = currentSlot.GetComponent<Slot>().containedObject;
-            if (objectPicked != null)
+            if (hitObject.transform.gameObject.GetComponent<Slot>() != null)
             {
-                selectObject(objectPicked.GetComponent<PickUp>().size, objectPicked);
-                mZCoord = camInventory.WorldToScreenPoint(objectPicked.transform.position).z;
-                mOffset = objectPicked.transform.position - lastOriginSlot.transform.position;
-                pickingObject = true;
+                currentSlot = hitObject.transform.gameObject;
+                objectPicked = currentSlot.GetComponent<Slot>().containedObject;
+                if (objectPicked != null)
+                {
+                    selectObject(objectPicked.GetComponent<PickUp>().size, objectPicked);
+                    mZCoord = camInventory.WorldToScreenPoint(objectPicked.transform.position).z;
+                    mOffset = objectPicked.transform.position - objectPicked.GetComponent<PickUp>().lastOriginSlot.transform.position;
+                    pickingObject = true;
+                }
             }
         }
 
-        if (pickingObject && Physics.Raycast(rayObject, out hitObject, mask))
+        if (pickingObject)
         {
-            currentCoord = (hitObject.transform.gameObject.GetComponent<Slot>().x, hitObject.transform.gameObject.GetComponent<Slot>().y);
             objectPicked.transform.position = GetMouseWorldPos() + mOffset;
-            Debug.Log(currentCoord);
+            try
+            {
+                currentCoord = (hitObject.transform.gameObject.GetComponent<Slot>().x, hitObject.transform.gameObject.GetComponent<Slot>().y);
+            }
+            catch
+            {
+                currentCoord = (-1, -1);
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (objectPicked.GetComponent<PickUp>().isRotated)
+                {
+                    objectPicked.transform.Rotate(0, 0, -90);
+                    objectPicked.GetComponent<PickUp>().isRotated = false;
+                }
+                else
+                {
+                    objectPicked.transform.Rotate(0, 0, 90);
+                    objectPicked.GetComponent<PickUp>().isRotated = true;
+                }
+                rotateNow = !rotateNow;
+                objectPicked.GetComponent<PickUp>().size = new Vector2(objectPicked.GetComponent<PickUp>().size.y, objectPicked.GetComponent<PickUp>().size.x);
+            }
         }
 
-        if(pickingObject && Input.GetMouseButtonDown(1))
+        if(pickingObject && Input.GetMouseButtonUp(0))
         {
-            mOffset = objectPicked.transform.position - lastOriginSlot.transform.position;
-            putObjectDown();
-            pickingObject = false;
-            objectPicked = null;
+            if(Physics.Raycast(rayObject, out hitObject, mask))
+            {
+                if(hitObject.transform.gameObject.GetComponent<Slot>() != null)
+                {
+                    currentSlot = hitObject.transform.gameObject;
+                }
+            }
+            if (currentSlot == null)
+            {
+                mOffset = objectPicked.transform.position - objectPicked.GetComponent<PickUp>().lastOriginSlot.transform.position;
+                putObjectDown();
+                pickingObject = false;
+                objectPicked = null;
+            }
+            else
+            {
+                mOffset = objectPicked.transform.position - objectPicked.GetComponent<PickUp>().lastOriginSlot.transform.position;
+                putObjectDown();
+                pickingObject = false;
+                objectPicked = null;
+            }
+            rotateNow = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -106,6 +150,8 @@ public class Inventaire : MonoBehaviour
                 camInventory.gameObject.SetActive(false);
             }
         }
+
+
     }
 
     public void addObject(Vector2 size, GameObject objet)
@@ -140,7 +186,7 @@ public class Inventaire : MonoBehaviour
                                 matriceSlot[x, y].GetComponent<Slot>().containedObject = objet;
                             }
                         }
-                        lastOriginSlot = matriceSlot[(int)originCoord.x, (int)originCoord.y].gameObject;
+                        objet.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)originCoord.x, (int)originCoord.y].gameObject;
                         objet.transform.position = (matriceSlot[i + (int)size.x-1, j + (int)size.y-1].transform.position + matriceSlot[i,j].transform.position) / 2;
                         Debug.Log(objet.transform.position);
                         objects.Add(objet);
@@ -172,22 +218,41 @@ public class Inventaire : MonoBehaviour
         {
             for(int j = currentCoord.Item2; j < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; j++)
             {
-                if(i>=nbPlaceX || j >= nbPlaceY)
+                if(i >= 0)
                 {
-                    for (int x = (int)currentSlot.GetComponent<Slot>().originalCoord.x; x < currentSlot.GetComponent<Slot>().originalCoord.x + objectPicked.GetComponent<PickUp>().size.x; x++)
+                    if (i >= nbPlaceX || j >= nbPlaceY || !matriceSlot[i, j].GetComponent<Slot>().isEmpty)
                     {
-                        for (int y = (int)currentSlot.GetComponent<Slot>().originalCoord.y; y < currentSlot.GetComponent<Slot>().originalCoord.y + objectPicked.GetComponent<PickUp>().size.y; y++)
+                        if (rotateNow)
                         {
-                            matriceSlot[x, y].GetComponent<Slot>().originalCoord = currentSlot.GetComponent<Slot>().originalCoord;
-                            matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
-                            matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
+                            objectPicked.transform.Rotate(0, 0, -90);
+                            objectPicked.GetComponent<PickUp>().isRotated = false;
+                            objectPicked.GetComponent<PickUp>().size = new Vector2(objectPicked.GetComponent<PickUp>().size.y, objectPicked.GetComponent<PickUp>().size.x);
                         }
+                        Debug.Log("Pas la place");
+                        for (int x = (int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.x; x < objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.x + objectPicked.GetComponent<PickUp>().size.x; x++)
+                        {
+                            for (int y = (int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.y; y < objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.y + objectPicked.GetComponent<PickUp>().size.y; y++)
+                            {
+                                matriceSlot[x, y].GetComponent<Slot>().originalCoord = objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord;
+                                matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
+                                matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
+                            }
+                        }
+                        objectPicked.transform.position = (matriceSlot[(int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.x + (int)objectPicked.GetComponent<PickUp>().size.x - 1, (int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.y + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[(int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.x, (int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.y].transform.position) / 2;
+                        //objectPicked.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].gameObject;
+                        currentSlot = objectPicked.GetComponent<PickUp>().lastOriginSlot;
+                        return;
                     }
-                    objectPicked.transform.position = (matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x + (int)objectPicked.GetComponent<PickUp>().size.x - 1, (int)currentSlot.GetComponent<Slot>().originalCoord.y + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].transform.position) / 2;
-                    return;
                 }
-                if (!matriceSlot[i, j].GetComponent<Slot>().isEmpty)
+                else
                 {
+                    if (rotateNow)
+                    {
+                        objectPicked.transform.Rotate(0, 0, -90);
+                        objectPicked.GetComponent<PickUp>().isRotated = false;
+                        objectPicked.GetComponent<PickUp>().size = new Vector2(objectPicked.GetComponent<PickUp>().size.y, objectPicked.GetComponent<PickUp>().size.x);
+                    }
+                    Debug.Log("En dehors de l'inventaire");
                     for (int x = (int)currentSlot.GetComponent<Slot>().originalCoord.x; x < currentSlot.GetComponent<Slot>().originalCoord.x + objectPicked.GetComponent<PickUp>().size.x; x++)
                     {
                         for (int y = (int)currentSlot.GetComponent<Slot>().originalCoord.y; y < currentSlot.GetComponent<Slot>().originalCoord.y + objectPicked.GetComponent<PickUp>().size.y; y++)
@@ -197,7 +262,9 @@ public class Inventaire : MonoBehaviour
                             matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
                         }
                     }
-                    objectPicked.transform.position = (matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x + (int)objectPicked.GetComponent<PickUp>().size.x - 1, (int)currentSlot.GetComponent<Slot>().originalCoord.y + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].transform.position) / 2;
+                    objectPicked.transform.position = (matriceSlot[(int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.x + (int)objectPicked.GetComponent<PickUp>().size.x - 1, (int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.y + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[(int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.x, (int)objectPicked.GetComponent<PickUp>().lastOriginSlot.GetComponent<Slot>().originalCoord.y].transform.position) / 2;
+                    //objectPicked.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].gameObject;
+                    currentSlot = objectPicked.GetComponent<PickUp>().lastOriginSlot;
                     return;
                 }
             }
@@ -211,8 +278,10 @@ public class Inventaire : MonoBehaviour
                 matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
             }
         }
+        Debug.Log(objectPicked.GetComponent<PickUp>().lastOriginSlot.name);
         objectPicked.transform.position = (matriceSlot[currentCoord.Item1 + (int)objectPicked.GetComponent<PickUp>().size.x - 1, currentCoord.Item2 + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[currentCoord.Item1, currentCoord.Item2].transform.position) / 2;
-        lastOriginSlot = matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].gameObject;
+        objectPicked.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].gameObject;
+        Debug.Log(objectPicked.GetComponent<PickUp>().lastOriginSlot.name);
     }
 
     private Vector3 GetMouseWorldPos()

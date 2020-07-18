@@ -11,6 +11,8 @@ public class PickUp : MonoBehaviour
     private Vector3 mOffset;
     private float mZCoord;
     public bool inInventory;
+    public GameObject lastOriginSlot;
+    public bool isRotated;
 
     private void Start()
     {
