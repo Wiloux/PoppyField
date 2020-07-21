@@ -61,24 +61,34 @@ public class GunBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (!GetComponent<PlayerController>().isStruggling)
         {
-            if (!currentGun.isMelee)
+            if (Input.GetButtonDown("Fire1"))
             {
-                Shoot(currentGun.gunDamage);
-            }
-            else
-            {
-                if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
+                if (!currentGun.isMelee)
                 {
-                    Debug.Log("meleeee");
-                    MeleeHit();
+                    Shoot(currentGun.gunDamage);
+                }
+                else
+                {
+                    if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
+                    {
+                        Debug.Log("meleeee");
+                        MeleeHit();
+                    }
                 }
             }
-        }
-        if (Input.GetButtonDown("Fire2") && !GetComponent<PlayerController>().isFollowedByP2 && !currentGun.isMelee)
+            if (Input.GetButtonDown("Fire2") && !GetComponent<PlayerController>().isFollowedByP2 && !currentGun.isMelee)
+            {
+                Aim();
+            }
+        } else
         {
-            Aim();
+            if (isAiming == true)
+            {
+                Aim();
+            }
+      
         }
 
         if (life <= 0)
@@ -350,15 +360,15 @@ public class GunBehaviour : MonoBehaviour
         //    GetComponent<PlayerController>().stats.SetControllerMoveSpeed(0.0f);
     }
 
-
+    private bool isReloading;
     private IEnumerator Reload()
     {
-        if (currentGun.nbAmmo < currentGun.maxAmmo && canShoot == true)
+        if (currentGun.nbAmmo < currentGun.maxAmmo && canShoot && !isReloading)
         {
-            Debug.Log("Currently reloading");
+            isReloading = true;
             audioManager.PlaySound(currentGun.reloadSound, currentGun.reloadVolume);
             yield return new WaitForSeconds(currentGun.reloadTime);
-            Debug.Log("Done reloading");
+            isReloading = false;
             currentGun.nbAmmo = currentGun.maxAmmo;
             bulletCounter.text = (currentGun.nbAmmo).ToString();
         }

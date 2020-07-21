@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         stats.Sprint(false);
         stats.canWalk = false;
         stats.FreezeRotation = true;
-        StruggleBar.transform.localScale = new Vector2(StrugleState / StrugleMax, 1f);
+        StruggleBar.transform.Find("Bar").transform.localScale = new Vector2(StrugleState / StrugleMax, 1f);
         stats.stopMove = true;
         if (timer >= 0)
         {
