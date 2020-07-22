@@ -15,6 +15,7 @@ public class Player2Script : MonoBehaviour
     private Animator anim;
     public enum Player2State { Idle, Follow, Abducted }
     public Player2State CurrentState;
+    public bool isGettingKiddnaped;
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
