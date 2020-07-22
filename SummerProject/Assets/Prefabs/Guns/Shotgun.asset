@@ -15,11 +15,11 @@ MonoBehaviour:
   isMelee: 0
   gunName: Shotgun
   gunDamage: 20
-  nbAmmo: 0
+  nbAmmo: 6
   maxAmmo: 6
-  reloadTime: 0.8
+  reloadTime: 3
   range: 10
-  recoveryTime: 0.8
+  recoveryTime: 1.25
   shootSound: {fileID: 8300000, guid: be15702adc9f0704a8b75b368db93b0f, type: 3}
   shootVolume: 0.2
   reloadSound: {fileID: 8300000, guid: 03420eba8434ace419f0d7e88141318f, type: 3}

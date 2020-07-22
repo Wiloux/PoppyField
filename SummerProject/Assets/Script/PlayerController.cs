@@ -32,6 +32,29 @@ public class PlayerController : MonoBehaviour
         AM.PlaySoundRDMPitch(footstep[rdm], 0.4f, 0.8f, 1.2f);
     }
 
+    public GameObject Pointer;
+    private Quaternion PointerQ;
+    void RotateToP2()
+    {
+        if (Player2.GetComponent<Player2Script>().isGettingKiddnaped)
+        {
+            Pointer.SetActive(true);
+            Vector3 direction = transform.position - Player2.transform.position;
+
+           PointerQ = Quaternion.LookRotation(direction);
+            PointerQ.z = -PointerQ.y;
+            PointerQ.x = 0;
+            PointerQ.y = 0;
+
+            Vector3 North = new Vector3(0, 0, GameObject.FindGameObjectWithTag("MainCamera").transform.eulerAngles.y);
+            Pointer.transform.localRotation = PointerQ * Quaternion.Euler(North);
+        }
+        else
+        {
+            Pointer.SetActive(false);
+        }
+    }
+
     public bool isStruggling;
     private float StrugleState;
     public float StrugleMax;
@@ -99,6 +122,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RotateToP2();
         if (isStruggling)
         {
             Struggle();
