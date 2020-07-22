@@ -119,7 +119,7 @@ public class GunBehaviour : MonoBehaviour
             GetComponent<Animator>().SetLayerWeight(2, 1);
         }
 
-        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))
+        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee") && !isReloading)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -201,7 +201,7 @@ public class GunBehaviour : MonoBehaviour
             {
                 crossHairImg.rectTransform.position = Camera.main.WorldToScreenPoint(hit.point);
 
-                if (hit.transform.GetComponent<EnnemyBehaviour>() != null || hit.transform.GetComponent<TeleportEnnemy>() != null)
+                if (hit.transform.GetComponent<Ennemy>() != null || hit.transform.GetComponent<TeleportEnnemy>() != null)
                 {
                     crossHairImg.color = new Color(255, 0, 0, 255);
                 }
@@ -253,9 +253,9 @@ public class GunBehaviour : MonoBehaviour
                         //Dmg Calculation/ OnHitEffect
 
                         GameObject target = hit.transform.gameObject;
-                        if (target.GetComponent<EnnemyBehaviour>() != null)
+                        if (target.GetComponent<Ennemy>() != null)
                         {
-                            target.GetComponent<EnnemyBehaviour>().TakeDamage(damage);
+                            target.GetComponent<Ennemy>().TakeDamage(damage);
                         }
                         else if (target.GetComponent<TeleportEnnemy>() != null)
                         {
@@ -366,9 +366,11 @@ public class GunBehaviour : MonoBehaviour
         if (currentGun.nbAmmo < currentGun.maxAmmo && canShoot && !isReloading)
         {
             isReloading = true;
+            canShoot = false;
             audioManager.PlaySound(currentGun.reloadSound, currentGun.reloadVolume);
             yield return new WaitForSeconds(currentGun.reloadTime);
             isReloading = false;
+            canShoot = true;
             currentGun.nbAmmo = currentGun.maxAmmo;
             bulletCounter.text = (currentGun.nbAmmo).ToString() + " / " + currentGun.maxAmmo.ToString();
         }

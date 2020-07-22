@@ -99,7 +99,7 @@ public class TeleportEnnemy : MonoBehaviour
         }
         else if (HasP2)
         {
-
+            Player2.GetComponent<Player2Script>().isGettingKiddnaped = true;
             if (timer >= 0 && !NeedNewPlaceToSpawn)
             {
                 timer -= Time.deltaTime;
@@ -156,6 +156,7 @@ public class TeleportEnnemy : MonoBehaviour
             Player2.transform.parent = grabDestination.transform;
             Player2.GetComponent<Player2Script>().Player2Nav.isStopped = true;
             HasP2 = true;
+
             isGrabbing = false;
         }
 
@@ -201,6 +202,7 @@ public class TeleportEnnemy : MonoBehaviour
     {
         if (HasP2)
         {
+            Player2.GetComponent<Player2Script>().isGettingKiddnaped = false;
             HasP2 = false;
             isChasing = true;
             Player2.transform.parent = null;

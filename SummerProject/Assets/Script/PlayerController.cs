@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool isFollowedByP2;
     public TwoBoneIKConstraint rig;
     public vThirdPersonController stats;
+    public PlayerStats CStats;
 
     private AudioManager AM;
     public List<AudioClip> footstep;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
         AM = FindObjectOfType<AudioManager>();
         Player2 = GameObject.FindGameObjectWithTag("Player2");
         stats = GetComponent<vThirdPersonController>();
+        CStats = GetComponent<PlayerStats>();
         StruggleBar.SetActive(false);
     }
 
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isStruggling;
     private float StrugleState;
-    public float StrugleMax;
+   // public float StrugleMax;
     public GameObject StruggleBar;
     public float StrugleTimer;
     private float timer;
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
         stats.Sprint(false);
         stats.canWalk = false;
         stats.FreezeRotation = true;
-        StruggleBar.transform.Find("Bar").transform.localScale = new Vector2(StrugleState / StrugleMax, 1f);
+        StruggleBar.transform.Find("Bar").transform.localScale = new Vector2(StrugleState / CStats.StruggleMax, 1f);
         stats.stopMove = true;
         if (timer >= 0)
         {
@@ -79,14 +81,14 @@ public class PlayerController : MonoBehaviour
 
             if (StrugleState > 0)
             {          
-                StrugleState -= StrugleMax * 0.1f * Time.deltaTime; 
+                StrugleState -= CStats.StruggleMax * 0.1f * Time.deltaTime; 
                 if (StrugleState < 0)
                 {
                     StrugleState = 0f;
                 }
             }
         }
-        if (StrugleState >= StrugleMax)
+        if (StrugleState >= CStats.StruggleMax)
         {
             StruggleBar.SetActive(false);
             isStruggling = false;
