@@ -287,7 +287,7 @@ public class GunBehaviour : MonoBehaviour
 
                 audioManager.PlaySound(currentGun.shootSound, currentGun.shootVolume);
                 currentGun.nbAmmo--;
-                bulletCounter.text = (currentGun.nbAmmo).ToString() + " / " + currentGun.maxAmmo.ToString();
+                bulletCounter.text = (currentGun.nbAmmo).ToString() + "/" + currentGun.maxAmmo.ToString();
                 StartCoroutine(Recovery(currentGun.recoveryTime));
             }
         }
@@ -328,7 +328,7 @@ public class GunBehaviour : MonoBehaviour
 
         if (!currentGun.isMelee)
         {
-            bulletCounter.text = (currentGun.nbAmmo).ToString() + " / " + currentGun.maxAmmo.ToString();
+            bulletCounter.text = (currentGun.nbAmmo).ToString() + "/" + currentGun.maxAmmo.ToString();
             GunTip = GameObject.Find(gunObjects[id].name + "/GunTip").transform;
         }
         else
@@ -372,7 +372,7 @@ public class GunBehaviour : MonoBehaviour
             isReloading = false;
             canShoot = true;
             currentGun.nbAmmo = currentGun.maxAmmo;
-            bulletCounter.text = (currentGun.nbAmmo).ToString() + " / " + currentGun.maxAmmo.ToString();
+            bulletCounter.text = (currentGun.nbAmmo).ToString() + "/" + currentGun.maxAmmo.ToString();
         }
     }
 
