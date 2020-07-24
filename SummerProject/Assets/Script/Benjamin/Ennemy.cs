@@ -17,12 +17,19 @@ public class Ennemy : MonoBehaviour
     public float attackRange;
     public Transform currentTarget;
     public Transform Player;
+    float distanceToP1;
     public Transform Player2;
+    float distanceToP2;
+    public Transform[] retreatOptions = new Transform[1];
 
     [Header("Animations")]
     private Animator anim;
+    public Transform grabDestination;
 
     bool isAttacking;
+    private bool isStruggling;
+    bool tookDamage;
+    bool isGrabbing;
 
     private void Start()
     {
@@ -33,7 +40,8 @@ public class Ennemy : MonoBehaviour
         attackCoolDown = attackSpeed;
         Player = FindObjectOfType<GunBehaviour>().transform;
         Player2 = FindObjectOfType<Player2Script>().transform;
-        
+        currentTarget = CheckNearestTarget();
+
     }
 
     private void Update()
@@ -41,7 +49,8 @@ public class Ennemy : MonoBehaviour
         agent.SetDestination(currentTarget.position);
         if (currentTarget == null)
         {
-            //Put detection here
+            Debug.Log("looking for a target");
+            currentTarget = CheckNearestTarget();
         }
         else
         {
@@ -49,7 +58,6 @@ public class Ennemy : MonoBehaviour
         }
 
     }
-    private bool isStruggling;
     void FollowTarget()
     {
         float distanceToTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
@@ -76,9 +84,15 @@ public class Ennemy : MonoBehaviour
                 isAttacking = false;
             
                 attackCoolDown -= Time.deltaTime;
+                if (tookDamage)
+                {
+                    attackCoolDown = attackSpeed;
+                    tookDamage = false;
+                }
             }
             else
             {
+                Debug.Log("Damage landed");
                 if (currentTarget == Player)
                 {
                     isAttacking = true;
@@ -107,7 +121,14 @@ public class Ennemy : MonoBehaviour
                 {
                     isAttacking = true;
                     Player2.GetComponent<Player2Script>().isGettingKiddnaped = true;
-                    //A ajouter : le reste du kidnapping xD
+                    isGrabbing = true;
+                    anim.SetBool("isGrabbing", true);
+                    anim.SetBool("isCarrying", false);
+                    currentTarget.position = grabDestination.transform.position;
+                    Player2.transform.parent = grabDestination.transform;
+                    Player2.GetComponent<Player2Script>().Player2Nav.isStopped = true;
+                    Debug.Log("This ennemy is grabbing lil' sis");
+                    Retreat();
                 }
             }
         }
@@ -123,7 +144,8 @@ public class Ennemy : MonoBehaviour
 
     public void TakeDamage(int damageReceived)
     {
-        Debug.Log("keres?");
+        tookDamage = true;
+        Debug.Log("The ennemy is taking damage");
         health -= damageReceived;
         if (health <= 0)
         {
@@ -137,5 +159,35 @@ public class Ennemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private Transform CheckNearestTarget()
+    {
+        distanceToP1 = Vector3.Distance(transform.position, Player.transform.position);
+        distanceToP2 = Vector3.Distance(transform.position, Player2.transform.position);
+        if (distanceToP1 <= distanceToP2)
+        {
+            return Player.transform;
+        }
+        else
+        {
+            return Player2.transform;
+        }
+    }
+
+    void Retreat()
+    {
+        float distance = 0;
+        Transform target;
+        for (int i = 0; i < retreatOptions.Length; i++)
+        {
+            distanceToP1 = Vector3.Distance(retreatOptions[i].transform.position, Player.transform.position);
+            if (distanceToP1 > distance)
+            {
+                distance = distanceToP1;
+                target = retreatOptions[i];
+                agent.SetDestination(target.position);
+            }
+        }
+
+    }
 
 }
