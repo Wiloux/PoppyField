@@ -41,12 +41,14 @@ public class Ennemy : MonoBehaviour
         Player = FindObjectOfType<GunBehaviour>().transform;
         Player2 = FindObjectOfType<Player2Script>().transform;
         currentTarget = CheckNearestTarget();
-
+        agent.updateRotation = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        agent.SetDestination(currentTarget.position);
+        //agent.SetDestination(currentTarget.position);
+
+
         if (currentTarget == null)
         {
             Debug.Log("looking for a target");
@@ -58,31 +60,35 @@ public class Ennemy : MonoBehaviour
         }
 
     }
+
+    bool HasFallen;
     void FollowTarget()
     {
+        Debug.Log(agent.isStopped);
         float distanceToTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
 
         if (attackCoolDown > 0)
         {
             isAttacking = false;
         }
-        if (distanceToTarget < attackRange)
+        if (distanceToTarget < attackRange && !HasFallen)
         {
-
-            Debug.Log("The ennemy is attacking");
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             agent.isStopped = true;
+            Debug.Log("The ennemy is attacking");
 
             if (isStruggling && !currentTarget.gameObject.GetComponent<PlayerController>().isStruggling)
             {
+                StartCoroutine(Fallen(5f));
                 isStruggling = false;
+                anim.SetBool("isGrabbing", false);
+
                 //A ajouter : Stun L'ennemi
             }
-            anim.SetBool("isAttacking", isAttacking);
-            anim.SetBool("isStruggling", isStruggling);
             if (attackCoolDown > 0)
             {
                 isAttacking = false;
-            
+
                 attackCoolDown -= Time.deltaTime;
                 if (tookDamage)
                 {
@@ -92,29 +98,34 @@ public class Ennemy : MonoBehaviour
             }
             else
             {
-                Debug.Log("Damage landed");
+
                 if (currentTarget == Player)
                 {
+               
                     isAttacking = true;
                     attackCoolDown = attackSpeed;
                     if (Player.GetComponent<PlayerController>().CStats.Health <= 0 && !Player.GetComponent<PlayerController>().isStruggling)
                     {
                         //Start Struggle
-
                         isStruggling = true;
+                        anim.SetBool("isGrabbing", true);
+
                         Player.GetComponent<PlayerController>().isStruggling = true;
                         Player.GetComponent<PlayerController>().CStats.StruggleMax *= 1.7f;
                     }
                     else if (Player.GetComponent<PlayerController>().CStats.Health > 0)
                     {
                         //Attack
+                        anim.SetTrigger("isAttacking");
                         Player.GetComponent<PlayerController>().CStats.Health -= attackDamage;
                     }
                     else if (Player.GetComponent<PlayerController>().CStats.Health <= 0 && Player.GetComponent<PlayerController>().isStruggling)
                     {
                         //Add to already Struggle
                         isStruggling = true;
-                 //       Player.GetComponent<PlayerController>().isStruggling = true;
+                        anim.SetBool("isGrabbing", true);
+                       
+                        //       Player.GetComponent<PlayerController>().isStruggling = true;
                     }
                 }
                 else if (currentTarget == Player2)
@@ -132,13 +143,40 @@ public class Ennemy : MonoBehaviour
                 }
             }
         }
-        else
+        else if (!HasFallen && distanceToTarget > attackRange)
         {
             if (isAttacking == false)
-            Debug.Log("The ennemy is running towards you");
-            agent.isStopped = false;
-            anim.SetBool("isAttacking", false);
+            {
+
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                agent.isStopped = false;
+                Debug.Log("The ennemy is running towards you");
+                //  agent.isStopped = false;
+                Vector3 Movement = transform.forward * Time.deltaTime *Vector3.Distance( currentTarget.position, transform.position);
+                Movement = Movement.normalized* runSpeed;
+                agent.Move(Movement);
+                Vector3 _direction = (currentTarget.position - transform.position).normalized;
+                Quaternion _lookRotation = Quaternion.LookRotation(new Vector3(_direction.x, 0f, _direction.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 20f);
+              
+            }
         }
+        else if (HasFallen)
+        {
+
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            Debug.Log("fell");
+            agent.isStopped = false;
+            isAttacking = false;
+        }
+    }
+
+    IEnumerator Fallen(float dur)
+    {
+        HasFallen = true;
+        anim.SetTrigger("isFalling");
+        yield return new WaitForSeconds(dur);
+        HasFallen = false;
     }
 
 

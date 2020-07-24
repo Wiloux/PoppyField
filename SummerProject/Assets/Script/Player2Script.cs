@@ -58,8 +58,6 @@ public class Player2Script : MonoBehaviour
 
         if (DistanceWithP1 > 0.4f)
         {
-
-            Debug.Log("needtomove");
             //Movement
             Vector3 Movement = transform.forward * Time.deltaTime * DistanceWithP1 * 2f;
             Player2Nav.Move(Movement);
