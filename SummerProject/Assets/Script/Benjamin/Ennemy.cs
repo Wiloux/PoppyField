@@ -16,15 +16,22 @@ public class Ennemy : MonoBehaviour
     private NavMeshAgent agent;
     public float attackRange;
     public Transform currentTarget;
+    public Transform currentcheckingTarget;
     public Transform Player;
     float distanceToP1;
     public Transform Player2;
     float distanceToP2;
     public Transform[] retreatOptions = new Transform[1];
+
+
+
+    [Header("Detection")]
     public float detectionRadius;
-    float detectionOffset;
+    public float detectionOffset;
     public LayerMask blockLoSLayer;
     public bool inLineOfSight;
+    public float timerChase;
+    public float timer;
 
     [Header("Animations")]
     private Animator anim;
@@ -44,37 +51,63 @@ public class Ennemy : MonoBehaviour
         attackCoolDown = attackSpeed;
         Player = FindObjectOfType<GunBehaviour>().transform;
         Player2 = FindObjectOfType<Player2Script>().transform;
-        agent.updateRotation = false;
     }
 
     private void FixedUpdate()
     {
-        
-
-        float distance = Vector3.Distance(currentTarget.position, transform.position);
-        if(distance <= detectionRadius + detectionOffset)
+        currentcheckingTarget = CheckNearestTarget();
+        float distance = Vector3.Distance(currentcheckingTarget.transform.position, transform.position + transform.forward * detectionOffset);
+   
+        if (distance <= detectionRadius || currentTarget != null)
         {
-            currentTarget = CheckNearestTarget();
-            Debug.Log(currentTarget + "is being targetted");
-            agent.SetDestination(currentTarget.position);
+            if (distance >= detectionRadius)
+            {
+                if (timer >= 0)
+                {
+                    timer -= Time.deltaTime;
+                }
+                else
+                {
+                    currentTarget = null;
+                }
+            }
+            Debug.Log(currentcheckingTarget + "is being targetted");
+
+                    RaycastHit hit;
+            if (Physics.Linecast(new Vector3(currentcheckingTarget.transform.position.x, currentcheckingTarget.transform.position.y + 1f, currentcheckingTarget.transform.position.z), new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), out hit, blockLoSLayer))
+            {
+             
+                inLineOfSight = false;
+                if (timer >= 0)
+                {
+                    timer -= Time.deltaTime;
+                }
+                else
+                {
+                    currentTarget = null;
+                }
+            }
+            else
+            {
+                Debug.DrawLine(new Vector3(currentcheckingTarget.transform.position.x, currentcheckingTarget.transform.position.y + 1f, currentcheckingTarget.transform.position.z), new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), Color.red);
+                timer = timerChase;
+                currentTarget = currentcheckingTarget;
+                agent.isStopped = false;
+                agent.SetDestination(currentTarget.position);
+                inLineOfSight = true;
+
+            }
         }
-
-        if (currentTarget == null)
+        if (currentTarget != null)
         {
-            Debug.Log("looking for a target");
-            
+            FollowTarget();
+         
         }
         else
         {
-            RaycastHit hit;
-            if (Physics.Linecast(currentTarget.position, transform.position, out hit, blockLoSLayer))
-            {
-                inLineOfSight = false;
-            }
-            else {
-                inLineOfSight = true;
-            FollowTarget();
-            }
+         
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            agent.isStopped = true;
         }
 
     }
@@ -82,12 +115,23 @@ public class Ennemy : MonoBehaviour
     bool HasFallen;
     void FollowTarget()
     {
-        Debug.Log(agent.isStopped);
-        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
+        float distanceToTarget = Vector3.Distance(transform.position + transform.forward * detectionOffset, currentTarget.transform.position);
 
         if (attackCoolDown > 0)
         {
             isAttacking = false;
+        }
+        if(distanceToTarget < attackRange + 2 && distanceToTarget > attackRange)
+        {
+            Debug.Log("close");
+            agent.updateRotation = false;
+            Vector3 _direction = (currentTarget.position - transform.position).normalized;
+            Quaternion _lookRotation = Quaternion.LookRotation(new Vector3(_direction.x, 0f, _direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 20f);
+        }
+        else
+        {
+            agent.updateRotation = true;
         }
         if (distanceToTarget < attackRange && !HasFallen)
         {
@@ -169,22 +213,16 @@ public class Ennemy : MonoBehaviour
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 agent.isStopped = false;
                 Debug.Log("The ennemy is running towards you");
-                //  agent.isStopped = false;
-                Vector3 Movement = transform.forward * Time.deltaTime *Vector3.Distance( currentTarget.position, transform.position);
-                Movement = Movement.normalized* runSpeed;
-                agent.Move(Movement);
-                Vector3 _direction = (currentTarget.position - transform.position).normalized;
-                Quaternion _lookRotation = Quaternion.LookRotation(new Vector3(_direction.x, 0f, _direction.z));
-                transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 20f);
-              
+                //agent.isStopped = false;
+
+
             }
         }
         else if (HasFallen)
         {
-
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             Debug.Log("fell");
-            agent.isStopped = false;
+            agent.isStopped = true;
             isAttacking = false;
         }
     }
@@ -249,7 +287,15 @@ public class Ennemy : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + new Vector3(detectionOffset,0,0), detectionRadius);
+        Gizmos.DrawWireSphere(transform.position+ transform.forward * detectionOffset, detectionRadius);
+        if(currentTarget == null)
+        {
+            RaycastHit hit;
+            if (!Physics.Linecast(new Vector3(currentcheckingTarget.transform.position.x, currentcheckingTarget.transform.position.y + 1f, currentcheckingTarget.transform.position.z), new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), out hit, blockLoSLayer))
+            {
+                Debug.DrawLine(new Vector3(currentcheckingTarget.transform.position.x, currentcheckingTarget.transform.position.y + 1f, currentcheckingTarget.transform.position.z), new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), Color.red);
+            }
+        }
     }
 
 }
