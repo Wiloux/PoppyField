@@ -21,6 +21,10 @@ public class Ennemy : MonoBehaviour
     public Transform Player2;
     float distanceToP2;
     public Transform[] retreatOptions = new Transform[1];
+    public float detectionRadius;
+    float detectionOffset;
+    public LayerMask blockLoSLayer;
+    public bool inLineOfSight;
 
     [Header("Animations")]
     private Animator anim;
@@ -40,23 +44,37 @@ public class Ennemy : MonoBehaviour
         attackCoolDown = attackSpeed;
         Player = FindObjectOfType<GunBehaviour>().transform;
         Player2 = FindObjectOfType<Player2Script>().transform;
-        currentTarget = CheckNearestTarget();
         agent.updateRotation = false;
     }
 
     private void FixedUpdate()
     {
-        //agent.SetDestination(currentTarget.position);
+        
 
+        float distance = Vector3.Distance(currentTarget.position, transform.position);
+        if(distance <= detectionRadius + detectionOffset)
+        {
+            currentTarget = CheckNearestTarget();
+            Debug.Log(currentTarget + "is being targetted");
+            agent.SetDestination(currentTarget.position);
+        }
 
         if (currentTarget == null)
         {
             Debug.Log("looking for a target");
-            currentTarget = CheckNearestTarget();
+            
         }
         else
         {
+            RaycastHit hit;
+            if (Physics.Linecast(currentTarget.position, transform.position, out hit, blockLoSLayer))
+            {
+                inLineOfSight = false;
+            }
+            else {
+                inLineOfSight = true;
             FollowTarget();
+            }
         }
 
     }
@@ -226,6 +244,12 @@ public class Ennemy : MonoBehaviour
             }
         }
 
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(detectionOffset,0,0), detectionRadius);
     }
 
 }

@@ -8316,7 +8316,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh22426
+  m_Name: pb_Mesh21930
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16451,7 +16451,7 @@ PrefabInstance:
     - target: {fileID: 2424018257617773051, guid: 901f2f627800e6f45a05feef4bdf9043,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -293.75
+      value: -287.5
       objectReference: {fileID: 0}
     - target: {fileID: 2424018257617773051, guid: 901f2f627800e6f45a05feef4bdf9043,
         type: 3}
@@ -16586,7 +16586,7 @@ PrefabInstance:
     - target: {fileID: 2424018258782869164, guid: 901f2f627800e6f45a05feef4bdf9043,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -22.39
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2424018258782869163, guid: 901f2f627800e6f45a05feef4bdf9043, type: 3}
@@ -19719,7 +19719,7 @@ GameObject:
   - component: {fileID: 1294521668}
   - component: {fileID: 1294521673}
   - component: {fileID: 1294521674}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35819,13 +35819,18 @@ MonoBehaviour:
   attackSpeed: 1
   attackDamage: 5
   attackRange: 1
-  currentTarget: {fileID: 0}
+  currentTarget: {fileID: 3134500242504873340}
   Player: {fileID: 0}
   Player2: {fileID: 0}
   retreatOptions:
   - {fileID: 1950274622}
   - {fileID: 814647221}
   - {fileID: 2042403706}
+  detectionRadius: 5
+  blockLoSLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  inLineOfSight: 0
   grabDestination: {fileID: 1878744640}
 --- !u!1 &1888769273
 GameObject:
