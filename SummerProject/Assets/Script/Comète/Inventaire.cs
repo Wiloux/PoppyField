@@ -29,13 +29,15 @@ public class Inventaire : MonoBehaviour
     private float mZCoord;
     private Vector3 mOffset;
     public GameObject lastOriginSlot;
-    private int nbRotation;
     public bool rotateNow;
+
+    public AudioSource pick;
+    public AudioSource drop;
 
     // Start is called before the first frame update
     void Start()
     {
-        matriceSlot = new GameObject[nbPlaceX, nbPlaceY];
+        matriceSlot = new GameObject[nbPlaceX+nbPlaceXpetit, nbPlaceY+nbPlaceYpetit];
         player = GameObject.FindGameObjectWithTag("Player");
         for(int i = 0; i < nbPlaceX ; i++)
         {
@@ -52,10 +54,10 @@ public class Inventaire : MonoBehaviour
             offsetY = 0;
         }
         offsetX += 0.39f;
-        for (int i = 0; i < nbPlaceXpetit; i++)
+        for (int i = nbPlaceX; i < nbPlaceX + nbPlaceXpetit; i++)
         {
             offsetX += 0.13f;
-            for (int j = 0; j < nbPlaceYpetit; j++)
+            for (int j = nbPlaceY; j < nbPlaceY + nbPlaceYpetit; j++)
             {
                 offsetY += 0.13f;
                 GameObject newSlot = Instantiate(slot, new Vector3(inventory.transform.position.x + offsetX, inventory.transform.position.y + offsetY, inventory.transform.position.z), Quaternion.identity, babyInventory.transform);
@@ -166,7 +168,11 @@ public class Inventaire : MonoBehaviour
                 camInventory.gameObject.SetActive(false);
             }
         }
-
+        if (Input.GetKey("escape"))
+        {
+            Xml_Manager.ins.saveInventory();
+            Application.Quit();
+        }
 
     }
 
@@ -245,9 +251,9 @@ public class Inventaire : MonoBehaviour
     {
         bool hasBroken=false;
         Vector2 originCoord;
-        for (int i = 0; i < nbPlaceX; i++)
+        for (int i = nbPlaceX; i < nbPlaceX + nbPlaceXpetit; i++)
         {
-            for (int j = 0; j < nbPlaceY; j++)
+            for (int j = nbPlaceY; j < nbPlaceY + nbPlaceYpetit; j++)
             {
                 if (matriceSlot[i, j].GetComponent<Slot>().isEmpty)
                 {
@@ -256,7 +262,7 @@ public class Inventaire : MonoBehaviour
                     for (int k = i; k < size.x + i; k++)
                     {
                         Debug.Log(k);
-                        if (k >= nbPlaceX)
+                        if (k >= nbPlaceX + nbPlaceXpetit)
                         {
                             hasBroken = true;
                             Debug.Log("break 1");
@@ -265,7 +271,7 @@ public class Inventaire : MonoBehaviour
                         for (int l = j; l < size.y + j; l++)
                         {
                             Debug.Log(l);
-                            if (l >= nbPlaceY)
+                            if (l >= nbPlaceY + nbPlaceYpetit)
                             {
                                 hasBroken = true;
                                 Debug.Log("break 2");
@@ -317,6 +323,7 @@ public class Inventaire : MonoBehaviour
 
     public void selectObject(Vector2 size, GameObject objet)
     {
+        pick.Play();
         if (currentSlot.GetComponent<Slot>().containedObject != null)
         {
             for(int i= (int)currentSlot.GetComponent<Slot>().originalCoord.x; i<size.x+ currentSlot.GetComponent<Slot>().originalCoord.x; i++)
@@ -332,13 +339,14 @@ public class Inventaire : MonoBehaviour
 
     public void putObjectDown()
     {
+        drop.Play();
         for(int i = currentCoord.Item1; i < currentCoord.Item1 + objectPicked.GetComponent<PickUp>().size.x; i++)
         {
             for(int j = currentCoord.Item2; j < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; j++)
             {
                 if(i >= 0)
                 {
-                    if (i >= nbPlaceX || j >= nbPlaceY || !matriceSlot[i, j].GetComponent<Slot>().isEmpty)
+                    if (i >= nbPlaceX + nbPlaceXpetit || j >= nbPlaceY + nbPlaceYpetit || !matriceSlot[i, j].GetComponent<Slot>().isEmpty)
                     {
                         if (rotateNow)
                         {
