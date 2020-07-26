@@ -13961,6 +13961,12 @@ Transform:
   m_Father: {fileID: 1975322840}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &695924243 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7613145687880111845, guid: 2a3a2058434a3e3449163c3fb47fb701,
+    type: 3}
+  m_PrefabInstance: {fileID: 1940423229}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -29161,6 +29167,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721607941}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1722555322 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3232994526020504932, guid: 2a3a2058434a3e3449163c3fb47fb701,
+    type: 3}
+  m_PrefabInstance: {fileID: 1940423229}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1723553475
 GameObject:
   m_ObjectHideFlags: 0
@@ -42200,7 +42212,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentTarget
       value: 
-      objectReference: {fileID: 3134500242504873340}
+      objectReference: {fileID: 695924243}
     - target: {fileID: 5189418260746223695, guid: 2a3a2058434a3e3449163c3fb47fb701,
         type: 3}
       propertyPath: attackSpeed
@@ -42211,6 +42223,21 @@ PrefabInstance:
       propertyPath: runSpeed
       value: 0.04
       objectReference: {fileID: 0}
+    - target: {fileID: 5189418260746223695, guid: 2a3a2058434a3e3449163c3fb47fb701,
+        type: 3}
+      propertyPath: detectionRadius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189418260746223695, guid: 2a3a2058434a3e3449163c3fb47fb701,
+        type: 3}
+      propertyPath: blockLoSLayer.m_Bits
+      value: 8192
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189418260746223695, guid: 2a3a2058434a3e3449163c3fb47fb701,
+        type: 3}
+      propertyPath: grabDestination
+      value: 
+      objectReference: {fileID: 1722555322}
     - target: {fileID: 7613145687880111840, guid: 2a3a2058434a3e3449163c3fb47fb701,
         type: 3}
       propertyPath: m_Controller
