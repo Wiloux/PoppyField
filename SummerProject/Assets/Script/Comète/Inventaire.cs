@@ -7,13 +7,14 @@ using UnityEngine;
 public class Inventaire : MonoBehaviour
 {
     public GameObject inventory;
+    public GameObject babyInventory;
     public int nbPlace = 154;
-    public GameObject[] slots;
     public List<GameObject> objects = new List<GameObject> { };
-    public bool isActive;
     private GameObject player;
     public int nbPlaceX;
     public int nbPlaceY;
+    public int nbPlaceXpetit;
+    public int nbPlaceYpetit;
     public GameObject slot;
     public float offsetX=0;
     public float offsetY=0;
@@ -28,13 +29,15 @@ public class Inventaire : MonoBehaviour
     private float mZCoord;
     private Vector3 mOffset;
     public GameObject lastOriginSlot;
-    private int nbRotation;
     public bool rotateNow;
+
+    public AudioSource pick;
+    public AudioSource drop;
 
     // Start is called before the first frame update
     void Start()
     {
-        matriceSlot = new GameObject[nbPlaceX, nbPlaceY];
+        matriceSlot = new GameObject[nbPlaceX+nbPlaceXpetit, nbPlaceY+nbPlaceYpetit];
         player = GameObject.FindGameObjectWithTag("Player");
         for(int i = 0; i < nbPlaceX ; i++)
         {
@@ -43,6 +46,21 @@ public class Inventaire : MonoBehaviour
             {
                 offsetY += 0.13f;
                 GameObject newSlot = Instantiate(slot, new Vector3(inventory.transform.position.x + offsetX, inventory.transform.position.y + offsetY, inventory.transform.position.z), Quaternion.identity, inventory.transform);
+                newSlot.GetComponent<Slot>().x = i;
+                newSlot.GetComponent<Slot>().y = j;
+                matriceSlot[i, j] = newSlot;
+                newSlot.name = "Emplacement " + i + j;
+            }
+            offsetY = 0;
+        }
+        offsetX += 0.39f;
+        for (int i = nbPlaceX; i < nbPlaceX + nbPlaceXpetit; i++)
+        {
+            offsetX += 0.13f;
+            for (int j = nbPlaceY; j < nbPlaceY + nbPlaceYpetit; j++)
+            {
+                offsetY += 0.13f;
+                GameObject newSlot = Instantiate(slot, new Vector3(inventory.transform.position.x + offsetX, inventory.transform.position.y + offsetY, inventory.transform.position.z), Quaternion.identity, babyInventory.transform);
                 newSlot.GetComponent<Slot>().x = i;
                 newSlot.GetComponent<Slot>().y = j;
                 matriceSlot[i, j] = newSlot;
@@ -130,8 +148,8 @@ public class Inventaire : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            isActive = !isActive;
-            if (isActive)
+            inventory.SetActive(!inventory.activeSelf);
+            if (inventory.activeSelf)
             {
                 Time.timeScale = 0;
                 player.GetComponent<vThirdPersonInput>().enabled = false;
@@ -150,47 +168,153 @@ public class Inventaire : MonoBehaviour
                 camInventory.gameObject.SetActive(false);
             }
         }
-
+        if (Input.GetKey("escape"))
+        {
+            Xml_Manager.ins.saveInventory();
+            Application.Quit();
+        }
 
     }
 
+    //public void addObject(Vector2 size, GameObject objet)
+    //{
+    //    Vector2 originCoord;
+    //    for (int i=0; i < nbPlaceX; i++) 
+    //    {
+    //        for(int j=0; j < nbPlaceY; j++)
+    //        {
+    //            if (matriceSlot[i, j].GetComponent<Slot>().isEmpty)
+    //            {
+    //                originCoord = new Vector2(i, j);
+    //                for (int k = i; k < size.x + i; k++)
+    //                {
+    //                    Debug.Log(k);
+    //                    if (k >= nbPlaceX)
+    //                    {
+    //                        Debug.Log("break 1");
+    //                        break;
+    //                    }
+    //                    else
+    //                    {
+    //                        if (!matriceSlot[k, j].GetComponent<Slot>().isEmpty)
+    //                        {
+    //                            Debug.Log("break 1");
+    //                            break;
+    //                        }
+    //                        else
+    //                        {
+    //                            for (int l = j; l < size.y + j; l++)
+    //                            {
+    //                                Debug.Log(l);
+    //                                if (l >= nbPlaceY)
+    //                                {
+    //                                    Debug.Log("break 2");
+    //                                    break;
+    //                                }
+    //                                else
+    //                                {
+    //                                    if (!matriceSlot[k, l].GetComponent<Slot>().isEmpty)
+    //                                    {
+    //                                        Debug.Log("break 2");
+    //                                        break; //break tout ?
+    //                                    }
+    //                                    else
+    //                                    {
+    //                                        for (int x = i; x < size.x + i; x++)
+    //                                        {
+    //                                            Debug.Log("x : " + x);
+    //                                            for (int y = j; y < size.y + j; y++)
+    //                                            {
+    //                                                Debug.Log("y : " + y);
+    //                                                matriceSlot[x, y].GetComponent<Slot>().originalCoord = originCoord;
+    //                                                matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
+    //                                                matriceSlot[x, y].GetComponent<Slot>().containedObject = objet;
+    //                                            }
+    //                                        }
+    //                                        objet.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)originCoord.x, (int)originCoord.y].gameObject;
+    //                                        objet.transform.position = (matriceSlot[i + (int)size.x - 1, j + (int)size.y - 1].transform.position + matriceSlot[i, j].transform.position) / 2;
+    //                                        Debug.Log(objet.transform.position);
+    //                                        objects.Add(objet);
+    //                                        return;
+    //                                    }
+    //                                }
+    //                            }
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
     public void addObject(Vector2 size, GameObject objet)
     {
+        bool hasBroken=false;
         Vector2 originCoord;
-        for (int i=0; i < nbPlaceX; i++) 
+        for (int i = nbPlaceX; i < nbPlaceX + nbPlaceXpetit; i++)
         {
-            for(int j=0; j < nbPlaceY; j++)
+            for (int j = nbPlaceY; j < nbPlaceY + nbPlaceYpetit; j++)
             {
                 if (matriceSlot[i, j].GetComponent<Slot>().isEmpty)
                 {
                     originCoord = new Vector2(i, j);
-                    for (int k = i; k < size.y + i; k++)
+
+                    for (int k = i; k < size.x + i; k++)
                     {
-                        if (!matriceSlot[k, j].GetComponent<Slot>().isEmpty)
+                        Debug.Log(k);
+                        if (k >= nbPlaceX + nbPlaceXpetit)
+                        {
+                            hasBroken = true;
+                            Debug.Log("break 1");
+                            break;
+                        }
+                        for (int l = j; l < size.y + j; l++)
+                        {
+                            Debug.Log(l);
+                            if (l >= nbPlaceY + nbPlaceYpetit)
+                            {
+                                hasBroken = true;
+                                Debug.Log("break 2");
+                                break;
+                            }
+                            else
+                            {
+                                if (!matriceSlot[k, l].GetComponent<Slot>().isEmpty)
+                                {
+                                    hasBroken = true;
+                                    Debug.Log("break 2");
+                                    break; //break tout ?
+                                }
+                            }
+                        }
+                        if (hasBroken)
                         {
                             break;
                         }
-                        for(int l=j; l<size.x + j; l++)
+                    }
+
+                    if (!hasBroken)
+                    {
+                        for (int x = i; x < size.x + i; x++)
                         {
-                            if (!matriceSlot[k, l].GetComponent<Slot>().isEmpty)
+                            Debug.Log("x : " + x);
+                            for (int y = j; y < size.y + j; y++)
                             {
-                                break; //break tout ?
-                            }
-                        }
-                        for(int x=i; x < size.x + i; x++)
-                        {
-                            for(int y=j; y < size.y + j; y++)
-                            {
+                                Debug.Log("y : " + y);
                                 matriceSlot[x, y].GetComponent<Slot>().originalCoord = originCoord;
                                 matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
                                 matriceSlot[x, y].GetComponent<Slot>().containedObject = objet;
                             }
                         }
                         objet.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)originCoord.x, (int)originCoord.y].gameObject;
-                        objet.transform.position = (matriceSlot[i + (int)size.x-1, j + (int)size.y-1].transform.position + matriceSlot[i,j].transform.position) / 2;
+                        objet.transform.position = (matriceSlot[i + (int)size.x - 1, j + (int)size.y - 1].transform.position + matriceSlot[i, j].transform.position) / 2;
                         Debug.Log(objet.transform.position);
                         objects.Add(objet);
                         return;
+                    }
+                    else
+                    {
+                        hasBroken = false;
                     }
                 }
             }
@@ -199,6 +323,7 @@ public class Inventaire : MonoBehaviour
 
     public void selectObject(Vector2 size, GameObject objet)
     {
+        pick.Play();
         if (currentSlot.GetComponent<Slot>().containedObject != null)
         {
             for(int i= (int)currentSlot.GetComponent<Slot>().originalCoord.x; i<size.x+ currentSlot.GetComponent<Slot>().originalCoord.x; i++)
@@ -214,13 +339,14 @@ public class Inventaire : MonoBehaviour
 
     public void putObjectDown()
     {
+        drop.Play();
         for(int i = currentCoord.Item1; i < currentCoord.Item1 + objectPicked.GetComponent<PickUp>().size.x; i++)
         {
             for(int j = currentCoord.Item2; j < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; j++)
             {
                 if(i >= 0)
                 {
-                    if (i >= nbPlaceX || j >= nbPlaceY || !matriceSlot[i, j].GetComponent<Slot>().isEmpty)
+                    if (i >= nbPlaceX + nbPlaceXpetit || j >= nbPlaceY + nbPlaceYpetit || !matriceSlot[i, j].GetComponent<Slot>().isEmpty)
                     {
                         if (rotateNow)
                         {
