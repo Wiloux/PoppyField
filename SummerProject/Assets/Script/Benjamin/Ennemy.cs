@@ -37,7 +37,7 @@ public class Ennemy : MonoBehaviour
     private Animator anim;
     public Transform grabDestination;
 
-    bool isAttacking;
+    public bool isAttacking;
     private bool isStruggling;
     bool tookDamage;
     bool isGrabbing;
@@ -57,7 +57,8 @@ public class Ennemy : MonoBehaviour
     {
         currentcheckingTarget = CheckNearestTarget();
         float distance = Vector3.Distance(currentcheckingTarget.transform.position, transform.position + transform.forward * detectionOffset);
-   
+
+     
         if (distance <= detectionRadius || currentTarget != null)
         {
             if (distance >= detectionRadius)
@@ -115,13 +116,16 @@ public class Ennemy : MonoBehaviour
     bool HasFallen;
     void FollowTarget()
     {
-        float distanceToTarget = Vector3.Distance(transform.position + transform.forward * detectionOffset, currentTarget.transform.position);
+        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.transform.position);
 
         if (attackCoolDown > 0)
         {
             isAttacking = false;
         }
-        if(distanceToTarget < attackRange + 2 && distanceToTarget > attackRange)
+
+
+        //Turning Faster
+        if (distanceToTarget <= attackRange + 2 && distanceToTarget > attackRange)
         {
             Debug.Log("close");
             agent.updateRotation = false;
@@ -133,7 +137,9 @@ public class Ennemy : MonoBehaviour
         {
             agent.updateRotation = true;
         }
-        if (distanceToTarget < attackRange && !HasFallen)
+
+
+        if (distanceToTarget <= attackRange && !HasFallen)
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             agent.isStopped = true;
@@ -147,6 +153,7 @@ public class Ennemy : MonoBehaviour
 
                 //A ajouter : Stun L'ennemi
             }
+
             if (attackCoolDown > 0)
             {
                 isAttacking = false;
@@ -209,7 +216,7 @@ public class Ennemy : MonoBehaviour
         {
             if (isAttacking == false)
             {
-
+                attackCoolDown = 0;
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 agent.isStopped = false;
                 Debug.Log("The ennemy is running towards you");

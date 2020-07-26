@@ -7,6 +7,7 @@ public class TeleportEnnemy : MonoBehaviour
     bool m_Started;
     public LayerMask m_LayerMask;
 
+    public float Health;
     public GameObject MainTarget;
     private GameObject Player;
     private GameObject Player2;
@@ -30,6 +31,9 @@ public class TeleportEnnemy : MonoBehaviour
     float timer;
     private Camera Cam;
 
+    public enum TpState { Idle, Follow, Abduction, Pause }
+    public TpState CurrentState;
+
     private Animator anim;
     void Start()
     {
@@ -44,71 +48,101 @@ public class TeleportEnnemy : MonoBehaviour
     }
 
     public float AttackRange = 3f;
+    public float Damage = 3f;
+    public LineRenderer LR;
 
-    void FixedUpdate()
+    void Update()
     {
-        if (I_Can_See() && !HasP2)
+        if(Health <= 0)
         {
-            MainTarget = Player;
-            Player2.transform.parent = null;
+            Destroy(gameObject);
         }
-        else
+        if (HasP2)
         {
-            MainTarget = Player2;
+            CurrentState = TpState.Abduction;
         }
-
-
-        if (Vector3.Distance(MainTarget.transform.position, transform.position) < AttackRange)
+            switch (CurrentState)
         {
-            isChasing = false;
-            Debug.Log("attack");
-            StartCoroutine(Attack(2));
-        }
-        else
-        {
-            isChasing = true;
-        }
-
-        if (isChasing)
-        {
-
-
-            if (timer >= 0 && !NeedNewPlaceToSpawn)
-            {
-                timer -= Time.deltaTime;
-            }
-            else
-            {
-                NeedNewPlaceToSpawn = true;
-                if (NeedNewPlaceToSpawn)
+            case TpState.Idle:
+                if (!HasP2)
                 {
-                    TeleportationStep.position = CheckIfTooFar(MainTarget.transform);
-                    if (CanSpawn(TeleportationStep.transform))
+                    CurrentState = TpState.Follow;
+                    if (IAmSeen())
                     {
-                        //OnDrawGizmos(Color.green);
-                        Teleport(TeleportationStep, MainTarget.transform);
-                        NeedNewPlaceToSpawn = false;
-                        timer = CoolDown;
+                        MainTarget = Player;
+                        Player2.transform.parent = null;
+                    }
+                    else if (!IAmSeen())
+                    {       
+                        MainTarget = Player2;
+                    }
+                }
+                break;
+            case TpState.Follow:
+                if (IAmSeen() && !HasP2)
+                {
+                    MainTarget = Player;
+                    Player2.transform.parent = null;
+                }
+                else
+                {
+                    MainTarget = Player2;
+                }
+                if (Vector3.Distance(MainTarget.transform.position, transform.position) < AttackRange)
+                {
+                    isChasing = false;
+                    StartCoroutine(Attack(2));
+                }
+                else
+                {
+                    LR.enabled = false;
+                    isChasing = true;
+                    if (timer >= 0 && !NeedNewPlaceToSpawn)
+                    {
+                        timer -= Time.deltaTime;
                     }
                     else
                     {
-                        //OnDrawGizmos(Color.red);
+                        NeedNewPlaceToSpawn = true;
+                        if (NeedNewPlaceToSpawn)
+                        {
+                            TeleportationStep.position = CheckIfTooFar(MainTarget.transform);
+                            if (CanSpawn(TeleportationStep.transform))
+                            {
+                                Teleport(TeleportationStep, MainTarget.transform);
+                                NeedNewPlaceToSpawn = false;
+                                timer = CoolDown;
+                            }
+                        }
                     }
                 }
-            }
+                break;
+            case TpState.Abduction:
+
+                    Player2.GetComponent<Player2Script>().isGettingKiddnaped = true;
+                Player2.transform.position = grabDestination.position;
+                    if (timer >= 0 && !NeedNewPlaceToSpawn)
+                    {
+                        timer -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        Retreat();
+                    }
+                break;
+            case TpState.Pause:
+
+                LR.enabled = false;
+                StartCoroutine(Pause(5f));
+                break;
         }
-        else if (HasP2)
-        {
-            Player2.GetComponent<Player2Script>().isGettingKiddnaped = true;
-            if (timer >= 0 && !NeedNewPlaceToSpawn)
-            {
-                timer -= Time.deltaTime;
-            }
-            else
-            {
-                Retreat();
-            }
-        }
+
+    }
+
+    IEnumerator Pause(float Timer)
+    {
+        yield return new WaitForSeconds(Timer);
+        CurrentState = TpState.Idle;
     }
 
     private Transform targetReatreat;
@@ -126,7 +160,6 @@ public class TeleportEnnemy : MonoBehaviour
             {
                 MaxDistance = DistanceWithPlayer;
                 targetReatreat = retreatOptions[i];
-                Debug.Log(retreatOptions[i].name);
             }
         }
 
@@ -153,11 +186,15 @@ public class TeleportEnnemy : MonoBehaviour
             yield return new WaitForSeconds(attackSpeed);
             //anim.SetBool("isCarrying", false);
             //mainTarget.position = grabDestination.transform.position;
-            Player2.transform.parent = grabDestination.transform;
             Player2.GetComponent<Player2Script>().Player2Nav.isStopped = true;
             HasP2 = true;
-
             isGrabbing = false;
+        } else if (MainTarget.gameObject.GetComponent<PlayerController>() != null)
+        {
+            MainTarget.GetComponent<PlayerStats>().Health -= Damage * Time.deltaTime;
+            LR.enabled = true;
+            LR.SetPosition(0, transform.position);
+            LR.SetPosition(1, MainTarget.transform.position);
         }
 
 
@@ -182,7 +219,7 @@ public class TeleportEnnemy : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject == MainTarget)
+        if (collision.gameObject == Player && CurrentState != TpState.Pause)
         {
             TeleportationStep.position = CheckIfTooFar(Player.transform);
             if (CanSpawn(TeleportationStep))
@@ -198,37 +235,43 @@ public class TeleportEnnemy : MonoBehaviour
             }
         }
     }
-    public void TakeDamage()
+    public void TakeDamage(float Damage)
     {
-        if (HasP2)
+        Health -= Damage;
+        if (CurrentState != TpState.Pause)
         {
-            Player2.GetComponent<Player2Script>().isGettingKiddnaped = false;
-            HasP2 = false;
-            isChasing = true;
-            Player2.transform.parent = null;
-        }
-        MainTarget = Player;
+            if (HasP2)
+            {
+                Player2.GetComponent<Player2Script>().isGettingKiddnaped = false;
+                HasP2 = false;
+                isChasing = true;
+            }
+            MainTarget = Player;
 
-        TeleportationStep.position = CheckIfTooFar(Player.transform);
+            TeleportationStep.position = CheckIfTooFar(Player.transform);
 
-        if (CanSpawn(TeleportationStep))
-        {
-            Teleport(TeleportationStep, Player.transform);
-            NeedNewPlaceToSpawn = false;
-            timer = CoolDown;
+            if (CanSpawn(TeleportationStep))
+            {
+                Teleport(TeleportationStep, Player.transform);
+                NeedNewPlaceToSpawn = false;
+                timer = CoolDown;
+            }
+            else
+            {
+                timer = 0;
+                NeedNewPlaceToSpawn = true;
+            }
+
         }
-        else
-        {
-            timer = 0;
-            NeedNewPlaceToSpawn = true;
-        }
+
+        CurrentState = TpState.Pause;
     }
 
     void Teleport(Transform target, Transform ActualAim)
     {
         transform.position = new Vector3(NearPlayer.x, target.transform.position.y, NearPlayer.z);
         Vector3 relativePos = ActualAim.transform.position - transform.position;
-        GetComponentInParent<Transform>().rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+        GetComponent<Transform>().rotation = Quaternion.LookRotation(relativePos, Vector3.up);
     }
     bool CanSpawn(Transform target)
     {
@@ -254,13 +297,13 @@ public class TeleportEnnemy : MonoBehaviour
     }
 
     public LayerMask CamMask;
-    bool I_Can_See()
+    bool IAmSeen()
     {
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Cam);
-        if (GeometryUtility.TestPlanesAABB(planes, gameObject.GetComponent<Collider>().bounds) && !Physics.Linecast(transform.position, Cam.transform.position, CamMask))
+        if (isGrabbing == false && GeometryUtility.TestPlanesAABB(planes, gameObject.GetComponent<Collider>().bounds) && !Physics.Linecast(transform.position, Cam.transform.position, CamMask))
         {
-            //!Physics.Linecast(gameObject.transform.position, Player.transform.position))
+            Debug.DrawLine(transform.position, Cam.transform.position);
             return true;
         }
         else

@@ -261,7 +261,7 @@ public class GunBehaviour : MonoBehaviour
                         }
                         else if (target.GetComponent<TeleportEnnemy>() != null)
                         {
-                            target.GetComponent<TeleportEnnemy>().TakeDamage();
+                            target.GetComponent<TeleportEnnemy>().TakeDamage(damage);
                         }
                         else if (target.GetComponent<ImpactOnProps>() != null)
                         {

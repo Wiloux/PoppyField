@@ -39,7 +39,7 @@ public class Player2Script : MonoBehaviour
                 Outils.SmoothRigWeight(true, rig);
                 break;
             case Player2State.Abducted:
-
+                Outils.SmoothRigWeight(false, rig);
                 break;
         }
         
@@ -51,6 +51,10 @@ public class Player2Script : MonoBehaviour
     
     void Walking()
     {
+        if (isGettingKiddnaped)
+        {
+            CurrentState = Player2State.Abducted;
+        }
         Vector3 turnspeed = Player2Nav.steeringTarget + transform.forward;
 
         DistanceWithP1 = Vector3.Distance(HandAim.position, transform.position);
