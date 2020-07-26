@@ -31,12 +31,14 @@ public class Inventaire : MonoBehaviour
     public GameObject lastOriginSlot;
     public bool rotateNow;
 
-    public AudioSource pick;
-    public AudioSource drop;
+    public AudioSource AS;
+    public AudioClip pick;
+    public AudioClip drop;
 
     // Start is called before the first frame update
     void Start()
     {
+        AS = GetComponent<AudioSource>();
         matriceSlot = new GameObject[nbPlaceX+nbPlaceXpetit, nbPlaceY+nbPlaceYpetit];
         player = GameObject.FindGameObjectWithTag("Player");
         for(int i = 0; i < nbPlaceX ; i++)
@@ -170,8 +172,8 @@ public class Inventaire : MonoBehaviour
         }
         if (Input.GetKey("escape"))
         {
-            Xml_Manager.ins.saveInventory();
-            Application.Quit();
+//            Xml_Manager.ins.saveInventory();
+  //          Application.Quit();
         }
 
     }
@@ -323,7 +325,7 @@ public class Inventaire : MonoBehaviour
 
     public void selectObject(Vector2 size, GameObject objet)
     {
-        pick.Play();
+        AS.PlayOneShot(pick);
         if (currentSlot.GetComponent<Slot>().containedObject != null)
         {
             for(int i= (int)currentSlot.GetComponent<Slot>().originalCoord.x; i<size.x+ currentSlot.GetComponent<Slot>().originalCoord.x; i++)
@@ -339,7 +341,7 @@ public class Inventaire : MonoBehaviour
 
     public void putObjectDown()
     {
-        drop.Play();
+        AS.PlayOneShot(drop);
         for(int i = currentCoord.Item1; i < currentCoord.Item1 + objectPicked.GetComponent<PickUp>().size.x; i++)
         {
             for(int j = currentCoord.Item2; j < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; j++)

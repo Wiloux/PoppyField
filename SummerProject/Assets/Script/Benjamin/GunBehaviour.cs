@@ -44,6 +44,8 @@ public class GunBehaviour : MonoBehaviour
     private Transform GunTip;
     public GameObject Muzzle;
     public LineRenderer bulletTrail;
+    private Inventaire inv;
+
     private void Start()
     {
         for (int i = 0; i < gunArray.Length; i++)
@@ -52,6 +54,7 @@ public class GunBehaviour : MonoBehaviour
         }
         //    spd.walkSpeed = 0f;
         SwitchGun(0);
+        inv = GetComponent<Inventaire>();
     }
 
     private RaycastHit hit;
@@ -61,7 +64,7 @@ public class GunBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GetComponent<PlayerController>().isStruggling)
+        if (!GetComponent<PlayerController>().isStruggling && (!inv.inventory.activeInHierarchy))
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -118,31 +121,32 @@ public class GunBehaviour : MonoBehaviour
             GetComponent<Animator>().SetBool("isAiming", false);
             GetComponent<Animator>().SetLayerWeight(2, 1);
         }
-
-        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee") && !isReloading)
+        if (!inv.inventory.activeInHierarchy)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee") && !isReloading)
             {
-                StartCoroutine(Reload());
-            }
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    StartCoroutine(Reload());
+                }
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                SwitchGun(0);
-                gunID = 0;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SwitchGun(1);
-                gunID = 1;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                SwitchGun(2);
-                gunID = 2;
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    SwitchGun(0);
+                    gunID = 0;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    SwitchGun(1);
+                    gunID = 1;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    SwitchGun(2);
+                    gunID = 2;
+                }
             }
         }
-
         if (currentGun.isMelee)
         {
             if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(1).IsTag("Melee"))

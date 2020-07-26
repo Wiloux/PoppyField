@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private AudioManager AM;
     public List<AudioClip> footstep;
+    Inventaire inv;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
         stats = GetComponent<vThirdPersonController>();
         CStats = GetComponent<PlayerStats>();
         StruggleBar.SetActive(false);
+        inv = GetComponent<Inventaire>();
     }
 
     public void foostepsfx()
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private Quaternion PointerQ;
     void RotateToP2()
     {
-        if (Player2.GetComponent<Player2Script>().isGettingKiddnaped)
+        if (Player2.GetComponent<Player2Script>().isGettingKiddnaped && !inv.inventory.activeInHierarchy)
         {
             Pointer.SetActive(true);
             Vector3 direction = transform.position - Player2.transform.position;
@@ -124,6 +126,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (inv.inventory.activeInHierarchy)
+        {
+            stats.canWalk = false;
+        }
+        else
+        {
+            stats.canWalk = true;
+        }
         RotateToP2();
         if (isStruggling)
         {
@@ -142,7 +152,7 @@ public class PlayerController : MonoBehaviour
             stats.freeSpeed.rotationSpeed = 12f;
         }
 
-        if (DistanceWithP2 <= minDistance && Input.GetKeyDown(KeyCode.E))
+        if (DistanceWithP2 <= minDistance && Input.GetKeyDown(KeyCode.E) && !inv.inventory.activeInHierarchy)
         {
             if (isFollowedByP2)
             {
