@@ -221,6 +221,7 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
+    public ParticleSystem lastParticle;
     void Shoot(int damage)
     {
         if (canShoot == true)
@@ -230,6 +231,7 @@ public class GunBehaviour : MonoBehaviour
                 //Muzzle Flash
 
                 GameObject _Muzzle = Instantiate(Muzzle, GunTip.position, GunTip.rotation);
+                lastParticle.Emit(1);
                 Destroy(_Muzzle, 0.1f);
 
                 for (int i = 0; i < currentGun.numberOfBullets; i++)
@@ -322,6 +324,7 @@ public class GunBehaviour : MonoBehaviour
         //Find HandPlacements 
         HandPlacements[0].HandAim = GameObject.Find(gunObjects[id].name + "/LeftHandPlacement").transform;
         HandPlacements[1].HandAim = GameObject.Find(gunObjects[id].name + "/RightHandPlacement").transform;
+        lastParticle =  GameObject.Find(gunObjects[id].name + "/ShellParticle").GetComponent<ParticleSystem>();
         Debug.Log(gunObjects[id].name + "/LeftHandPlacement");
 
         Debug.Log(gunObjects[id].name);
