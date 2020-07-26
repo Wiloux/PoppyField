@@ -46,6 +46,9 @@ public class GunBehaviour : MonoBehaviour
     public LineRenderer bulletTrail;
     private Inventaire inv;
 
+    public ParticleSystem BlueBlood;
+    public ParticleSystem RedBlood;
+
     private void Start()
     {
         for (int i = 0; i < gunArray.Length; i++)
@@ -262,10 +265,14 @@ public class GunBehaviour : MonoBehaviour
                         if (target.GetComponent<Ennemy>() != null)
                         {
                             target.GetComponent<Ennemy>().TakeDamage(damage);
+                            GameObject Blood = Instantiate(RedBlood.gameObject, hit.point, Quaternion.LookRotation(hit.normal));
+                            Destroy(Blood, 2f);
                         }
                         else if (target.GetComponent<TeleportEnnemy>() != null)
                         {
                             target.GetComponent<TeleportEnnemy>().TakeDamage(damage);
+                            GameObject Blood = Instantiate(BlueBlood.gameObject, hit.point, Quaternion.LookRotation(hit.normal));
+                            Destroy(Blood, 2f);
                         }
                         else if (target.GetComponent<ImpactOnProps>() != null)
                         {
