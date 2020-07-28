@@ -170,7 +170,8 @@ public class Inventaire : MonoBehaviour
         }
         if (Input.GetKey("escape"))
         {
-            Xml_Manager.ins.saveInventory();
+            Json_Save_Load.ins.Save();
+            //Xml_Manager.ins.saveInventory();
             Application.Quit();
         }
 
