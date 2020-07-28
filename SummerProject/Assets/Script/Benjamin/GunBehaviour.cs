@@ -266,13 +266,13 @@ public class GunBehaviour : MonoBehaviour
                         {
                             target.GetComponent<Ennemy>().TakeDamage(damage);
                             GameObject Blood = Instantiate(RedBlood.gameObject, hit.point, Quaternion.LookRotation(hit.normal));
-                            Destroy(Blood, 2f);
+                            Destroy(Blood, 5f);
                         }
                         else if (target.GetComponent<TeleportEnnemy>() != null)
                         {
                             target.GetComponent<TeleportEnnemy>().TakeDamage(damage);
                             GameObject Blood = Instantiate(BlueBlood.gameObject, hit.point, Quaternion.LookRotation(hit.normal));
-                            Destroy(Blood, 2f);
+                            Destroy(Blood, 5f);
                         }
                         else if (target.GetComponent<ImpactOnProps>() != null)
                         {
