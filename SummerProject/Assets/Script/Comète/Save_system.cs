@@ -20,7 +20,6 @@ public class Save_system : MonoBehaviour
 
     private void Start()
     {
-        //Le timer permet de résoudre un bug avec le script vThirdPersonInput
         timer = timerPersonInput;
         player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<vThirdPersonInput>().enabled = false;

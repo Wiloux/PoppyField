@@ -10,6 +10,12 @@ public class Slot : MonoBehaviour
     public GameObject containedObject;
     public Vector2 originalCoord;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
