@@ -16,10 +16,12 @@ public class Json_Save_Load : MonoBehaviour
         ins = this;
         try
         {
+            //On charge l'inventaire sauvegardé si possible
             Load();
         }
         catch
         {
+            //Sinon on en créé un nouveau
             inventory = GetComponent<Inventaire>();
         }
     }
@@ -43,7 +45,6 @@ public class Json_Save_Load : MonoBehaviour
 
         using (StreamWriter writer = new StreamWriter(fileStream))
         writer.Write(json);
-        
     }
 
     private string ReadFromFile(string fileName)

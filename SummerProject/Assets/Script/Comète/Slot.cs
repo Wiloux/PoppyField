@@ -10,12 +10,6 @@ public class Slot : MonoBehaviour
     public GameObject containedObject;
     public Vector2 originalCoord;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -27,10 +21,5 @@ public class Slot : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
         }
-    }
-
-    private void OnMouseDown()
-    {
-        Debug.Log(gameObject.name);
     }
 }
