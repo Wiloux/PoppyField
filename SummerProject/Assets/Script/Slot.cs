@@ -28,9 +28,4 @@ public class Slot : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
         }
     }
-
-    private void OnMouseDown()
-    {
-        Debug.Log(gameObject.name);
-    }
 }

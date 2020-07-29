@@ -51,7 +51,7 @@ public class Inventaire : MonoBehaviour
                 newSlot.GetComponent<Slot>().x = i;
                 newSlot.GetComponent<Slot>().y = j;
                 matriceSlot[i, j] = newSlot;
-                newSlot.name = "Emplacement " + i + j;
+                newSlot.name = "Emplacement " + i + "," + j;
             }
             offsetY = 0;
         }
@@ -66,7 +66,7 @@ public class Inventaire : MonoBehaviour
                 newSlot.GetComponent<Slot>().x = i;
                 newSlot.GetComponent<Slot>().y = j;
                 matriceSlot[i, j] = newSlot;
-                newSlot.name = "Emplacement " + i + j;
+                newSlot.name = "Baby Emplacement " + i + "," + j;
             }
             offsetY = 0;
         }
@@ -78,18 +78,22 @@ public class Inventaire : MonoBehaviour
         RaycastHit hitObject;
         Ray rayObject = camInventory.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(rayObject, out hitObject, mask) && Input.GetMouseButtonDown(0))
+        if (Physics.Raycast(rayObject, out hitObject, ~mask) && Input.GetMouseButtonDown(0))
         {
+            Debug.Log(hitObject.transform.gameObject);
+            Debug.Log(hitObject.transform.gameObject.GetComponent<Slot>().name);
             if (hitObject.transform.gameObject.GetComponent<Slot>() != null)
             {
                 currentSlot = hitObject.transform.gameObject;
                 objectPicked = currentSlot.GetComponent<Slot>().containedObject;
+       
                 if (objectPicked != null)
                 {
                     selectObject(objectPicked.GetComponent<PickUp>().size, objectPicked);
                     mZCoord = camInventory.WorldToScreenPoint(objectPicked.transform.position).z;
                     mOffset = objectPicked.transform.position - objectPicked.GetComponent<PickUp>().lastOriginSlot.transform.position;
                     pickingObject = true;
+                   // Debug.Log(objectPicked);
                 }
             }
         }
@@ -126,6 +130,7 @@ public class Inventaire : MonoBehaviour
         {
             if(Physics.Raycast(rayObject, out hitObject, mask))
             {
+          
                 if(hitObject.transform.gameObject.GetComponent<Slot>() != null)
                 {
                     currentSlot = hitObject.transform.gameObject;
@@ -178,76 +183,6 @@ public class Inventaire : MonoBehaviour
 
     }
 
-    //public void addObject(Vector2 size, GameObject objet)
-    //{
-    //    Vector2 originCoord;
-    //    for (int i=0; i < nbPlaceX; i++) 
-    //    {
-    //        for(int j=0; j < nbPlaceY; j++)
-    //        {
-    //            if (matriceSlot[i, j].GetComponent<Slot>().isEmpty)
-    //            {
-    //                originCoord = new Vector2(i, j);
-    //                for (int k = i; k < size.x + i; k++)
-    //                {
-    //                    Debug.Log(k);
-    //                    if (k >= nbPlaceX)
-    //                    {
-    //                        Debug.Log("break 1");
-    //                        break;
-    //                    }
-    //                    else
-    //                    {
-    //                        if (!matriceSlot[k, j].GetComponent<Slot>().isEmpty)
-    //                        {
-    //                            Debug.Log("break 1");
-    //                            break;
-    //                        }
-    //                        else
-    //                        {
-    //                            for (int l = j; l < size.y + j; l++)
-    //                            {
-    //                                Debug.Log(l);
-    //                                if (l >= nbPlaceY)
-    //                                {
-    //                                    Debug.Log("break 2");
-    //                                    break;
-    //                                }
-    //                                else
-    //                                {
-    //                                    if (!matriceSlot[k, l].GetComponent<Slot>().isEmpty)
-    //                                    {
-    //                                        Debug.Log("break 2");
-    //                                        break; //break tout ?
-    //                                    }
-    //                                    else
-    //                                    {
-    //                                        for (int x = i; x < size.x + i; x++)
-    //                                        {
-    //                                            Debug.Log("x : " + x);
-    //                                            for (int y = j; y < size.y + j; y++)
-    //                                            {
-    //                                                Debug.Log("y : " + y);
-    //                                                matriceSlot[x, y].GetComponent<Slot>().originalCoord = originCoord;
-    //                                                matriceSlot[x, y].GetComponent<Slot>().isEmpty = false;
-    //                                                matriceSlot[x, y].GetComponent<Slot>().containedObject = objet;
-    //                                            }
-    //                                        }
-    //                                        objet.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)originCoord.x, (int)originCoord.y].gameObject;
-    //                                        objet.transform.position = (matriceSlot[i + (int)size.x - 1, j + (int)size.y - 1].transform.position + matriceSlot[i, j].transform.position) / 2;
-    //                                        Debug.Log(objet.transform.position);
-    //                                        objects.Add(objet);
-    //                                        return;
-    //                                    }
-    //                                }
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
 
     public void addObject(Vector2 size, GameObject objet)
     {

@@ -99,6 +99,7 @@ MonoBehaviour:
   x: 0
   y: 0
   containedObject: {fileID: 0}
+  originalCoord: {x: 0, y: 0}
 --- !u!65 &-1971928966796482223
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -110,5 +111,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.16000001, z: 0.20000003}
+  m_Size: {x: 0.16, y: 0.16000001, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
