@@ -8,37 +8,39 @@ public class Inventaire : MonoBehaviour
 {
     public GameObject inventory;
     public GameObject babyInventory;
-    public int nbPlace = 154;
     public List<GameObject> objects = new List<GameObject> { };
     private GameObject player;
     public int nbPlaceX;
     public int nbPlaceY;
     public int nbPlaceXpetit;
     public int nbPlaceYpetit;
-    public GameObject slot;
+
+    //Variables pour crétation inventaire
+    public GameObject slot; 
     public float offsetX=0;
     public float offsetY=0;
+    //
+
     public Camera camInventory;
     public Camera camPlayer;
     public LayerMask mask;
-    public (int,int) currentCoord = (0, 0);
+    public (int,int) currentCoord = (0, 0); //Coordonnées de la case de l'inventaire où pointe la souris
     public GameObject currentSlot;
-    public GameObject[,] matriceSlot;
+    public GameObject[,] matriceSlot; //Matrice contenant toutes les cases de l'inventaire
     public bool pickingObject;
     public GameObject objectPicked;
     private float mZCoord;
     private Vector3 mOffset;
-    public GameObject lastOriginSlot;
+    public GameObject lastOriginSlot; //Position précédente de l'objet pick
     public bool rotateNow;
 
-    public AudioSource AS;
-    public AudioClip pick;
-    public AudioClip drop;
+    public AudioSource pick;
+    public AudioSource drop;
 
     // Start is called before the first frame update
     void Start()
     {
-        AS = GetComponent<AudioSource>();
+        //Création et instanciation du grand inventaire 
         matriceSlot = new GameObject[nbPlaceX+nbPlaceXpetit, nbPlaceY+nbPlaceYpetit];
         player = GameObject.FindGameObjectWithTag("Player");
         for(int i = 0; i < nbPlaceX ; i++)
@@ -51,10 +53,11 @@ public class Inventaire : MonoBehaviour
                 newSlot.GetComponent<Slot>().x = i;
                 newSlot.GetComponent<Slot>().y = j;
                 matriceSlot[i, j] = newSlot;
-                newSlot.name = "Emplacement " + i + "," + j;
+                newSlot.name = "Emplacement " + i + j;
             }
             offsetY = 0;
         }
+        //Création et instanciation du petit inventaire 
         offsetX += 0.39f;
         for (int i = nbPlaceX; i < nbPlaceX + nbPlaceXpetit; i++)
         {
@@ -66,7 +69,7 @@ public class Inventaire : MonoBehaviour
                 newSlot.GetComponent<Slot>().x = i;
                 newSlot.GetComponent<Slot>().y = j;
                 matriceSlot[i, j] = newSlot;
-                newSlot.name = "Baby Emplacement " + i + "," + j;
+                newSlot.name = "Emplacement " + i + j;
             }
             offsetY = 0;
         }
@@ -78,22 +81,19 @@ public class Inventaire : MonoBehaviour
         RaycastHit hitObject;
         Ray rayObject = camInventory.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(rayObject, out hitObject, ~mask) && Input.GetMouseButtonDown(0))
+        //Vérifie si on a cliqué sur un objet de l'inventaire ou non
+        if (Physics.Raycast(rayObject, out hitObject, mask) && Input.GetMouseButtonDown(0))
         {
-            Debug.Log(hitObject.transform.gameObject);
-            Debug.Log(hitObject.transform.gameObject.GetComponent<Slot>().name);
             if (hitObject.transform.gameObject.GetComponent<Slot>() != null)
             {
                 currentSlot = hitObject.transform.gameObject;
                 objectPicked = currentSlot.GetComponent<Slot>().containedObject;
-       
                 if (objectPicked != null)
                 {
                     selectObject(objectPicked.GetComponent<PickUp>().size, objectPicked);
                     mZCoord = camInventory.WorldToScreenPoint(objectPicked.transform.position).z;
                     mOffset = objectPicked.transform.position - objectPicked.GetComponent<PickUp>().lastOriginSlot.transform.position;
                     pickingObject = true;
-                   // Debug.Log(objectPicked);
                 }
             }
         }
@@ -126,11 +126,11 @@ public class Inventaire : MonoBehaviour
             }
         }
 
+        //Si on pick un objet alors on peut le rotate avec le clic droit
         if(pickingObject && Input.GetMouseButtonUp(0))
         {
             if(Physics.Raycast(rayObject, out hitObject, mask))
             {
-          
                 if(hitObject.transform.gameObject.GetComponent<Slot>() != null)
                 {
                     currentSlot = hitObject.transform.gameObject;
@@ -153,6 +153,7 @@ public class Inventaire : MonoBehaviour
             rotateNow = false;
         }
 
+        //Activer/désactiver l'inventaire
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventory.SetActive(!inventory.activeSelf);
@@ -175,15 +176,18 @@ public class Inventaire : MonoBehaviour
                 camInventory.gameObject.SetActive(false);
             }
         }
+
+        //Enregistrement de l'inventaire sur un fichier txt Json
         if (Input.GetKey("escape"))
         {
-//            Xml_Manager.ins.saveInventory();
-  //          Application.Quit();
+            Json_Save_Load.ins.Save();
+            //Xml_Manager.ins.saveInventory();
+            Application.Quit();
         }
 
     }
 
-
+    //Fonction ajoutant un objet au petit inventaire si assez de place
     public void addObject(Vector2 size, GameObject objet)
     {
         bool hasBroken=false;
@@ -258,9 +262,10 @@ public class Inventaire : MonoBehaviour
         }
     }
 
+    //Pick un objet
     public void selectObject(Vector2 size, GameObject objet)
     {
-        AS.PlayOneShot(pick);
+        pick.Play();
         if (currentSlot.GetComponent<Slot>().containedObject != null)
         {
             for(int i= (int)currentSlot.GetComponent<Slot>().originalCoord.x; i<size.x+ currentSlot.GetComponent<Slot>().originalCoord.x; i++)
@@ -274,9 +279,12 @@ public class Inventaire : MonoBehaviour
         }
     }
 
+    //Resposer l'objet à sa nouvelle position ou à son ancienne
     public void putObjectDown()
     {
-        AS.PlayOneShot(drop);
+        drop.Play();
+
+        //Ancienne position de l'objet s'il n'y a pas la place ou si on est en dehors de l'inventaire
         for(int i = currentCoord.Item1; i < currentCoord.Item1 + objectPicked.GetComponent<PickUp>().size.x; i++)
         {
             for(int j = currentCoord.Item2; j < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; j++)
@@ -332,6 +340,8 @@ public class Inventaire : MonoBehaviour
                 }
             }
         }
+
+        //Nouvelle position de l'objet 
         for (int x = currentCoord.Item1; x < currentCoord.Item1 + objectPicked.GetComponent<PickUp>().size.x; x++)
         {
             for (int y = currentCoord.Item2; y < currentCoord.Item2 + objectPicked.GetComponent<PickUp>().size.y; y++)
@@ -341,10 +351,8 @@ public class Inventaire : MonoBehaviour
                 matriceSlot[x, y].GetComponent<Slot>().containedObject = objectPicked;
             }
         }
-        Debug.Log(objectPicked.GetComponent<PickUp>().lastOriginSlot.name);
         objectPicked.transform.position = (matriceSlot[currentCoord.Item1 + (int)objectPicked.GetComponent<PickUp>().size.x - 1, currentCoord.Item2 + (int)objectPicked.GetComponent<PickUp>().size.y - 1].transform.position + matriceSlot[currentCoord.Item1, currentCoord.Item2].transform.position) / 2;
         objectPicked.GetComponent<PickUp>().lastOriginSlot = matriceSlot[(int)currentSlot.GetComponent<Slot>().originalCoord.x, (int)currentSlot.GetComponent<Slot>().originalCoord.y].gameObject;
-        Debug.Log(objectPicked.GetComponent<PickUp>().lastOriginSlot.name);
     }
 
     private Vector3 GetMouseWorldPos()
